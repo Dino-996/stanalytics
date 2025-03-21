@@ -6,8 +6,6 @@ Le seguenti versioni di STanalytics ricevono aggiornamenti di sicurezza:
 | 0.0.1    | ✅ Supportata |
 | 0.0.0    | ❌ Non supportata |
 
----
-
 ## 🛠 Segnalazione di Vulnerabilità
 
 Se scopri una vulnerabilità di sicurezza in STanalytics, segui questi passaggi:
