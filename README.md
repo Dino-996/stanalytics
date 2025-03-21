@@ -1,6 +1,6 @@
 # STanalytics
 
-STanalytics è un'applicazione web basata su Angular, progettata per aiutare i consulenti finanziari nella gestione dei clienti e delle operazioni quotidiane. L'app fornisce strumenti per monitorare dati finanziari, organizzare documenti e semplificare le attività amministrative
+STanalytics è un'applicazione web basata su Angular, progettata per aiutare nelle consulenze digitali e nella gestione dei clienti e delle operazioni quotidiane. L'app fornisce strumenti per monitorare dati finanziari, organizzare documenti e semplificare le attività amministrative
 
 ## ✨ Funzionalità principali
 - **Gestione clienti**: Archiviazione e gestione delle informazioni sui clienti
