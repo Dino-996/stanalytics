@@ -1,0 +1,58 @@
+<div class="card rounded-4 m-3">
+  <div class="card-body">
+    @if(currentUser) {
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <img class="rounded-pill user-avatar" [src]="currentUser.photoURL ? currentUser.photoURL : 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'" alt="avatar">
+          <div class="ms-3">
+            <h5 class="card-title">Benvenuto</h5>
+            <h6>{{ currentUser.name.charAt(0).toUpperCase() + currentUser.name.substring(1) }}</h6>
+            <span class="badge rounded-pill text-bg-info">{{ currentUser.role }}</span>
+          </div>
+        </div>
+        <button (click)="logout()" class="btn btn-primary d-flex align-items-center rounded-4">
+          <ng-icon class="me-2" name="bootstrapDoorOpenFill" size="18"></ng-icon>
+          Logout
+        </button>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar con bottoni verticali (occupa meno spazio, circa 1/6 dello schermo) -->
+    <div class="col-md-2 p-3">
+      <div class="btn-group-vertical w-100" role="group" aria-label="Vertical button group">
+        
+        <button (click)="changeCurrentView('account')" type="button"
+          class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-4">
+          <ng-icon class="me-2" name="bootstrapPeopleFill" size="18"></ng-icon>
+          Gestione account
+        </button>
+
+        <button (click)="changeCurrentView('billing')" type="button"
+          class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-4">
+          <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
+          Fatturazione
+        </button>
+        
+      </div>
+    </div>
+
+    <!-- Area contenuto principale (occupa più spazio, circa 5/6 dello schermo) -->
+    <div class="col-md-10 p-3">
+      <div class="card w-100 rounded-4">
+        <div class="card-body">
+          <!-- Qui verrà visualizzato il contenuto -->
+          @if(currentView === 'account') {
+          <app-admin-account />
+          }
+          @if (currentView === 'billing') {
+          <app-admin-biling />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

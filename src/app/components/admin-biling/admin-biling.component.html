@@ -1,0 +1,126 @@
+<div class="d-flex justify-content-start align-items-center p-2 pb-4">
+  <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
+  <h5 class="m-0">Fatturazione</h5>
+</div>
+
+@if (isLoading) {
+<!-- Stato di caricamento -->
+<div class="text-center my-5">
+  <ng-icon class="animate-spin" name="bootstrapArrowClockwise" size="18"></ng-icon>
+  <p class="mt-2">Caricamento in corso...</p>
+</div>
+} @else {
+@if (users.length === 0) {
+<!-- Nessun utente disponibile -->
+<div class="alert alert-info rounded-4 text-center">
+  <p class="mb-0">Nessun utente disponibile</p>
+</div>
+} @else {
+<div class="row">
+  <div class="col-md-4">
+    <ul class="list-group rounded-4">
+      @for (user of users; track $index) {
+      <li class="list-group-item" [class.active]="selectedUser && selectedUser.uid === user.uid">
+        <div class="d-flex justify-content-start align-items-center">
+          <ng-icon name="bootstrapPersonFill" size="18" class="me-3" />
+          <a (click)="selectUser(user)" class="d-block w-100 link-underline link-underline-opacity-0 cursor-pointer">
+            {{ user.name }} {{ user.surname }}
+          </a>
+        </div>
+      </li>
+      }
+    </ul>
+  </div>
+
+  <div class="col-md-8">
+    @if (selectedUser) {
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-header text-white">
+        <div class="d-flex align-items-center">
+          <!-- Aggiungi l'immagine del profilo qui -->
+          <img class="rounded-circle me-3"
+            [src]="selectedUser.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'"
+            alt="Foto profilo" style="width: 60px; height: 60px; object-fit: cover;">
+          <h5 class="py-2 mb-0">{{ selectedUser.name }} {{ selectedUser.surname }}</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover mb-0">
+          <tbody>
+            <tr>
+              <th style="width: 30%">ID</th>
+              <td>{{ selectedUser.uid }}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{{ selectedUser.email }}</td>
+            </tr>
+            <tr>
+              <th>Codice fiscale</th>
+              <td>{{ selectedUser.fiscalCode }}</td>
+            </tr>
+            <tr>
+              <th>Citt&agrave;</th>
+              <td>{{ selectedUser.city }}</td>
+            </tr>
+            <tr>
+              <th>Indirizzo</th>
+              <td>{{ selectedUser.route }}</td>
+            </tr>
+            <!-- Riga per la sottotabella -->
+            <tr>
+              <th>Transazioni</th>
+              <td>
+                @if (selectedUser.transactions && selectedUser.transactions.length > 0) {
+                <!-- Sottotabella -->
+                <table class="table table-sm table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Importo</th>
+                      <th>Stato</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (t of selectedUser.transactions; track $index) {
+                    <tr>
+                      <td>{{ t.date }}</td>
+                      <td>{{ t.amount | currency:'EUR' }}</td>
+                      <td>
+                        <span [ngClass]="{
+                                    'badge rounded-pill text-bg-success p-1': t.status === 'Completato',
+                                    'badge rounded-4 text-bg-warning p-2': t.status === 'In elaborazione',
+                                    'badge rounded-3 text-bg-danger p-3': t.status === 'Annullato'
+                                  }">{{ t.status }}</span>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+                <button
+                  class="d-flex justify-content-start align-items-center btn btn-sm btn-outline-light rounded-4 m-2"
+                  (click)="exportUserDataToCSV()">
+                  <ng-icon name="bootstrapDownload" size="16" class="me-2" />
+                  Esporta dati in CSV
+                </button>
+                } @else {
+                <div class="alert alert-info mb-0 py-2 px-3 rounded-4">
+                  <small>Nessuna transazione disponibile per questo account</small>
+                </div>
+                }
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    } @else {
+    <!-- Nessun utente selezionato ma ci sono utenti disponibili -->
+    <div class="alert alert-info rounded-4 text-center">
+      <p class="mb-0">Seleziona un account dalla lista per visualizzare i dettagli</p>
+    </div>
+    }
+  </div>
+</div>
+}
+}
