@@ -11,3 +11,9 @@ STanalytics è un'applicazione web basata su Angular, progettata per aiutare i c
 ## 🛠️ Tecnologie utilizzate
 - **Frontend**: Angular 19 + Tailwind CSS  
 - **Backend**: Firebase
+
+## 🛑 Licenza e Proprietà Intellettuale
+
+© 2025 STanalytics. Tutti i diritti riservati.
+
+Questo software è **proprietario** e non può essere copiato, modificato, distribuito o utilizzato senza autorizzazione esplicita da parte di STanalytics.
