@@ -43,3 +43,7 @@ Thumbs.db
 
 
 # Firebase
+firebase-debug.log
+friclease.json
+firestore.indexes.json
+firestore.rules
