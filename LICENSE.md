@@ -1,4 +1,4 @@
-Copyright © 2025 STanalytics. All rights reserved.
+## Copyright © 2025 STanalytics. All rights reserved.
 
 Questo software è di proprietà esclusiva di STanalytics e non può essere copiato, modificato, distribuito o utilizzato senza esplicita autorizzazione scritta.
 
