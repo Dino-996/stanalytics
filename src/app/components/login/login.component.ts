@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,96 +6,83 @@ import { AuthService } from '../../services/auth.service';
 import { FirebaseError } from 'firebase/app';
 import { bootstrapEye, bootstrapEyeSlash, bootstrapKey } from '@ng-icons/bootstrap-icons';
 
+interface LoginFormModel {
+  email: string;
+  password: string;
+  isChecked: boolean;
+}
+
+enum ErrorCodes {
+  USER_NOT_FOUND = 'auth/user-not-found',
+  WRONG_PASSWORD = 'auth/wrong-password',
+  INVALID_CREDENTIAL = 'auth/invalid-credential',
+  TOO_MANY_REQUESTS = 'auth/too-many-requests',
+  INVALID_EMAIL = 'auth/invalid-email'
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [NgIcon, FormsModule, ReactiveFormsModule],
   providers: [provideIcons({ bootstrapEye, bootstrapEyeSlash, bootstrapKey })],
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  standalone: true
 })
 
 export class LoginComponent implements OnInit {
 
-  readonly loginForm: FormGroup;
-  public loading: boolean = false;
-  public error: string = '';
-  public isPassword: boolean = false;
+  // Costanti
+  private readonly CHECKBOX_STORAGE_KEY = 'checkboxState';
+  private readonly EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  private readonly MIN_PASSWORD_LENGTH = 6;
+
+  // Form e stato
+  public loginForm: FormGroup;
+  public loading = false;
+  public error = '';
+  public isPassword = false;
 
   public constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
-    this.loginForm = this.formBuilder.group({
-      email: ['davide9610@hotmail.com', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      password: ['Xilofono.900', [Validators.required, Validators.minLength(6)]],
-      isChecked: [false]
-    });
+    this.loginForm = this.initializeForm();
   }
 
   public ngOnInit(): void {
-    const savedValue = sessionStorage.getItem('checkboxState');
-
-    if (savedValue !== null) {
-      this.loginForm.get('isChecked')?.setValue(savedValue === 'true');
-    }
-
-    this.loginForm.get('isChecked')?.valueChanges.subscribe(value => {
-      sessionStorage.setItem('checkboxState', value.toString());
-    });
+    this.restoreCheckboxState();
+    this.setupCheckboxPersistence();
   }
 
+  // Getters for form controls
   public get email() { return this.loginForm.get('email'); }
   public get password() { return this.loginForm.get('password'); }
+  public get isChecked() { return this.loginForm.get('isChecked'); }
 
   public onPasswordVisible(visible: boolean): void {
     this.isPassword = visible;
   }
 
   public async onSubmit(): Promise<void> {
-
-    console.log(this.loginForm.value);
-
+    // Verifica se il form è valido
     if (this.loginForm.invalid) {
       return;
     }
 
-    this.loading = true;
-    this.error = '';
+    // Verifica se l'utente ha accettato i termini e condizioni
+    const formValues = this.loginForm.value as LoginFormModel;
+    if (!formValues.isChecked) {
+      this.error = 'Devi accettare i termini e le condizioni per continuare';
+      return;
+    }
+
+    this.startLoading();
 
     try {
-
-      const { email, password } = this.loginForm.value;
+      const { email, password } = formValues;
       const user = await this.authService.login(email, password);
-
-      if (user.role === 'admin') {
-        console.log('Redirezione alla dashboard per amministratori');
-        this.router.navigate(['/admin/dashboard']);
-
-      } else {
-        console.log('Redirezione alla dashboard per utenti');
-        this.router.navigate(['/user/dashboard']);
-      }
-
+      this.navigateBasedOnRole(user.role);
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        switch (err.code) {
-          case 'auth/user-not-found':
-          case 'auth/wrong-password':
-          case 'auth/invalid-credential':
-            this.error = 'Email o password non valida';
-            break;
-          case 'auth/too-many-requests':
-            this.error = 'Troppi tentativi falliti. Riprova più tardi';
-            break;
-          default:
-            this.error = 'Si è verificato un errore. Riprova';
-            console.error(err);
-        }
-
-      } else {
-        this.error = 'Si è verificato un errore. Riprova';
-        console.error(err);
-      }
-
+      this.handleError(err);
     } finally {
-      this.loading = false;
+      this.stopLoading();
     }
   }
 
@@ -103,42 +90,122 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
 
     const email = this.email?.value;
-
     if (!email) {
       this.error = 'Inserisci l\'email per ripristinare la password';
       return;
     }
 
-    this.loading = true;
-    this.error = '';
+    this.startLoading();
 
     try {
       await this.authService.resetPassword(email);
       this.error = '';
       alert('Email di ripristino inviata con successo! Controlla la tua casella di posta.');
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        switch (err.code) {
-          case 'auth/user-not-found':
-            this.error = 'Nessun account trovato con questa email';
-            break;
-          case 'auth/invalid-email':
-            this.error = 'Email non valida';
-            break;
-          case 'auth/too-many-requests':
-            this.error = 'Troppe richieste. Riprova più tardi';
-            break;
-          default:
-            this.error = 'Si è verificato un errore. Riprova';
-            console.error(err);
-        }
-      } else {
+      this.handlePasswordResetError(err);
+    } finally {
+      this.stopLoading();
+    }
+  }
+
+  //Azioni da tastiera
+  @HostListener('keydown.enter', ['$event'])
+  public handleEnter(event: KeyboardEvent) { 
+    this.onSubmit();
+  }
+
+  // Metodi privati
+  private initializeForm(): FormGroup {
+    return this.formBuilder.group({
+      email: ['', [
+        Validators.required, 
+        Validators.pattern(this.EMAIL_PATTERN)
+      ]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(this.MIN_PASSWORD_LENGTH)
+      ]],
+      isChecked: [false, [Validators.requiredTrue]]
+    });
+  }
+
+  private restoreCheckboxState(): void {
+    const savedValue = sessionStorage.getItem(this.CHECKBOX_STORAGE_KEY);
+    if (savedValue !== null) {
+      this.loginForm.get('isChecked')?.setValue(savedValue === 'true');
+    }
+  }
+
+  private setupCheckboxPersistence(): void {
+    this.loginForm.get('isChecked')?.valueChanges.subscribe(value => {
+      sessionStorage.setItem(this.CHECKBOX_STORAGE_KEY, value.toString());
+    });
+  }
+
+  private startLoading(): void {
+    this.loading = true;
+    this.error = '';
+  }
+
+  private stopLoading(): void {
+    this.loading = false;
+  }
+
+  private navigateBasedOnRole(role: string): void {
+    if (role === 'admin') {
+      this.router.navigate(['/admin/dashboard']);
+    } else {
+      this.router.navigate(['/user/dashboard']);
+    }
+  }
+
+  private handleError(err: unknown): void {
+    if (err instanceof FirebaseError) {
+      this.handleFirebaseError(err);
+    } else {
+      this.handleGenericError(err);
+    }
+  }
+
+  private handleFirebaseError(err: FirebaseError): void {
+    switch (err.code) {
+      case ErrorCodes.USER_NOT_FOUND:
+      case ErrorCodes.WRONG_PASSWORD:
+      case ErrorCodes.INVALID_CREDENTIAL:
+        this.error = 'Email o password non valida';
+        break;
+      case ErrorCodes.TOO_MANY_REQUESTS:
+        this.error = 'Troppi tentativi falliti. Riprova più tardi';
+        break;
+      default:
         this.error = 'Si è verificato un errore. Riprova';
         console.error(err);
-      }
-    } finally {
-      this.loading = false;
     }
+  }
 
+  private handlePasswordResetError(err: unknown): void {
+    if (err instanceof FirebaseError) {
+      switch (err.code) {
+        case ErrorCodes.USER_NOT_FOUND:
+          this.error = 'Nessun account trovato con questa email';
+          break;
+        case ErrorCodes.INVALID_EMAIL:
+          this.error = 'Email non valida';
+          break;
+        case ErrorCodes.TOO_MANY_REQUESTS:
+          this.error = 'Troppe richieste. Riprova più tardi';
+          break;
+        default:
+          this.error = 'Si è verificato un errore. Riprova';
+          console.error(err);
+      }
+    } else {
+      this.handleGenericError(err);
+    }
+  }
+
+  private handleGenericError(err: unknown): void {
+    this.error = 'Si è verificato un errore. Riprova';
+    console.error(err);
   }
 }

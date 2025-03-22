@@ -7,11 +7,10 @@ export interface User {
   route: string;
   role: 'admin' | 'user';
   photoURL?: string;
-  transactions?: Transaction[]
 }
 
 export interface Transaction {
   date: string;
   amount: string;
-  status: 'Completato' | 'In elaborazione' | 'Annullato';
+  status: 'Completato' | 'Annullato';
 }

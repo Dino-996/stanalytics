@@ -1,18 +1,11 @@
-import { Component, inject, signal, TemplateRef, WritableSignal, OnInit, computed } from '@angular/core';
+import { Component, inject, signal, TemplateRef, WritableSignal, OnInit, HostListener } from '@angular/core';
 import { NgbAlert, NgbAlertConfig, NgbNavModule, ModalDismissReasons, NgbModal, NgbModalRef, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, ReactiveFormsModule, FormBuilder, Validators, NgModel } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { db, auth } from '../../../environments/firebase';
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  bootstrapPeopleFill,
-  bootstrapPersonFillAdd,
-  bootstrapPersonFillDash,
-  bootstrapPersonFillGear,
-  bootstrapExclamationTriangleFill,
-  bootstrapCaretRightFill
-} from '@ng-icons/bootstrap-icons';
+import { bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillDash, bootstrapPersonFillGear, bootstrapExclamationTriangleFill, bootstrapCaretRightFill, bootstrapArrowClockwise } from '@ng-icons/bootstrap-icons';
 import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 
@@ -20,43 +13,35 @@ import { CommonModule } from '@angular/common';
   selector: 'app-admin-account',
   standalone: true,
   imports: [
-    CommonModule,
-    NgbNavModule,
-    NgbAlert,
-    NgbPagination,
-    ReactiveFormsModule,
-    NgIcon,
+    CommonModule, NgbNavModule, NgbAlert, NgbPagination, ReactiveFormsModule, NgIcon,
   ],
   providers: [
     provideIcons({
-      bootstrapPeopleFill,
-      bootstrapPersonFillAdd,
-      bootstrapPersonFillDash,
-      bootstrapPersonFillGear,
-      bootstrapExclamationTriangleFill,
-      bootstrapCaretRightFill
+      bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillDash, bootstrapPersonFillGear, bootstrapExclamationTriangleFill, bootstrapCaretRightFill, bootstrapArrowClockwise
     }),
     NgbAlertConfig
   ],
   templateUrl: './admin-account.component.html',
   styleUrl: './admin-account.component.scss'
 })
+
 export class AdminAccountComponent implements OnInit {
   // Form groups
-  addAccountForm: FormGroup;
-  editAccountForm: FormGroup;
+  public addAccountForm: FormGroup;
+  public editAccountForm: FormGroup;
 
-  // UI state
-  active = 1;
-  loading = false;
-  error = '';
-  close = false;
-  editError = '';
-  editClose = false;
+  // Stato UI
+  public active = 1;
+  public loading = false;
+  public error = '';
+  public close = false;
+  public editError = '';
+  public editClose = false;
 
   // Data
-  users: User[] = [];
-  selectedUser: User | null = null;
+  public users: User[] = [];
+  public selectedUser: User | null = null;
+  public userToDelete: User | null = null;
 
   // Modal
   private modalService = inject(NgbModal);
@@ -64,10 +49,11 @@ export class AdminAccountComponent implements OnInit {
   public closeResult: WritableSignal<string> = signal('');
 
   // Pagination
-  public page = 1;
-  public pageSize = 3;
+  public page:number = 1;
+  public pageSize:number = 3;
+  public maxSize:number = 5;
 
-  // Form field configs - rende il codice più manutenibile
+  // Configuarzione campi form
   readonly formFields = {
     addAccount: {
       email: ['', [Validators.required, Validators.email]],
@@ -93,7 +79,7 @@ export class AdminAccountComponent implements OnInit {
     }
   };
 
-  constructor(
+  public constructor(
     private fb: FormBuilder,
     private alertConfig: NgbAlertConfig
   ) {
@@ -102,34 +88,33 @@ export class AdminAccountComponent implements OnInit {
     this.alertConfig.dismissible = false;
   }
 
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     await this.loadUsers();
   }
 
   // Getters per form controls - separati per tipo di form
-  // Add account form getters
-  get email() { return this.addAccountForm.get('email'); }
-  get password() { return this.addAccountForm.get('password'); }
-  get name() { return this.addAccountForm.get('name'); }
-  get surname() { return this.addAccountForm.get('surname'); }
-  get fiscalCode() { return this.addAccountForm.get('fiscalCode'); }
-  get city() { return this.addAccountForm.get('city'); }
-  get route() { return this.addAccountForm.get('route'); }
-  get role() { return this.addAccountForm.get('role'); }
-  get photoURL() { return this.addAccountForm.get('photoURL'); }
+  public get email() { return this.addAccountForm.get('email'); }
+  public get password() { return this.addAccountForm.get('password'); }
+  public get name() { return this.addAccountForm.get('name'); }
+  public get surname() { return this.addAccountForm.get('surname'); }
+  public get fiscalCode() { return this.addAccountForm.get('fiscalCode'); }
+  public get city() { return this.addAccountForm.get('city'); }
+  public get route() { return this.addAccountForm.get('route'); }
+  public get role() { return this.addAccountForm.get('role'); }
+  public get photoURL() { return this.addAccountForm.get('photoURL'); }
 
   // Edit account form getters
-  get editEmail() { return this.editAccountForm.get('email'); }
-  get editName() { return this.editAccountForm.get('name'); }
-  get editSurname() { return this.editAccountForm.get('surname'); }
-  get editFiscalCode() { return this.editAccountForm.get('fiscalCode'); }
-  get editCity() { return this.editAccountForm.get('city'); }
-  get editRoute() { return this.editAccountForm.get('route'); }
-  get editRole() { return this.editAccountForm.get('role'); }
-  get editPhotoURL() { return this.editAccountForm.get('photoURL'); }
+  public get editEmail() { return this.editAccountForm.get('email'); }
+  public get editName() { return this.editAccountForm.get('name'); }
+  public get editSurname() { return this.editAccountForm.get('surname'); }
+  public get editFiscalCode() { return this.editAccountForm.get('fiscalCode'); }
+  public get editCity() { return this.editAccountForm.get('city'); }
+  public get editRoute() { return this.editAccountForm.get('route'); }
+  public get editRole() { return this.editAccountForm.get('role'); }
+  public get editPhotoURL() { return this.editAccountForm.get('photoURL'); }
 
-  // User actions
-  async onSubmit(): Promise<void> {
+  // Azioni utente
+  public async onSubmit(): Promise<void> {
     if (!this.addAccountForm.valid) {
       return;
     }
@@ -149,7 +134,7 @@ export class AdminAccountComponent implements OnInit {
     }
   }
 
-  async onEditSubmit(): Promise<void> {
+  public async onEditSubmit(): Promise<void> {
     if (!this.editAccountForm.valid || !this.selectedUser) {
       return;
     }
@@ -169,7 +154,7 @@ export class AdminAccountComponent implements OnInit {
     }
   }
 
-  async deleteUser(uid: string): Promise<void> {
+  public async deleteUser(uid: string): Promise<void> {
     this.setLoading(true);
     this.modalRef.close();
     try {
@@ -182,7 +167,7 @@ export class AdminAccountComponent implements OnInit {
     }
   }
 
-  onUserSelectChange(event: any): void {
+  public onUserSelectChange(event: any): void {
     const selectedUserId = event.target.value;
     this.selectedUser = this.users.find(user => this.getUserId(user) === selectedUserId) || null;
 
@@ -191,23 +176,39 @@ export class AdminAccountComponent implements OnInit {
     }
   }
 
-  getUserId(user: User): string {
+  public getUserId(user: User): string {
     return (user as any).id || '';
   }
 
-  // Modal method
-  open(content: TemplateRef<any>) {
+  // Apre il modal
+  public open(content: TemplateRef<any>) {
     this.modalRef = this.modalService.open(content);
   }
 
-  // Pagination method
-  public paginatedUsers = () => {
+  // Metodi di paginazione
+  public paginatedUsers() {
     const start = (this.page - 1) * this.pageSize;
     return this.users.slice(start, start + this.pageSize);
   };
 
+  @HostListener('keydown.enter', ['$event'])
+  public handleEnter(event: KeyboardEvent) {
+    
+    event.preventDefault();
 
-  // Private methods - separati per responsabilità
+    if (this.active === 1 && this.addAccountForm.valid) {
+      this.onSubmit();
+    } else if (this.active === 2 && this.editAccountForm.valid) {
+      this.onEditSubmit();
+    } else if (this.active === 3 && this.userToDelete) {
+      const deleteButton = document.querySelector(`button[data-user-id="${this.getUserId(this.userToDelete)}"]`);
+    if (deleteButton) {
+      (deleteButton as HTMLButtonElement).click();
+    }
+    }
+  }
+
+  // Metodi privati - separati per responsabilità
   private async loadUsers(): Promise<void> {
     try {
       this.users = await this.getAllUsers();

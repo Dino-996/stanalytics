@@ -6,7 +6,7 @@
 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
     <!-- Tab per aggiungere nuovo account -->
     <li [ngbNavItem]="1">
-        <button ngbNavLink class="d-flex justify-content-center align-items-start">
+        <button ngbNavLink class="d-flex justify-content-center align-items-start rounded-top-4">
             <ng-icon name="bootstrapPersonFillAdd" size="18" class="me-1" />
             Nuovo account
         </button>
@@ -16,7 +16,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
                     <div class="input-group">
-                        <input formControlName="email" class="form-control" id="email" name="email"
+                        <input formControlName="email" class="form-control rounded-4" id="email" name="email"
                             placeholder="Inserisci un email" required>
                     </div>
                     @if(email?.invalid && (email?.dirty || email?.touched)) {
@@ -32,8 +32,8 @@
                 <div class="mb-3">
                     <label for="password" class="form-label fw-semibold">Password</label>
                     <div class="input-group">
-                        <input type="text" formControlName="password" class="form-control" id="password" name="password"
-                            placeholder="Inserisci una password" required>
+                        <input type="text" formControlName="password" class="form-control rounded-4" id="password"
+                            name="password" placeholder="Inserisci una password" required>
                     </div>
                     @if(password?.invalid && (password?.dirty || password?.touched)) {
                     @if(password?.hasError('required')) {
@@ -48,7 +48,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label fw-semibold">Nome</label>
                     <div class="input-group">
-                        <input formControlName="name" class="form-control" id="name" name="name"
+                        <input formControlName="name" class="form-control rounded-4" id="name" name="name"
                             placeholder="Inserisci il nome" required>
                     </div>
                     @if(name?.invalid && (name?.dirty || name?.touched)) {
@@ -61,7 +61,7 @@
                 <div class="mb-3">
                     <label for="surname" class="form-label fw-semibold">Cognome</label>
                     <div class="input-group">
-                        <input formControlName="surname" class="form-control" id="surname" name="surname"
+                        <input formControlName="surname" class="form-control rounded-4" id="surname" name="surname"
                             placeholder="Inserisci il cognome" required>
                     </div>
                     @if(surname?.invalid && (surname?.dirty || surname?.touched)) {
@@ -74,8 +74,8 @@
                 <div class="mb-3">
                     <label for="fiscalCode" class="form-label fw-semibold">Codice fiscale</label>
                     <div class="input-group">
-                        <input formControlName="fiscalCode" class="form-control" id="fiscalCode" name="fiscalCode"
-                            placeholder="Inserisci il codice fiscale" required>
+                        <input formControlName="fiscalCode" class="form-control rounded-4" id="fiscalCode"
+                            name="fiscalCode" placeholder="Inserisci il codice fiscale" required>
                     </div>
                     @if(fiscalCode?.invalid && (fiscalCode?.dirty || fiscalCode?.touched)) {
                     @if(fiscalCode?.hasError('required')) {
@@ -87,7 +87,7 @@
                 <div class="mb-3">
                     <label for="city" class="form-label fw-semibold">Città</label>
                     <div class="input-group">
-                        <input formControlName="city" class="form-control" id="city" name="city"
+                        <input formControlName="city" class="form-control rounded-4" id="city" name="city"
                             placeholder="Inserisci la città" required>
                     </div>
                     @if(city?.invalid && (city?.dirty || city?.touched)) {
@@ -100,7 +100,7 @@
                 <div class="mb-3">
                     <label for="route" class="form-label fw-semibold">Indirizzo</label>
                     <div class="input-group">
-                        <input formControlName="route" class="form-control" id="route" name="route"
+                        <input formControlName="route" class="form-control rounded-4" id="route" name="route"
                             placeholder="Inserisci l'indirizzo" required>
                     </div>
                     @if(route?.invalid && (route?.dirty || route?.touched)) {
@@ -112,7 +112,7 @@
 
                 <div class="mb-3">
                     <label for="role" class="form-label fw-semibold">Ruolo</label>
-                    <select formControlName="role" class="form-select" id="role" name="role" required>
+                    <select formControlName="role" class="form-select rounded-4" id="role" name="role" required>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
@@ -126,7 +126,7 @@
                 <div class="mb-3">
                     <label for="photoURL" class="form-label fw-semibold">URL Foto (opzionale)</label>
                     <div class="input-group">
-                        <input formControlName="photoURL" class="form-control" id="photoURL" name="photoURL"
+                        <input formControlName="photoURL" class="form-control rounded-4" id="photoURL" name="photoURL"
                             placeholder="Inserisci l'URL della foto">
                     </div>
                 </div>
@@ -139,10 +139,11 @@
 
                 <div class="d-grid mb-3">
                     <button (click)="onSubmit()" [disabled]="!addAccountForm.valid || loading" type="button"
-                        class="btn btn-primary rounded-3 d-flex justify-content-center align-items-center gap-2">
+                        class="btn btn-primary rounded-4 d-flex justify-content-center align-items-center gap-2">
                         @if(loading) {
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        } @else {
+                        <div class="spinner-grow text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div> } @else {
                         <span>Aggiungi account</span>
                         }
                     </button>
@@ -158,7 +159,7 @@
 
     <!-- Tab per modificare account -->
     <li [ngbNavItem]="2">
-        <button ngbNavLink class="d-flex justify-content-center align-items-start">
+        <button ngbNavLink class="d-flex justify-content-center align-items-start rounded-top-4">
             <ng-icon name="bootstrapPersonFillGear" size="18" class="me-1" />
             Modifica Account
         </button>
@@ -166,7 +167,7 @@
             <form [formGroup]="editAccountForm" novalidate class="p-2">
                 <div class="mb-3">
                     <label for="userSelect" class="form-label fw-semibold">Seleziona Utente</label>
-                    <select formControlName="userSelect" class="form-select" id="userSelect" name="userSelect"
+                    <select formControlName="userSelect" class="form-select rounded-4" id="userSelect" name="userSelect"
                         (change)="onUserSelectChange($event)">
                         <option value="">Seleziona un utente</option>
                         @for (user of users; track getUserId(user)) {
@@ -178,7 +179,7 @@
                 <div class="mb-3">
                     <label for="editEmail" class="form-label fw-semibold">Email</label>
                     <div class="input-group">
-                        <input formControlName="email" class="form-control" id="editEmail" name="editEmail"
+                        <input formControlName="email" class="form-control rounded-4" id="editEmail" name="editEmail"
                             placeholder="Inserisci un email" required>
                     </div>
                     @if(editEmail?.invalid && (editEmail?.dirty || editEmail?.touched)) {
@@ -194,7 +195,7 @@
                 <div class="mb-3">
                     <label for="editName" class="form-label fw-semibold">Nome</label>
                     <div class="input-group">
-                        <input formControlName="name" class="form-control" id="editName" name="editName"
+                        <input formControlName="name" class="form-control rounded-4" id="editName" name="editName"
                             placeholder="Inserisci il nome" required>
                     </div>
                     @if(editName?.invalid && (editName?.dirty || editName?.touched)) {
@@ -207,8 +208,8 @@
                 <div class="mb-3">
                     <label for="editSurname" class="form-label fw-semibold">Cognome</label>
                     <div class="input-group">
-                        <input formControlName="surname" class="form-control" id="editSurname" name="editSurname"
-                            placeholder="Inserisci il cognome" required>
+                        <input formControlName="surname" class="form-control rounded-4" id="editSurname"
+                            name="editSurname" placeholder="Inserisci il cognome" required>
                     </div>
                     @if(editSurname?.invalid && (editSurname?.dirty || editSurname?.touched)) {
                     @if(editSurname?.hasError('required')) {
@@ -220,7 +221,7 @@
                 <div class="mb-3">
                     <label for="editFiscalCode" class="form-label fw-semibold">Codice fiscale</label>
                     <div class="input-group">
-                        <input formControlName="fiscalCode" class="form-control" id="editFiscalCode"
+                        <input formControlName="fiscalCode" class="form-control rounded-4" id="editFiscalCode"
                             name="editFiscalCode" placeholder="Inserisci il codice fiscale" required>
                     </div>
                     @if(editFiscalCode?.invalid && (editFiscalCode?.dirty || editFiscalCode?.touched)) {
@@ -233,7 +234,7 @@
                 <div class="mb-3">
                     <label for="editCity" class="form-label fw-semibold">Città</label>
                     <div class="input-group">
-                        <input formControlName="city" class="form-control" id="editCity" name="editCity"
+                        <input formControlName="city" class="form-control rounded-4" id="editCity" name="editCity"
                             placeholder="Inserisci la città" required>
                     </div>
                     @if(editCity?.invalid && (editCity?.dirty || editCity?.touched)) {
@@ -246,7 +247,7 @@
                 <div class="mb-3">
                     <label for="editRoute" class="form-label fw-semibold">Indirizzo</label>
                     <div class="input-group">
-                        <input formControlName="route" class="form-control" id="editRoute" name="editRoute"
+                        <input formControlName="route" class="form-control rounded-4" id="editRoute" name="editRoute"
                             placeholder="Inserisci l'indirizzo" required>
                     </div>
                     @if(editRoute?.invalid && (editRoute?.dirty || editRoute?.touched)) {
@@ -258,7 +259,7 @@
 
                 <div class="mb-3">
                     <label for="editRole" class="form-label fw-semibold">Ruolo</label>
-                    <select formControlName="role" class="form-select" id="editRole" name="editRole" required>
+                    <select formControlName="role" class="form-select rounded-4" id="editRole" name="editRole" required>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
@@ -272,8 +273,8 @@
                 <div class="mb-3">
                     <label for="editPhotoURL" class="form-label fw-semibold">URL Foto (opzionale)</label>
                     <div class="input-group">
-                        <input formControlName="photoURL" class="form-control" id="editPhotoURL" name="editPhotoURL"
-                            placeholder="Inserisci l'URL della foto">
+                        <input formControlName="photoURL" class="form-control rounded-4" id="editPhotoURL"
+                            name="editPhotoURL" placeholder="Inserisci l'URL della foto">
                     </div>
                 </div>
 
@@ -285,9 +286,11 @@
 
                 <div class="d-grid mb-3">
                     <button (click)="onEditSubmit()" [disabled]="!editAccountForm.valid || loading" type="button"
-                        class="btn btn-primary rounded-3 d-flex justify-content-center align-items-center gap-2">
+                        class="btn btn-primary rounded-4 d-flex justify-content-center align-items-center gap-2">
                         @if(loading) {
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <div class="spinner-grow text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
                         } @else {
                         <span>Modifica account</span>
                         }
@@ -304,7 +307,7 @@
 
     <!-- Tab per eliminare account -->
     <li [ngbNavItem]="3">
-        <button ngbNavLink class="d-flex justify-content-center align-items-start">
+        <button ngbNavLink class="d-flex justify-content-center align-items-start rounded-top-4">
             <ng-icon name="bootstrapPersonFillDash" size="18" class="me-1" />
             Elimina account
         </button>
@@ -355,7 +358,7 @@
                             definitivamente</button>
                     </div>
                 </ng-template>
-                <button class="btn btn-danger" (click)="open(content)">Elimina</button>
+                <button class="btn btn-danger rounded-4" (click)="open(content)">Elimina</button>
             </div>
             }
             <!-- Pagination -->

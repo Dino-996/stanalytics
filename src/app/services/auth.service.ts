@@ -35,7 +35,6 @@ export class AuthService {
             route: userData['route'],
             role: userData['role'] || 'user',
             photoURL: firebaseUser.photoURL || userData['photoURL'],
-            transactions: userData['transactions'],
           };
           this.userSubject.next(user);
         } else {
@@ -49,7 +48,6 @@ export class AuthService {
             route: '',
             role: 'user',
             photoURL: firebaseUser.photoURL || '',
-            transactions: [],
           };
           // Crea documento utente in Firestore
           await setDoc(userRef, newUser);
@@ -85,7 +83,6 @@ export class AuthService {
         route: userData['route'],
         role: userData['role'] || 'user',
         photoURL: firebaseUser.photoURL || userData['photoURL'],
-        transactions: userData['transactions'],
       };
     } catch (error) {
       console.error('Login error:', error);

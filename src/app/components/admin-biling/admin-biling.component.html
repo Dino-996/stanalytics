@@ -4,44 +4,47 @@
 </div>
 
 @if (isLoading) {
-<!-- Stato di caricamento -->
 <div class="text-center my-5">
   <ng-icon class="animate-spin" name="bootstrapArrowClockwise" size="18"></ng-icon>
   <p class="mt-2">Caricamento in corso...</p>
 </div>
 } @else {
 @if (users.length === 0) {
-<!-- Nessun utente disponibile -->
 <div class="alert alert-info rounded-4 text-center">
   <p class="mb-0">Nessun utente disponibile</p>
 </div>
 } @else {
 <div class="row">
+  <!-- Lista utenti -->
   <div class="col-md-4">
     <ul class="list-group rounded-4">
-      @for (user of users; track $index) {
-      <li class="list-group-item" [class.active]="selectedUser && selectedUser.uid === user.uid">
+      @for (user of paginatedUsers(); track user.uid) {
+      <li class="list-group-item" [class.active]="selectedUser?.uid === user.uid">
         <div class="d-flex justify-content-start align-items-center">
           <ng-icon name="bootstrapPersonFill" size="18" class="me-3" />
           <a (click)="selectUser(user)" class="d-block w-100 link-underline link-underline-opacity-0 cursor-pointer">
-            {{ user.name }} {{ user.surname }}
+            {{ getUserDisplayName(user) }}
           </a>
         </div>
       </li>
       }
     </ul>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+      <ngb-pagination [collectionSize]="users.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxSize" [rotate]="true"
+      [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+    </div>
   </div>
 
+  <!-- Dettagli utente -->
   <div class="col-md-8">
     @if (selectedUser) {
     <div class="card rounded-4 shadow-sm">
       <div class="card-header text-white">
         <div class="d-flex align-items-center">
-          <!-- Aggiungi l'immagine del profilo qui -->
-          <img class="rounded-circle me-3"
-            [src]="selectedUser.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'"
-            alt="Foto profilo" style="width: 60px; height: 60px; object-fit: cover;">
-          <h5 class="py-2 mb-0">{{ selectedUser.name }} {{ selectedUser.surname }}</h5>
+          <img class="rounded-circle me-3" [src]="getProfileImage(selectedUser)" alt="Foto profilo"
+            style="width: 60px; height: 60px; object-fit: cover;">
+          <h5 class="py-2 mb-0">{{ getUserDisplayName(selectedUser) }}</h5>
         </div>
       </div>
       <div class="card-body">
@@ -67,12 +70,11 @@
               <th>Indirizzo</th>
               <td>{{ selectedUser.route }}</td>
             </tr>
-            <!-- Riga per la sottotabella -->
+            <!-- Transazioni -->
             <tr>
               <th>Transazioni</th>
               <td>
-                @if (selectedUser.transactions && selectedUser.transactions.length > 0) {
-                <!-- Sottotabella -->
+                @if (selectedUser.transactions.length) {
                 <table class="table table-sm table-bordered">
                   <thead>
                     <tr>
@@ -87,11 +89,7 @@
                       <td>{{ t.date }}</td>
                       <td>{{ t.amount | currency:'EUR' }}</td>
                       <td>
-                        <span [ngClass]="{
-                                    'badge rounded-pill text-bg-success p-1': t.status === 'Completato',
-                                    'badge rounded-4 text-bg-warning p-2': t.status === 'In elaborazione',
-                                    'badge rounded-3 text-bg-danger p-3': t.status === 'Annullato'
-                                  }">{{ t.status }}</span>
+                        <span [ngClass]="getStatusClass(t.status)">{{ t.status }}</span>
                       </td>
                     </tr>
                     }
@@ -115,7 +113,6 @@
       </div>
     </div>
     } @else {
-    <!-- Nessun utente selezionato ma ci sono utenti disponibili -->
     <div class="alert alert-info rounded-4 text-center">
       <p class="mb-0">Seleziona un account dalla lista per visualizzare i dettagli</p>
     </div>
