@@ -11,14 +11,13 @@ export class UserService {
   
   constructor() { }
 
-  async createUser(email: string, password: string, userData: any): Promise<string> {
+  public async createUser(email: string, password: string, userData: any): Promise<string> {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const uid = userCredential.user.uid;
 
     const userDataForFirestore = {
       ...userData,
       email,
-      transactions: []
     };
 
     const userRef = doc(db, 'users', uid);
@@ -27,17 +26,17 @@ export class UserService {
     return uid;
   }
 
-  async updateUser(uid: string, userData: any): Promise<void> {
+  public async updateUser(uid: string, userData: any): Promise<void> {
     const userRef = doc(db, 'users', uid);
     await updateDoc(userRef, userData);
   }
 
-  async deleteUser(uid: string): Promise<void> {
+  public async deleteUser(uid: string): Promise<void> {
     const userRef = doc(db, 'users', uid);
     await deleteDoc(userRef);
   }
 
-  async getAllUsers(): Promise<User[]> {
+  public async getAllUsers(): Promise<User[]> {
     try {
       const usersCollection = collection(db, 'users');
       const q = query(usersCollection, where('role', '==', 'user'));

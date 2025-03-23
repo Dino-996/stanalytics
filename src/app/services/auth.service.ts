@@ -15,10 +15,12 @@ export class AuthService {
 
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   readonly user$: Observable<User | null> = this.userSubject.asObservable();
+  private currentFirebaseUser: firebaseUser | null = null;
 
   public constructor(private router: Router) {
     // Monitora lo stato dell'autenticazione Firebase
     auth.onAuthStateChanged(async (firebaseUser) => {
+      this.currentFirebaseUser = firebaseUser;
       if (firebaseUser) {
         // Ottieni i dati estesi dell'utente da Firestore
         const userRef = doc(db, `users/${firebaseUser.uid}`);
@@ -95,8 +97,15 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  public async resetPassword(email:string):Promise<void> {
+  public async resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(auth, email);
+  }
+
+  public getUserId(): string | null {
+    if (this.currentFirebaseUser) {
+      return this.currentFirebaseUser.uid;
+    }
+    return auth.currentUser?.uid || null;
   }
 
   public getCurrentUser(): User | null {

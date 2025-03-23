@@ -11,6 +11,8 @@ import { UserDashboardComponent } from "./components/user-dashboard/user-dashboa
 // Guard
 import { AdminGuard } from "./guards/admin.guard";
 import { AuthGuard } from "./guards/auth.guard";
+import { UserConsultingHistoryComponent } from "./components/user-consulting-history/user-consulting-history.component";
+import { UserConsultingPackageComponent } from "./components/user-consulting-package/user-consulting-package.component";
 
 const adminGuards = [AuthGuard, AdminGuard];
 
@@ -18,11 +20,11 @@ export const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'access-denied', component: AccessDeniedComponent },
-    {
-        path: 'dashboard',
-        component: UserDashboardComponent,
-        canActivate: [AuthGuard]
-    },
+    
+    { path: 'dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] },
+    { path: 'consulting-package', component: UserConsultingPackageComponent },
+    { path: 'consulting-history', component: UserConsultingHistoryComponent },
+    
     {
         path: 'admin',
         canActivate: adminGuards,

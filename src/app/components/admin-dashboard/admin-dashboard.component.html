@@ -1,18 +1,23 @@
-<div class="card rounded-4 m-3">
-  <div class="card-body">
+<div class="card rounded-4 shadow-lg m-3">
+  <div class="card-body p-4">
     @if(currentUser) {
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="d-flex align-items-center">
-        <img class="rounded-pill user-avatar" [src]="userAvatar" alt="User Avatar">
-        <div class="ms-3">
-          <h5 class="card-title">Benvenuto</h5>
-          <h6>{{ userDisplayName }}</h6>
-          <span class="badge rounded-pill text-bg-info">{{ currentUser.role }}</span>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+      <div class="d-flex align-items-center flex-wrap">
+        <img class="rounded-pill user-avatar border border-primary border-2 shadow-sm me-3" [src]="userAvatar"
+          alt="User Avatar" width="60" height="60">
+        <div>
+          <h5 class="card-title mb-1">Benvenuto</h5>
+          <h6 class="fw-normal text-muted">{{ userDisplayName }}</h6>
+          <span class="badge rounded-pill bg-info text-dark">
+            {{ currentUser.role === 'user' ? 'Utente' : 'Amministratore' }}
+          </span>
         </div>
       </div>
-      <button (click)="logout()" class="btn btn-primary d-flex align-items-center rounded-4">
-        <ng-icon class="me-2" name="bootstrapDoorOpenFill" size="18"></ng-icon>
+
+      <button (click)="logout()" class="btn btn-danger d-flex align-items-center rounded-4 mt-3">
         Disconnetti
+        <ng-icon class="ms-2" name="bootstrapBoxArrowInRight" size="18"></ng-icon>
       </button>
     </div>
     }

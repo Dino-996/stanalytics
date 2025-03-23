@@ -1,4 +1,5 @@
 export interface User {
+  id?: string,
   email: string;
   name: string;
   surname: string;
@@ -10,7 +11,10 @@ export interface User {
 }
 
 export interface Transaction {
+  productName: string;
   date: string;
   amount: string;
+  level: 'bronze' | 'silver' | 'gold';
   status: 'Completato' | 'Annullato';
+  userId: string;
 }

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FirebaseError } from 'firebase/app';
-import { bootstrapEye, bootstrapEyeSlash, bootstrapKey } from '@ng-icons/bootstrap-icons';
+import { bootstrapEye, bootstrapEyeSlash, bootstrapBoxArrowInLeft } from '@ng-icons/bootstrap-icons';
 
 interface LoginFormModel {
   email: string;
@@ -24,7 +24,7 @@ enum ErrorCodes {
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [NgIcon, FormsModule, ReactiveFormsModule],
-  providers: [provideIcons({ bootstrapEye, bootstrapEyeSlash, bootstrapKey })],
+  providers: [provideIcons({ bootstrapEye, bootstrapEyeSlash, bootstrapBoxArrowInLeft })],
   styleUrls: ['./login.component.css'],
   standalone: true
 })
@@ -117,11 +117,11 @@ export class LoginComponent implements OnInit {
   // Metodi privati
   private initializeForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['', [
+      email: ['carletto1997@hotmail.com', [
         Validators.required, 
         Validators.pattern(this.EMAIL_PATTERN)
       ]],
-      password: ['', [
+      password: ['Xilofono.900', [
         Validators.required, 
         Validators.minLength(this.MIN_PASSWORD_LENGTH)
       ]],

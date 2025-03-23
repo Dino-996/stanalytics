@@ -60,7 +60,7 @@ export class AdminAccountComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      fiscalCode: ['', Validators.required],
+      fiscalCode: [''.toUpperCase(), Validators.required],
       city: ['', Validators.required],
       route: ['', Validators.required],
       role: ['user', Validators.required],
@@ -71,7 +71,7 @@ export class AdminAccountComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      fiscalCode: ['', Validators.required],
+      fiscalCode: [''.toUpperCase(), Validators.required],
       city: ['', Validators.required],
       route: ['', Validators.required],
       role: ['user', Validators.required],
@@ -208,7 +208,7 @@ export class AdminAccountComponent implements OnInit {
     }
   }
 
-  // Metodi privati - separati per responsabilità
+  // Metodi privati
   private async loadUsers(): Promise<void> {
     try {
       this.users = await this.getAllUsers();
@@ -312,14 +312,4 @@ export class AdminAccountComponent implements OnInit {
     console.error('Errore:', error);
   }
 
-  private getDismissReason(reason: any): string {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with: ${reason}`;
-    }
-  }
 }

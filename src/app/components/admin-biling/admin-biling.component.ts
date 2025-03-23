@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { bootstrapArrowClockwise, bootstrapDownload, bootstrapFileEarmarkFill, bootstrapPersonFill } from '@ng-icons/bootstrap-icons';
-import { db } from '../../../environments/firebase';
+import { bootstrapArrowClockwise, bootstrapDownload, bootstrapFileEarmarkFill, bootstrapPersonFill, bootstrapClockHistory } from '@ng-icons/bootstrap-icons';
 import { Transaction, User } from '../../models/user.model';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-
-// Estensione dell'interfaccia User per includere uid
-interface UserWithUid extends User {
-  uid: string;
-}
+import { TransactionService } from '../../services/transaction.service';
+import { UserService } from '../../services/user.service';
 
 // Interfaccia che include anche le transazioni
-interface UserWithTransactions extends UserWithUid {
+interface UserWithTransactions extends User {
   transactions: Transaction[];
 }
 
@@ -32,40 +27,47 @@ interface UserWithTransactions extends UserWithUid {
       bootstrapArrowClockwise,
       bootstrapDownload,
       bootstrapPersonFill,
-      bootstrapFileEarmarkFill
+      bootstrapFileEarmarkFill,
+      bootstrapClockHistory
     })
   ],
   templateUrl: './admin-biling.component.html',
   styleUrl: './admin-biling.component.css'
 })
+
 export class AdminBilingComponent implements OnInit {
 
-  // Pagination
+  // Paginazione utenti
   public page: number = 1;
-  public pageSize: number = 8;
-  public maxSize: number = 5;
+  public pageSize: number = 14;
+  public maxSize: number = 3;
+
+  // Paginazione transazioni
+  public transactionPage: number = 1;
+  public transactionPageSize: number = 4;
+  public transactionMaxSize: number = 3;
 
   // Data
-  users: UserWithUid[] = [];
-  selectedUser: UserWithTransactions | null = null;
-  isLoading = true;
+  public users: User[] = [];
+  public selectedUser: UserWithTransactions | null = null;
+  public isLoading = true;
 
-  public constructor() { }
+  public constructor(private userService: UserService, private transactionService: TransactionService) { }
 
-  public async ngOnInit(): Promise<void> {
-    try {
-      this.users = await this.getUsers();
-    } catch (error) {
-      console.error('Errore nel recupero dei dati:', error);
-    } finally {
-      this.isLoading = false;
-    }
+  public ngOnInit(): void {
+    this.loadUsers();
   }
 
-  public async selectUser(user: UserWithUid): Promise<void> {
+  public async selectUser(user: User): Promise<void> {
     this.isLoading = true;
     try {
-      const transactions = await this.getUserTransactions(user.uid);
+      // Assicurati che user.id esista prima di usarlo
+      if (!user.id) {
+        console.error('ID utente mancante');
+        return;
+      }
+
+      const transactions = await this.transactionService.loadTransactionsByUserId(user.id);
       this.selectedUser = {
         ...user,
         transactions
@@ -98,53 +100,70 @@ export class AdminBilingComponent implements OnInit {
     }
   }
 
-  public getUserDisplayName(user: UserWithUid): string {
+  public getUserDisplayName(user: User): string {
     return `${user.name} ${user.surname}`;
   }
 
-  public getProfileImage(user: UserWithUid): string {
+  public getProfileImage(user: User): string {
     return user.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
   }
 
   public paginatedUsers() {
     const start = (this.page - 1) * this.pageSize;
     return this.users.slice(start, start + this.pageSize);
-  };
-
-  // private method
-  private async getUsers(): Promise<UserWithUid[]> {
-    const usersCol = collection(db, 'users');
-    const q = query(usersCol, where('role', '==', 'user'));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
-      ...doc.data() as User,
-      uid: doc.id
-    } as UserWithUid));
   }
 
-  private async getUserTransactions(userId: string): Promise<Transaction[]> {
-    try {
-      const transactionsCol = collection(db, 'transactions');
-      const q = query(transactionsCol, where('userId', '==', userId));
-      const snapshot = await getDocs(q);
+  public paginatedTransaction() {
+    const start = (this.transactionPage - 1) * this.transactionPageSize;
+    return this.selectedUser?.transactions.slice(start, start + this.transactionPageSize);
+  }
 
-      return snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          date: data['date'],
-          amount: data['amount'],
-          status: data['status']
-        } as Transaction;
-      });
+  public getProductLevelColor(level: string): string {
+    switch (level) {
+      case 'bronze':
+        return 'bg-bronze';
+      case 'silver':
+        return 'bg-silver';
+      case 'gold':
+        return 'bg-gold';
+      default:
+        return 'bg-bronze';
+    }
+  }
+
+  // Metodi privati
+  private async loadUsers(): Promise<void> {
+    this.isLoading = true;
+    try {
+      this.users = await this.userService.getAllUsers();
+      this.users.push({ id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
+        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
+        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },)
     } catch (error) {
-      console.error('Errore nel recupero delle transazioni:', error);
-      return [];
+      console.error('Errore nel recupero degli utenti:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
 
   private generateCSVContent(user: UserWithTransactions): string {
     let csvContent = 'DATI UTENTE\n';
-    csvContent += `ID,${user.uid}\n`;
+    csvContent += `ID,${user.id}\n`;  // Modificato da user.uid a user.id
     csvContent += `Nome,${user.name}\n`;
     csvContent += `Cognome,${user.surname}\n`;
     csvContent += `Email,${user.email}\n`;

@@ -1,1 +1,81 @@
-<p>user-dashboard works!</p>
+<div class="card rounded-4 shadow-lg m-3">
+    <div class="card-body p-4">
+        @if(currentUser) {
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            
+            <div class="d-flex align-items-center flex-wrap">
+                <img class="rounded-pill user-avatar border border-primary border-2 shadow-sm me-3" 
+                     [src]="userAvatar" alt="User Avatar" width="60" height="60">
+                <div>
+                    <h5 class="card-title mb-1">Benvenuto</h5>
+                    <h6 class="fw-normal text-muted">{{ userDisplayName }}</h6>
+                    <span class="badge rounded-pill bg-info text-dark">
+                        {{ currentUser.role === 'user' ? 'Utente' : 'Amministratore' }}
+                    </span>
+                </div>
+            </div>
+
+            <button (click)="logout()" class="btn btn-danger d-flex align-items-center rounded-4 mt-3">
+                Disconnetti
+                <ng-icon class="ms-2" name="bootstrapBoxArrowInRight" size="18"></ng-icon>
+            </button>
+        </div>
+
+        <div class="row">
+            <ul class="list-group list-group-flush col-md-6">
+                <li class="list-group-item border-0"><strong>Email: </strong> <span class="text-muted">{{ currentUser.email === undefined ? 'N/A' : currentUser.email }}</span></li>
+                <li class="list-group-item border-0"><strong>Nome: </strong> <span class="text-muted">{{ currentUser.name === undefined ? 'N/A' : currentUser.name }}</span></li>
+                <li class="list-group-item border-0"><strong>Cognome: </strong> <span class="text-muted">{{ currentUser.surname === undefined ? 'N/A' : currentUser.surname }}</span></li>
+            </ul>
+            <ul class="list-group list-group-flush col-md-6">
+                <li class="list-group-item border-0"><strong>Codice Fiscale: </strong> <span class="text-muted">{{ currentUser.fiscalCode === undefined ? 'N/A' : currentUser.fiscalCode }}</span></li>
+                <li class="list-group-item border-0"><strong>Città: </strong> <span class="text-muted">{{ currentUser.city === undefined ? 'N/A' : currentUser.city }}</span></li>
+                <li class="list-group-item border-0"><strong>Indirizzo: </strong> <span class="text-muted">{{ currentUser.route === undefined ? 'N/A' : currentUser.route }}</span></li>
+            </ul>
+        </div>
+        }
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-2 p-3">
+            <div class="btn-group-vertical w-100" role="group" aria-label="Admin navigation">
+
+                <button (click)="changeCurrentView(userViews.CONSULTING_PACKAGES)" type="button"
+                    [class.active]="isCurrentView(userViews.CONSULTING_PACKAGES)"
+                    class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-4">
+                    <ng-icon class="me-2" name="bootstrapBox2Fill" size="18"></ng-icon>
+                    Pacchetti
+                </button>
+
+                <button (click)="changeCurrentView(userViews.CONSULTING_HISTORY)" type="button"
+                    [class.active]="isCurrentView(userViews.CONSULTING_HISTORY)"
+                    class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-4">
+                    <ng-icon class="me-2" name="bootstrapClockHistory" size="18"></ng-icon>
+                    Storico
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="col-md-10 p-3">
+            <div class="card w-100 rounded-4">
+                <div class="card-body">
+                    @switch (currentView) {
+
+                    @case (userViews.CONSULTING_PACKAGES) {
+                    <app-user-consulting-package />
+                    }
+                    @case(userViews.CONSULTING_HISTORY) {
+                    <app-user-consulting-history />
+                    }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

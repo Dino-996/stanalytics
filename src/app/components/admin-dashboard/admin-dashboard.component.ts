@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapDoorOpenFill, bootstrapFileEarmarkFill, bootstrapPeopleFill, bootstrapUpload } from '@ng-icons/bootstrap-icons';
+import { bootstrapBoxArrowInRight, bootstrapFileEarmarkFill, bootstrapPeopleFill, bootstrapUpload } from '@ng-icons/bootstrap-icons';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
@@ -25,7 +25,7 @@ enum AdminView {
   ],
   providers: [
     provideIcons({
-      bootstrapDoorOpenFill,
+      bootstrapBoxArrowInRight,
       bootstrapPeopleFill,
       bootstrapUpload,
       bootstrapFileEarmarkFill
@@ -45,12 +45,14 @@ export class AdminDashboardComponent implements OnInit {
   public constructor(private authService: AuthService, private router: Router) { }
 
   public get userDisplayName(): string {
-    if (!this.currentUser?.name) return '';
+    if (!this.currentUser?.name) {
+      return ''
+    };
     return this.currentUser.name.charAt(0).toUpperCase() + this.currentUser.name.substring(1);
   }
 
   public get userAvatar(): string {
-    return this.currentUser?.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
+    return this.currentUser?.photoURL || '../../assets/logo-bg.png';
   }
 
   public ngOnInit(): void {
@@ -72,8 +74,7 @@ export class AdminDashboardComponent implements OnInit {
     return this.currentView === view;
   }
 
-  // private method
-
+  // Metodi privati
   private loadAdminData(): void {
     this.currentUser = this.authService.getCurrentUser();
 
