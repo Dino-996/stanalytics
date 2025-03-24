@@ -17,7 +17,7 @@ import { UserConsultingPackageComponent } from "./components/user-consulting-pac
 const adminGuards = [AuthGuard, AdminGuard];
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'access-denied', component: AccessDeniedComponent },
     

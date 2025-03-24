@@ -9,7 +9,7 @@ import { User } from '../models/user.model';
 })
 export class UserService {
   
-  constructor() { }
+  public constructor() { }
 
   public async createUser(email: string, password: string, userData: any): Promise<string> {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);

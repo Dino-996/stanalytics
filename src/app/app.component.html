@@ -2,6 +2,14 @@
   <img src="assets/logo-full-orizontal.png" alt="logo" class="img-fluid" style="max-height: 200px">
 </div>
 
+@if((isLoading$ | async) ?? false) {
+<div class="loading-overlay">
+  <div class="spinner-grow text-light" role="status">
+    <span class="visually-hidden">Caricamento...</span>
+  </div>
+</div>
+} @else {
 <router-outlet />
+}
 
 <app-footer></app-footer>

@@ -49,32 +49,32 @@ export class AdminAccountComponent implements OnInit {
   public closeResult: WritableSignal<string> = signal('');
 
   // Pagination
-  public page:number = 1;
-  public pageSize:number = 3;
-  public maxSize:number = 5;
+  public page: number = 1;
+  public pageSize: number = 3;
+  public maxSize: number = 5;
 
   // Configuarzione campi form
   readonly formFields = {
     addAccount: {
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      fiscalCode: [''.toUpperCase(), Validators.required],
-      city: ['', Validators.required],
-      route: ['', Validators.required],
-      role: ['user', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=\S+$).{6,}$/)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      surname: ['', [Validators.required, Validators.minLength(3)]],
+      fiscalCode: [''.toUpperCase(), [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
+      city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(34)]],
+      route: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['user', [Validators.required]],
       photoURL: ['']
     },
     editAccount: {
       userSelect: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      fiscalCode: [''.toUpperCase(), Validators.required],
-      city: ['', Validators.required],
-      route: ['', Validators.required],
-      role: ['user', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      surname: ['', [Validators.required, Validators.minLength(3)]],
+      fiscalCode: [''.toUpperCase(), [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
+      city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(34)]],
+      route: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['user', [Validators.required]],
       photoURL: ['']
     }
   };
@@ -90,6 +90,14 @@ export class AdminAccountComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     await this.loadUsers();
+    // Codice fiscale aggiungi modifica account
+    this.addAccountForm.get('fiscalCode')?.valueChanges.subscribe(fiscalCode => {
+      this.addAccountForm.get('fiscalCode')?.setValue(fiscalCode.toUpperCase(), { emitEvent: false });
+    });
+    // Codice fiscale maiuscolo modifica account
+    this.editAccountForm.get('fiscalCode')?.valueChanges.subscribe(fiscalCode => {
+      this.editAccountForm.get('fiscalCode')?.setValue(fiscalCode.toUpperCase(), { emitEvent: false });
+    });
   }
 
   // Getters per form controls - separati per tipo di form
@@ -193,7 +201,7 @@ export class AdminAccountComponent implements OnInit {
 
   @HostListener('keydown.enter', ['$event'])
   public handleEnter(event: KeyboardEvent) {
-    
+
     event.preventDefault();
 
     if (this.active === 1 && this.addAccountForm.valid) {
@@ -202,9 +210,9 @@ export class AdminAccountComponent implements OnInit {
       this.onEditSubmit();
     } else if (this.active === 3 && this.userToDelete) {
       const deleteButton = document.querySelector(`button[data-user-id="${this.getUserId(this.userToDelete)}"]`);
-    if (deleteButton) {
-      (deleteButton as HTMLButtonElement).click();
-    }
+      if (deleteButton) {
+        (deleteButton as HTMLButtonElement).click();
+      }
     }
   }
 

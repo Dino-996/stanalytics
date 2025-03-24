@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapArrowClockwise, bootstrapDownload, bootstrapFileEarmarkFill, bootstrapPersonFill, bootstrapClockHistory } from '@ng-icons/bootstrap-icons';
 import { Transaction, User } from '../../models/user.model';
@@ -20,9 +20,10 @@ interface UserWithTransactions extends User {
     NgIcon,
     NgClass,
     CurrencyPipe,
-    NgbPagination
+    NgbPagination,
   ],
   providers: [
+    DatePipe,
     provideIcons({
       bootstrapArrowClockwise,
       bootstrapDownload,
@@ -136,24 +137,6 @@ export class AdminBilingComponent implements OnInit {
     this.isLoading = true;
     try {
       this.users = await this.userService.getAllUsers();
-      this.users.push({ id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },
-        { id: 'abcfdsds', name: 'Dino', surname: 'Levrieri', email: 'dino@gmail.com', fiscalCode: 'SSSAJKSJAK12DSKL', route: 'Via della Droga 18', city: 'Potenza', role: 'user' },
-        { id: 'nssxcndw', name: 'Amerigo', surname: 'Vespucci', email: 'amerigo2000@outlook.com', fiscalCode: 'ADDS32DSD56HHG', route: 'Piazza Grande 24', city: 'Verona', role: 'user' },)
     } catch (error) {
       console.error('Errore nel recupero degli utenti:', error);
     } finally {

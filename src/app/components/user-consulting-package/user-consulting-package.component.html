@@ -1,19 +1,76 @@
 <div class="d-flex justify-content-start align-items-center p-2 pb-4">
-    <ng-icon class="me-2" name="bootstrapBox2Fill" size="18"></ng-icon>
+    <ng-icon class="me-2" name="bootstrapBox2Fill" size="24"></ng-icon>
     <h5 class="m-0">Pacchetti consulenze</h5>
 </div>
 
-<p>
-    Ogni percorso è unico, così come le tue esigenze.
-    Nei nostri percorsi, riceverai una consulenza altamente personalizzata, con strategie mirate per ottenere il massimo
-    dalle tue attività online.
-    Analizzerò ogni aspetto della tua situazione e ti fornirò un piano pratico per ottenere risultati tangibili
-    attraverso ecommerce online,
-    self publishing, matched betting e tante altre opportunità di guadagno.
-</p>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card rounded-4 border-0">
+            <div class="card-body">
 
-<div class="d-flex flex-wrap justify-content-evenly jusify-items-center">
-    <app-packages productName="Pacchetto bronze" amount="200" level="bronze" [millisecond]="1000"></app-packages>
-    <app-packages productName="Pacchetto silver" amount="350" level="silver" [millisecond]="2000"></app-packages>
-    <app-packages productName="Pacchetto gold" amount="500" level="gold" [millisecond]="3000"></app-packages>
+                <div class="mb-3">
+                    <label for="packageSelect" class="form-label lead">Seleziona un pacchetto:</label>
+                    <select class="form-select rounded-4" id="packageSelect" [(ngModel)]="selectedPackage">
+                        <option value="">Seleziona...</option>
+                        <option value="bronze">Pacchetto Bronze</option>
+                        <option value="silver">Pacchetto Silver</option>
+                        <option value="gold">Pacchetto Gold</option>
+                    </select>
+                </div>
+
+                <p>
+                    Ogni percorso è unico, così come le tue esigenze. Nei nostri percorsi, riceverai una consulenza
+                    altamente personalizzata, con strategie mirate per ottenere il massimo dalle tue attività
+                    online.
+                    Analizzerò ogni aspetto della tua situazione e ti fornirò un piano pratico per ottenere
+                    risultati
+                    tangibili attraverso ecommerce online, self publishing, matched betting e tante altre
+                    opportunità di guadagno.
+                </p>
+
+                @if (selectedPackage) {
+                <div class="mt-4">
+                    <h5 class="text-capitalize" [ngStyle]="{'color': getPackageColor(selectedPackage)}">Pacchetto {{
+                        getPackageLevel(selectedPackage).toLocaleLowerCase() }}
+                    </h5>
+                    <p>{{ getDescription(selectedPackage) }}</p>
+                    <div class="card rounded-4 border-0">
+                        <img src="../../../assets/logo.png" class="card-img-top"
+                            alt="{{ getPackageLevel(selectedPackage) }}" style="width: 300px; height: auto;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                <span class="badge text-white fs-6 rounded-4"
+                                    [ngStyle]="{'background-color': getPackageColor(selectedPackage)}">
+                                    <span class="text-dark">{{ getPackageLevel(selectedPackage) }}</span>
+                                </span>
+
+                                <span class="fw-bold fs-5 text-success">
+                                    {{ getPackagePrice(selectedPackage) | currency:'EUR' }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <ngx-paypal [config]="getPayPalConfig(selectedPackage)"></ngx-paypal>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+
+                @if (transactionStatus ==='success') {
+                <div class="alert alert-success rounded-4 text-center">
+                    <p class="mb-0">{{ transactionMessage }}</p>
+                </div>
+                }
+
+                @if (transactionStatus === 'error') {
+                <div class="alert alert-danger rounded-4 text-center">
+                    <p class="mb-0">{{ transactionMessage }}</p>
+                </div>
+                }
+
+            </div>
+        </div>
+    </div>
 </div>

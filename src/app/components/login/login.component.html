@@ -17,7 +17,7 @@
           @if(email?.invalid && (email?.dirty || email?.touched)) {
           @if(email?.hasError('pattern')) {
           <div class="text-warning">
-            Inserisci un'email valida (esempio&#64;dominio.com).
+            Inserisci un'email valida
           </div>
           }
           }
@@ -35,8 +35,8 @@
             </span>
           </div>
           @if(password?.invalid && (password?.dirty || password?.touched)) {
-          @if(password?.hasError('minlength')) {
-          <div class="text-warning">La password deve essere di almeno 6 caratteri.</div>
+          @if(password?.hasError('required')) {
+          <div class="text-warning">Inserisci una password</div>
           }
           }
         </div>

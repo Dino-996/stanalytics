@@ -21,7 +21,7 @@
                     </div>
                     @if(email?.invalid && (email?.dirty || email?.touched)) {
                     @if(email?.hasError('required')) {
-                    <div class="text-warning">L'email è obbligatoria.</div>
+                    <div class="text-warning">L'email è obbligatoria</div>
                     }
                     @if(email?.hasError('email')) {
                     <div class="text-warning">Inserisci un email valida</div>
@@ -37,10 +37,33 @@
                     </div>
                     @if(password?.invalid && (password?.dirty || password?.touched)) {
                     @if(password?.hasError('required')) {
-                    <div class="text-warning">La password è obbligatoria.</div>
+                    <div class="text-warning">La password è obbligatoria</div>
                     }
                     @if(password?.hasError('minlength')) {
-                    <div class="text-warning">La password deve essere di almeno 6 caratteri.</div>
+                    <div class="text-warning">La password deve avere almeno 6 caratteri</div>
+                    }
+                    @if(password?.hasError('pattern')) {
+                    <div class="text-warning mt-1">
+                        <span class="d-block mb-1">La password deve essere composta da:</span>
+                        <div class="ps-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge bg-warning text-dark me-2">A</span>
+                                <span>Una lettera maiuscola</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge bg-warning text-dark me-2">.</span>
+                                <span>Un carattere speciale</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge bg-warning text-dark me-2">1</span>
+                                <span>Un numero</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-warning text-dark me-2">␣</span>
+                                <span>Non può contenere spazi</span>
+                            </div>
+                        </div>
+                    </div>
                     }
                     }
                 </div>
@@ -53,7 +76,10 @@
                     </div>
                     @if(name?.invalid && (name?.dirty || name?.touched)) {
                     @if(name?.hasError('required')) {
-                    <div class="text-warning">Il nome è obbligatorio.</div>
+                    <div class="text-warning">Il nome è obbligatorio</div>
+                    }
+                    @if(name?.hasError('minlength')) {
+                    <div class="text-warning">Il nome deve avere almeno 3 caratteri</div>
                     }
                     }
                 </div>
@@ -66,7 +92,10 @@
                     </div>
                     @if(surname?.invalid && (surname?.dirty || surname?.touched)) {
                     @if(surname?.hasError('required')) {
-                    <div class="text-warning">Il cognome è obbligatorio.</div>
+                    <div class="text-warning">Il cognome è obbligatorio</div>
+                    }
+                    @if(surname?.hasError('minlength')) {
+                    <div class="text-warning">Il cognome deve avere almeno 3 caratteri</div>
                     }
                     }
                 </div>
@@ -77,9 +106,15 @@
                         <input formControlName="fiscalCode" class="form-control rounded-4" id="fiscalCode"
                             name="fiscalCode" placeholder="Inserisci il codice fiscale" required>
                     </div>
+                    <div class="text-end me-1 mt-1">
+                        <a href="https://www.codicefiscaleonline.com" target="_blank">Calcola codice fiscale</a>
+                    </div>
                     @if(fiscalCode?.invalid && (fiscalCode?.dirty || fiscalCode?.touched)) {
                     @if(fiscalCode?.hasError('required')) {
-                    <div class="text-warning">Il codice fiscale è obbligatorio.</div>
+                    <div class="text-warning">Il codice fiscale è obbligatorio</div>
+                    }
+                    @if(fiscalCode?.hasError('minlength') || fiscalCode?.hasError('maxlength')) {
+                    <div class="text-warning">Il codice fiscale deve essere composto da 16 caratteri</div>
                     }
                     }
                 </div>
@@ -92,7 +127,13 @@
                     </div>
                     @if(city?.invalid && (city?.dirty || city?.touched)) {
                     @if(city?.hasError('required')) {
-                    <div class="text-warning">La città è obbligatoria.</div>
+                    <div class="text-warning">La città è obbligatoria</div>
+                    }
+                    @if(city?.hasError('minlength')) {
+                    <div class="text-warning">La citta deve avere almeno 2 caratteri</div>
+                    }
+                    @if(city?.hasError('maxlength')){
+                    <div class="text-warning">La citt&agrave; pu&ograve; avere al massimo 34 caratteri</div>
                     }
                     }
                 </div>
@@ -105,7 +146,10 @@
                     </div>
                     @if(route?.invalid && (route?.dirty || route?.touched)) {
                     @if(route?.hasError('required')) {
-                    <div class="text-warning">L'indirizzo è obbligatorio.</div>
+                    <div class="text-warning">L'indirizzo è obbligatorio</div>
+                    }
+                    @if(route?.hasError('minlength')) {
+                    <div class="text-warning">L'indirizzo deve avere almeno 6 caratteri</div>
                     }
                     }
                 </div>
@@ -118,7 +162,7 @@
                     </select>
                     @if(role?.invalid && (role?.dirty || role?.touched)) {
                     @if(role?.hasError('required')) {
-                    <div class="text-warning">Il ruolo è obbligatorio.</div>
+                    <div class="text-warning">Il ruolo è obbligatorio</div>
                     }
                     }
                 </div>
@@ -184,7 +228,7 @@
                     </div>
                     @if(editEmail?.invalid && (editEmail?.dirty || editEmail?.touched)) {
                     @if(editEmail?.hasError('required')) {
-                    <div class="text-warning">L'email è obbligatoria.</div>
+                    <div class="text-warning">L'email è obbligatoria</div>
                     }
                     @if(editEmail?.hasError('email')) {
                     <div class="text-warning">Inserisci un email valida</div>
@@ -202,6 +246,9 @@
                     @if(editName?.hasError('required')) {
                     <div class="text-warning">Il nome è obbligatorio.</div>
                     }
+                    @if(editName?.hasError('minlength')) {
+                    <div class="text-warning">Il nome deve avere almeno 3 caratteri</div>
+                    }
                     }
                 </div>
 
@@ -213,7 +260,10 @@
                     </div>
                     @if(editSurname?.invalid && (editSurname?.dirty || editSurname?.touched)) {
                     @if(editSurname?.hasError('required')) {
-                    <div class="text-warning">Il cognome è obbligatorio.</div>
+                    <div class="text-warning">Il cognome è obbligatorio</div>
+                    }
+                    @if(editSurname?.hasError('minlength')) {
+                    <div class="text-warning">Il cognome deve avere almeno 3 caratteri</div>
                     }
                     }
                 </div>
@@ -224,9 +274,15 @@
                         <input formControlName="fiscalCode" class="form-control rounded-4" id="editFiscalCode"
                             name="editFiscalCode" placeholder="Inserisci il codice fiscale" required>
                     </div>
+                    <div class="text-end me-1 mt-1">
+                        <a href="https://www.codicefiscaleonline.com" target="_blank">Calcola codice fiscale</a>
+                    </div>
                     @if(editFiscalCode?.invalid && (editFiscalCode?.dirty || editFiscalCode?.touched)) {
                     @if(editFiscalCode?.hasError('required')) {
-                    <div class="text-warning">Il codice fiscale è obbligatorio.</div>
+                    <div class="text-warning">Il codice fiscale è obbligatorio</div>
+                    }
+                    @if(editFiscalCode?.hasError('minlength') || editFiscalCode?.hasError('maxlength')) {
+                    <div class="text-warning">Il codice fiscale deve essere composto da 16 caratteri</div>
                     }
                     }
                 </div>
@@ -239,7 +295,13 @@
                     </div>
                     @if(editCity?.invalid && (editCity?.dirty || editCity?.touched)) {
                     @if(editCity?.hasError('required')) {
-                    <div class="text-warning">La città è obbligatoria.</div>
+                    <div class="text-warning">La città è obbligatoria</div>
+                    }
+                    @if(editCity?.hasError('minlength')) {
+                    <div class="text-warning">La citta deve avere almeno 2 caratteri</div>
+                    }
+                    @if(editCity?.hasError('maxlength')){
+                    <div class="text-warning">La citt&agrave; pu&ograve; avere al massimo 34 caratteri</div>
                     }
                     }
                 </div>
@@ -252,7 +314,10 @@
                     </div>
                     @if(editRoute?.invalid && (editRoute?.dirty || editRoute?.touched)) {
                     @if(editRoute?.hasError('required')) {
-                    <div class="text-warning">L'indirizzo è obbligatorio.</div>
+                    <div class="text-warning">L'indirizzo è obbligatorio</div>
+                    }
+                    @if(editRoute?.hasError('minlength')) {
+                    <div class="text-warning">L'indirizzo deve avere almeno 6 caratteri</div>
                     }
                     }
                 </div>
@@ -265,7 +330,7 @@
                     </select>
                     @if(editRole?.invalid && (editRole?.dirty || editRole?.touched)) {
                     @if(editRole?.hasError('required')) {
-                    <div class="text-warning">Il ruolo è obbligatorio.</div>
+                    <div class="text-warning">Il ruolo è obbligatorio</div>
                     }
                     }
                 </div>
@@ -288,9 +353,9 @@
                     <button (click)="onEditSubmit()" [disabled]="!editAccountForm.valid || loading" type="button"
                         class="btn btn-primary rounded-4 d-flex justify-content-center align-items-center gap-2">
                         @if(loading) {
-                            <div class="spinner-grow text-light" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                              </div>
+                        <div class="spinner-grow text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                         } @else {
                         <span>Modifica account</span>
                         }

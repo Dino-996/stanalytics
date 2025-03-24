@@ -12,7 +12,7 @@ export interface User {
 
 export interface Transaction {
   productName: string;
-  date: string;
+  date: Date;
   amount: string;
   level: 'bronze' | 'silver' | 'gold';
   status: 'Completato' | 'Annullato';

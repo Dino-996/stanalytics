@@ -105,7 +105,7 @@
                     {{ t.productName }}
                   </span>
                 </td>
-                <td>{{ t.date }}</td>
+                <td>{{ t.date | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                 <td>{{ t.amount | currency:'EUR' }}</td>
                 <td>
                   <span [ngClass]="getStatusClass(t.status)">{{ t.status }}</span>
@@ -123,7 +123,7 @@
                 [boundaryLinks]="false"></ngb-pagination>
             </div>
             <!-- Download CVS -->
-            <button class="d-flex justify-content-start align-items-center btn btn-sm btn-primary rounded-4"
+            <button class="d-flex justify-content-start align-items-center btn btn-primary rounded-4"
               (click)="exportUserDataToCSV()">
               Esporta dati in CSV 
               <ng-icon name="bootstrapDownload" size="16" class="ms-2" />

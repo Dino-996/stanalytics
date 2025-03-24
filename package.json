@@ -1,6 +1,31 @@
 {
   "name": "stanalytics",
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dino-996/stanalytics"
+  },
+  "keywords": [
+    "gestionale",
+    "consulenza digitale",
+    "CRM",
+    "gestione clienti",
+    "digital consulting",
+    "client management",
+    "analytics",
+    "dashboard",
+    "angular",
+    "firebase",
+    "web application",
+    "productivity",
+    "business tools",
+    "SaaS",
+    "software gestionale",
+    "digital agency",
+    "project management"
+  ],
+  "author": "Davide Sabia",
+  "description": "STanalytics è un'applicazione gestionale per la consulenza digitale. Ottimizza e semplifica le operazioni di gestione dei clienti e migliora l'efficienza del lavoro grazie a un'interfaccia intuitiva e strumenti avanzati",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -15,6 +15,29 @@
 <div>
     @if(transactions.length > 0) {
 
+    <div class="d-flex justify-content-start align-items-center text-center">
+        <div class="mb-3 me-3">
+            Filtri:
+        </div>
+
+        <div class="mb-3">
+            <div class="btn-group gap-3">
+                <button class="btn btn-info btn-sm rounded-4" (click)="changeFilterStatus('all')">
+                    Tutti
+                </button>
+                <button class="btn btn-primary btn-sm rounded-4" (click)="changeSortDirection()">
+                    Ordina per data {{ sortDirection === 'asc' ? 'crescente' : 'decrescente' }}
+                </button>
+                <button class="btn btn-success btn-sm rounded-4" (click)="changeFilterStatus('completato')">
+                    Completati
+                </button>
+                <button class="btn btn-danger btn-sm rounded-4" (click)="changeFilterStatus('annullato')">
+                    Annullati
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="card rounded-4 shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
@@ -28,14 +51,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(t of transactions; track $index) {
+                        @for(t of paginatedTransaction(); track $index) {
                         <tr>
                             <td>
                                 <span class="badge" [ngClass]="'bg-' + getProductNameColor(t.productName)">
                                     {{ t.productName }}
                                 </span>
                             </td>
-                            <td>{{ t.date }}</td>
+                            <td>{{ t.date | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td>{{ t.amount | currency:'EUR' }}</td>
                             <td>
                                 <span [ngClass]="getStatusClass(t.status)">{{ t.status }}</span>
@@ -44,6 +67,10 @@
                         }
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                    <ngb-pagination [collectionSize]="filteredTransactions.length" [(page)]="page" [pageSize]="pageSize"
+                        [maxSize]="maxSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+                </div>
             </div>
         </div>
     </div>

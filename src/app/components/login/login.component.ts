@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
   // Costanti
   private readonly CHECKBOX_STORAGE_KEY = 'checkboxState';
   private readonly EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  private readonly MIN_PASSWORD_LENGTH = 6;
 
   // Form e stato
   public loginForm: FormGroup;
@@ -69,7 +68,7 @@ export class LoginComponent implements OnInit {
     // Verifica se l'utente ha accettato i termini e condizioni
     const formValues = this.loginForm.value as LoginFormModel;
     if (!formValues.isChecked) {
-      this.error = 'Devi accettare i termini e le condizioni per continuare';
+      this.error = 'Devi accettare termini&condizioni per continuare';
       return;
     }
 
@@ -100,7 +99,7 @@ export class LoginComponent implements OnInit {
     try {
       await this.authService.resetPassword(email);
       this.error = '';
-      alert('Email di ripristino inviata con successo! Controlla la tua casella di posta.');
+      alert('Ti è stata inviata un\'email di ripristino! Controlla la tua casella di posta');
     } catch (err) {
       this.handlePasswordResetError(err);
     } finally {
@@ -117,14 +116,8 @@ export class LoginComponent implements OnInit {
   // Metodi privati
   private initializeForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['carletto1997@hotmail.com', [
-        Validators.required, 
-        Validators.pattern(this.EMAIL_PATTERN)
-      ]],
-      password: ['Xilofono.900', [
-        Validators.required, 
-        Validators.minLength(this.MIN_PASSWORD_LENGTH)
-      ]],
+      email: ['carletto1997@hotmail.com', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]],
+      password: ['Xilofono.900', Validators.required],
       isChecked: [false, [Validators.requiredTrue]]
     });
   }
@@ -155,7 +148,7 @@ export class LoginComponent implements OnInit {
     if (role === 'admin') {
       this.router.navigate(['/admin/dashboard']);
     } else {
-      this.router.navigate(['/user/dashboard']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
