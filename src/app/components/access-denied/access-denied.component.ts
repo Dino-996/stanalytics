@@ -5,7 +5,9 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-access-denied',
-  imports: [RouterLink, NgbAlertModule],
+  imports: [
+    NgbAlertModule
+  ],
   templateUrl: './access-denied.component.html',
   styleUrl: './access-denied.component.css'
 })
@@ -15,7 +17,7 @@ export class AccessDeniedComponent {
   public constructor(private authService: AuthService, private router: Router) { }
 
   public async goBackToLogin() {
-    await this.authService.logout(); //IMPORTANTE, fai il logout
+    await this.authService.logout();
     this.router.navigate(['/login']);
   }
 

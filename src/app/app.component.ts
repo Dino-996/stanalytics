@@ -3,8 +3,6 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { AuthService } from './services/auth.service';
 import { Observable } from 'rxjs';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapArrowClockwise } from '@ng-icons/bootstrap-icons';
 import { AsyncPipe } from '@angular/common';
 import { browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { auth } from '../environments/firebase';
@@ -14,12 +12,9 @@ import { auth } from '../environments/firebase';
   imports: [
     RouterOutlet,
     FooterComponent,
-    NgIcon,
+
     AsyncPipe
   ],
-  providers:[provideIcons({
-    bootstrapArrowClockwise
-  })],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
