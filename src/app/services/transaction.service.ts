@@ -53,17 +53,14 @@ export class TransactionService {
   }
 
   public async loadTransactionsByUserId(userId: string): Promise<Transaction[]> {
+
     if (!this.authService.isAdmin()) {
       throw new Error('Operazione non autorizzata');
     }
 
     try {
       const transactionsRef = collection(db, 'transactions');
-      const q = query(
-        transactionsRef,
-        where('userId', '==', userId),
-        orderBy('date', 'desc')
-      );
+      const q = query(transactionsRef, where('userId', '==', userId));
 
       const querySnapshot = await getDocs(q);
 
@@ -76,7 +73,6 @@ export class TransactionService {
           level: data['level'],
           date: data['date'] instanceof Timestamp ? data['date'].toDate().toISOString() : data['date'],
           amount: data['amount'],
-          package: data['package'],
           status: data['status']
         } as Transaction;
       });
@@ -110,7 +106,6 @@ export class TransactionService {
         level: data['level'],
         date: data['date'] instanceof Timestamp ? data['date'].toDate().toISOString() : data['date'],
         amount: data['amount'],
-        package: data['package'],
         status: data['status']
       } as Transaction;
     } catch (err) {

@@ -32,17 +32,25 @@ export class UserConsultingPackageComponent implements OnInit {
   public payPalConfigBronze?: IPayPalConfig;
   public payPalConfigSilver?: IPayPalConfig;
   public payPalConfigGold?: IPayPalConfig;
+  public isPayPalLoading: boolean = false;
 
   public transactionStatus: 'success' | 'error' | 'none' = 'none';
   public transactionMessage: string = '';
 
+  public constructor(private transactionService: TransactionService, private authService: AuthService) { }
+
   public ngOnInit(): void {
-    this.initConfigBronze();
-    this.initConfigSilver();
-    this.initConfigGold();
+    this.initConfigs();
   }
 
-  public constructor(private transactionService: TransactionService, private authService: AuthService) { }
+  private initConfigs(): void {
+    setTimeout(() => {
+      this.initConfigBronze();
+      this.initConfigSilver();
+      this.initConfigGold();
+      this.isPayPalLoading = true;
+    }, 5000);
+  }
 
   private initConfigBronze(): void {
     this.payPalConfigBronze = this.createPayPalConfig('Pacchetto bronze', '239.00');

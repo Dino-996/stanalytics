@@ -47,7 +47,7 @@ export class UserService {
         id: doc.id
       } as unknown as User));
     } catch (error) {
-      console.error('Errore nel recupero degli utenti:', error);
+      console.error('Errore nel recupero degli utenti(service):', error);
       return [];
     }
   }

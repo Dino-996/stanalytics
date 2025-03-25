@@ -29,8 +29,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --source-map",
     "watch": "ng build --watch --configuration development",
+    "prod": "ng build --configuration=production",
     "test": "ng test"
   },
   "private": true,

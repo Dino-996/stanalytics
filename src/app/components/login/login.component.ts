@@ -116,8 +116,8 @@ export class LoginComponent implements OnInit {
   // Metodi privati
   private initializeForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['carletto1997@hotmail.com', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]],
-      password: ['Xilofono.900', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]],
+      password: ['', Validators.required],
       isChecked: [false, [Validators.requiredTrue]]
     });
   }

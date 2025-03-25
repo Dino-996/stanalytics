@@ -62,7 +62,7 @@ export class AdminBilingComponent implements OnInit {
   public async selectUser(user: User): Promise<void> {
     this.isLoading = true;
     try {
-      // Assicurati che user.id esista prima di usarlo
+      
       if (!user.id) {
         console.error('ID utente mancante');
         return;
@@ -73,6 +73,7 @@ export class AdminBilingComponent implements OnInit {
         ...user,
         transactions
       };
+      
     } catch (error) {
       console.error('Errore nel recupero delle transazioni:', error);
     } finally {
@@ -139,7 +140,7 @@ export class AdminBilingComponent implements OnInit {
       this.users = await this.userService.getAllUsers();
     } catch (error) {
       console.error('Errore nel recupero degli utenti:', error);
-    } finally {
+    } finally { 
       this.isLoading = false;
     }
   }
