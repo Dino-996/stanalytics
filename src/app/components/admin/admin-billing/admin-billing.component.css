@@ -1,0 +1,28 @@
+.container {
+    padding: 20px;
+}
+
+.list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.img-thumbnail {
+    max-width: 150px;
+}
+
+.bronze {
+    background-color: var(--bronze);
+    color: white;
+}
+
+.silver {
+    background-color: var(--silver);
+    color: black;
+}
+
+.gold {
+    background-color: var(--gold);
+    color: black;
+}

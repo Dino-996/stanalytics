@@ -1,0 +1,91 @@
+<div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
+    <ng-icon class="me-2" name="bootstrapClockHistory" size="18"></ng-icon>
+    <h5 class="m-0 text-truncate">Storico consulenze</h5>
+</div>
+
+@if(loading) {
+<div class="text-center my-5">
+    <ng-icon class="animate-spin" name="bootstrapArrowClockwise" size="18"></ng-icon>
+    <p class="mt-2">Caricamento in corso...</p>
+</div>
+} @else {
+<div>
+    @if(transactions.length > 0) {
+    <div class="d-flex flex-wrap justify-content-start align-items-center text-center">
+        <div class="mb-3 me-3 text-truncate">
+            <strong>Filtri:</strong>
+        </div>
+
+        <div class="mb-3 w-100">
+            <div class="d-flex flex-column flex-md-row gap-2">
+                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3" (click)="changeFilterStatus('all')">
+                    Tutti
+                </button>
+                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3" (click)="changeSortDirection()">
+                    Ordina per data {{ sortDirection === 'asc' ? 'crescente' : 'decrescente' }}
+                </button>
+                <button class="btn btn-outline-secondary text-success btn-sm w-100 w-md-auto rounded-3"
+                    (click)="changeFilterStatus('completato')">
+                    Completati
+                </button>
+                <button class="btn btn-outline-secondary text-danger btn-sm w-100 w-md-auto rounded-3"
+                    (click)="changeFilterStatus('annullato')">
+                    Annullati
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead class="text-white">
+                        <tr>
+                            <th>Consulenza</th>
+                            <th>Data e ora</th>
+                            <th>Importo</th>
+                            <th>Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(t of paginatedTransaction(); track $index) {
+                        <tr>
+                            <td>
+                                <span class="badge text-truncate"
+                                    [ngClass]="getProductNameColor(t.categoria)">
+                                    {{ t.nomeProdotto }}
+                                </span>
+                            </td>
+                            <td>{{ t.data | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td>{{ t.prezzo | currency:'EUR' }}</td>
+                            <td>
+                                <span [ngClass]="getStatusClass(t.stato)">{{ t.stato }}</span>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    } @else {
+    <div class="alert alert-info rounded-4 text-center">
+        <p class="mb-0">Nessuna transazione effettuata</p>
+    </div>
+    }
+</div>
+
+<div class="d-flex justify-content-center align-items-center mt-3">
+    <ngb-pagination class="w-100 w-md-auto" [collectionSize]="filteredTransactions.length" [(page)]="page"
+        [pageSize]="pageSize" [maxSize]="maxSize" [rotate]="true" [ellipses]="false"
+        [boundaryLinks]="true"></ngb-pagination>
+</div>
+
+@if(error) {
+<div class="alert alert-danger rounded-4 mt-3" role="alert">
+    {{ error }}
+</div>
+}
+}

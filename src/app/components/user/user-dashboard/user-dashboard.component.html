@@ -1,0 +1,94 @@
+<div class="card border-0 m-3">
+
+    <div class="card-body p-4">
+        @if(utenteCorrente) {
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div class="d-flex flex-wrap align-items-center">
+                <img class="rounded-circle border border-2 border-primary me-3"
+                    [src]="utenteCorrente.fotoURL ? utenteCorrente.fotoURL : 'https://picsum.photos/300/300'"
+                    alt="Avatar dell'utente corrente" width="80" height="80">
+                <div>
+                    <h5 class="card-title mb-1">Benvenuto</h5>
+                    <h6 class="fw-normal text-muted">{{ utenteCorrente.nome }}</h6>
+                    <span class="badge rounded-pill bg-info text-dark">{{ utenteCorrente.ruolo }}</span>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-danger d-flex align-items-center rounded-4 mt-3" (click)="logout()">
+                    Disconnetti
+                    <ng-icon class="ms-2" name="bootstrapBoxArrowInRight" size="18"></ng-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <ul class="list-group list-group-flush col-md-6">
+                <li class="list-group-item border-0"><strong>Email: </strong><span class="text-muted">{{
+                        utenteCorrente.email === undefined ? 'N/A' : utenteCorrente.email }}</span></li>
+                <li class="list-group-item border-0"><strong>Nome: </strong><span class="text-muted">{{
+                        utenteCorrente.nome === undefined ? 'N/A' : utenteCorrente.nome }}</span></li>
+                <li class="list-group-item border-0"><strong>Cognome: </strong><span class="text-muted">{{
+                        utenteCorrente.cognome === undefined ? 'N/A' : utenteCorrente.cognome }}</span></li>
+            </ul>
+            <ul class="list-group list-group-flush col-md-6">
+                <ul class="list-group list-group-flush col-md-6">
+                    <li class="list-group-item border-0"><strong>Codice fiscale: </strong><span class="text-muted">{{
+                            utenteCorrente.codiceFiscale === undefined ? 'N/A' : utenteCorrente.codiceFiscale }}</span>
+                    </li>
+                    <li class="list-group-item border-0"><strong>Citt&agrave;: </strong><span class="text-muted">{{
+                            utenteCorrente.citta === undefined ? 'N/A' : utenteCorrente.citta }}</span></li>
+                    <li class="list-group-item border-0"><strong>Indirizzo: </strong><span class="text-muted">{{
+                            utenteCorrente.indirizzo === undefined ? 'N/A' : utenteCorrente.indirizzo }}</span></li>
+                </ul>
+            </ul>
+        </div>
+        }
+        @if(loading) {
+        <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        }
+    </div>
+
+    <!-- sidebar -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 p-3">
+                <div class="btn-group-vertical w-100" role="group" aria-label="navigazione admin">
+
+                    <button type="button"
+                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-4"
+                        (click)="cambiaVistaCorrente(visteUtente.CONSULTING_PACKAGE)"
+                        [class.active]="isVistaCorrente(visteUtente.CONSULTING_PACKAGE)">
+                        <ng-icon class="me-2" name="bootstrapBoxes" size="18"></ng-icon>
+                        Pacchetti
+                    </button>
+
+                    <button type="button"
+                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-4"
+                        (click)="cambiaVistaCorrente(visteUtente.CONSULTING_HISTORY)"
+                        [class.active]="isVistaCorrente(visteUtente.CONSULTING_HISTORY)">
+                        <ng-icon class="me-2" name="bootstrapClockHistory" size="18"></ng-icon>
+                        Storico
+                    </button>
+
+                </div>
+            </div>
+            <!-- body -->
+            <div class="col-md-10 p-3">
+                <div class="card w-100 rounded-4 border border-0">
+                    <div class="card-body">
+                        @switch(vistaCorrente) {
+                        @case (visteUtente.CONSULTING_HISTORY) {
+                        <app-user-consulting-history></app-user-consulting-history>
+                        }
+                        @case (visteUtente.CONSULTING_PACKAGE) {
+                        <app-user-consulting-package></app-user-consulting-package>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

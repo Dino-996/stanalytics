@@ -1,15 +1,5 @@
-<div data-bs-theme="light" class="ms-5">
-  <img src="assets/logo-full-orizontal.png" alt="logo" class="img-fluid" style="max-height: 200px">
+<div class="d-flex flex-wrap justify-content-start align-items-center px-5  ">
+    <img class="img-fluid d-block bw" src="../assets/logo.png" alt="Logo" style="max-height: 160px;">
 </div>
-
-@if((isLoading$ | async) ?? false) {
-<div class="loading-overlay">
-  <div class="spinner-grow text-light" role="status">
-    <span class="visually-hidden">Caricamento...</span>
-  </div>
-</div>
-} @else {
 <router-outlet />
-}
-
 <app-footer></app-footer>

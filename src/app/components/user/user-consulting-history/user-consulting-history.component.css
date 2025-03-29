@@ -1,0 +1,33 @@
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.default-color {
+    background-color: #0275D8;
+    color: silver;
+}
+
+.bronze {
+    background-color: var(--bronze);
+    color: white;
+}
+
+.silver {
+    background-color: var(--silver);
+    color: black;
+}
+
+.gold {
+    background-color: var(--gold);
+    color: black;
+}

@@ -1,12 +1,12 @@
-/* Color Palette */
 :root {
-    --color-navy: #240750;
-    --color-navy-light: #344C64;
-    --color-teal-dark: #577B8D;
-    --color-teal: #57A6A1;
+    --bronze: #CD7F32;
+    --silver: #C0C0C0;
+    --gold: #FFD700;
 }
 
-/* Font DM Sans */
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
 }
