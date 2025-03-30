@@ -7,7 +7,6 @@ import { auth } from '../../../environment/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { UtenteService } from '../../services/utente.service';
-import { Utente } from '../../model/utente';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +31,7 @@ export class LoginComponent {
   loading = false;
   error: string | null = null;
   info: string | null = null;
-  isPassword = false;
+  isPassword:boolean = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private utenteService: UtenteService) {
     this.loginForm = this.fb.group({
@@ -87,8 +86,8 @@ export class LoginComponent {
     }
   }
 
-  public onPasswordVisible(show: boolean): void {
-    this.isPassword = show;
+  public onPasswordVisible(): void {
+    this.isPassword = !this.isPassword;
   }
 
   public async onForgotPassword(event: Event): Promise<void> {

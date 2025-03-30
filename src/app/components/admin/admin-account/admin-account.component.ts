@@ -79,6 +79,7 @@ export class AdminAccountComponent {
    */
   public constructor(private fb: FormBuilder, private utenteService: UtenteService, private transazioneService: TransazioneService) {
     this.formUtente = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
       nome: ['', Validators.required],
       cognome: ['', Validators.required],
       codiceFiscale: ['', [Validators.required, Validators.pattern(/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/)]],
@@ -90,6 +91,7 @@ export class AdminAccountComponent {
   }
 
   // GETTER PER ACCESSO AI CONTROLLI DEL FORM
+  public get email() { return this.formUtente.get('email'); }
   public get nome() { return this.formUtente.get('nome'); }
   public get cognome() { return this.formUtente.get('cognome'); }
   public get codiceFiscale() { return this.formUtente.get('codiceFiscale'); }
@@ -159,7 +161,7 @@ export class AdminAccountComponent {
    * @param contenuto - Template della modale
    * @param utente - Utente da eliminare
    */
-  public apriModaleEliminazione(contenuto: any, utente: Utente) {
+  public apriModaleEliminazione(contenuto: any, utente: Utente):void {
     this.utenteSelezionato = utente;
     this.modalService.open(contenuto, { ariaLabelledBy: 'modal-title', centered: true }).result.then(async (risultato) => {
       if (risultato === 'confirm') {
@@ -172,10 +174,10 @@ export class AdminAccountComponent {
    * Elimina un utente dal sistema
    * @param userId - ID dell'utente da eliminare
    */
-  public async deleteUtente(userId: string): Promise<void> {
+  public async deleteUtente(idUtente: string): Promise<void> {
     try {
-      await this.transazioneService.cancellaTransazioni(userId);
-      await this.utenteService.deleteUtente(userId);
+      await this.transazioneService.cancellaTransazioni(idUtente);
+      await this.utenteService.deleteUtente(idUtente);
       await this.caricaUtenti();
       this.utenteSelezionato = null;
     } catch (error) {

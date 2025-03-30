@@ -1,17 +1,16 @@
 <div class="d-flex justify-content-center align-items-center m-3">
-    <div class="card shadow-lg rounded-4 p-4">
+    <div class="card rounded-3 p-4 border-0">
         <div class="card-body">
-            <h4 class="card-title text-center fw-bold">
-                Accedi a ST
+            <h4 class="card-title text-start fw-bold">
+                Accedi
             </h4>
-            <h6 class="card-subtitle mb-4 text-muted text-center">Compila i campi e accedi</h6>
-
+            <h6 class="card-subtitle mb-4 text-muted text-start border-bottom pb-3">Compila i campi</h6>
             <!-- Form di login -->
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
                 <!-- Campo email -->
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
-                    <input formControlName="email" type="email" class="form-control rounded-4" id="email"
+                    <input formControlName="email" type="email" class="form-control rounded-3" id="email"
                         placeholder="Inserisci la tua email" required>
                     @if(email?.invalid && (email?.dirty || email?.touched)) {
                     @if(email?.hasError('pattern')) {
@@ -27,11 +26,10 @@
                     <label for="password" class="form-label fw-semibold">Password</label>
                     <div class="input-group">
                         <input formControlName="password" [type]="isPassword ? 'text' : 'password'"
-                            class="form-control rounded-start-4" id="password" placeholder="Inserisci la tua password"
+                            class="form-control rounded-start-3" id="password" placeholder="Inserisci la tua password"
                             required>
-                        <span class="input-group-text cursor-pointer rounded-end-4"
-                            (mousedown)="onPasswordVisible(true)" (mouseup)="onPasswordVisible(false)"
-                            (mouseleave)="onPasswordVisible(false)" (touchstart)="onPasswordVisible(true)" (touchend)="onPasswordVisible(false)">
+                        <span class="input-group-text cursor-pointer rounded-end-3 cursor-pointer"
+                            (click)="onPasswordVisible()">
                             <ng-icon [name]="isPassword ? 'bootstrapEyeSlash' : 'bootstrapEye'" size="18" />
                         </span>
                     </div>
@@ -44,7 +42,7 @@
 
                 <!-- Termini e condizioni -->
                 <div class="form-check mb-3">
-                    <input formControlName="isChecked" class="form-check-input rounded-4 cursor-pointer" type="checkbox"
+                    <input formControlName="isChecked" class="form-check-input rounded-3 cursor-pointer" type="checkbox"
                         id="check-terms">
                     <label
                         class="form-check-label text-muted link-underline link-underline-opacity-0 link-opacity-100-hover"
@@ -55,14 +53,14 @@
 
                 <!-- Messaggio di errore -->
                 @if(error) {
-                <div class="alert alert-danger rounded-4" role="alert">
+                <div class="alert alert-danger rounded-3" role="alert">
                     {{ error }}
                 </div>
                 }
 
                 <!-- Messaggio informativo -->
                 @if(info) {
-                <div class="alert alert-info rounded-4" role="alert">
+                <div class="alert alert-info rounded-3" role="alert">
                     {{ info }}
                 </div>
                 }
@@ -77,11 +75,10 @@
                 <!-- Bottone di login -->
                 <div class="d-grid">
                     <button type="submit" [disabled]="!loginForm.valid || loading"
-                        class="btn btn-primary rounded-4 d-flex justify-content-center align-items-center gap-2">
+                        class="btn btn-primary rounded-3 d-flex justify-content-center align-items-center gap-2">
                         @if(loading) {
-                        <div class="spinner-grow text-light" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+                        <span class="spinner-grow spinner-grow-sm"></span>
+
                         } @else {
                         <span>Accedi</span>
                         <ng-icon name="bootstrapBoxArrowInLeft" size="18"></ng-icon>

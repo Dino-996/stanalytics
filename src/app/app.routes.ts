@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ExtraOptions, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './components/user/user-dashboard/user-dashboard.component';
 import { LoginComponent } from './components/login/login.component';

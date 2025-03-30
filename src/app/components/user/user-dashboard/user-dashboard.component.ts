@@ -5,18 +5,20 @@ import { UtenteService } from '../../../services/utente.service';
 import { Router } from '@angular/router';
 import { UserConsultingHistoryComponent } from '../user-consulting-history/user-consulting-history.component';
 import { UserConsultingPackageComponent } from '../user-consulting-package/user-consulting-package.component';
+import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapBoxArrowInRight, bootstrapBoxes, bootstrapClockHistory } from '@ng-icons/bootstrap-icons';
+import { bootstrapBoxArrowInRight, bootstrapBoxes, bootstrapClockHistory, bootstrapGearWideConnected } from '@ng-icons/bootstrap-icons';
 
 enum VisteUtente {
   CONSULTING_PACKAGE = 'package',
-  CONSULTING_HISTORY = 'history'
+  CONSULTING_HISTORY = 'history',
+  SETTINGS = 'settings'
 }
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [NgIcon, UserConsultingHistoryComponent, UserConsultingHistoryComponent, UserConsultingPackageComponent],
-  providers: [provideIcons({ bootstrapBoxes, bootstrapClockHistory, bootstrapBoxArrowInRight })],
+  imports: [NgIcon, UserConsultingHistoryComponent, UserConsultingHistoryComponent, UserConsultingPackageComponent, UserSettingsComponent],
+  providers: [provideIcons({ bootstrapBoxes, bootstrapClockHistory, bootstrapBoxArrowInRight, bootstrapGearWideConnected })],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
 })

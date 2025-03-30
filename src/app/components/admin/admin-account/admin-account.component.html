@@ -16,6 +16,20 @@
 
         <form [formGroup]="formUtente" (ngSubmit)="gestisciInvio()">
             <div class="row g-3">
+                @if(!isEditMode) {
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    @if(email?.invalid && (email?.dirty || email?.touched)) {
+                    @if(email?.hasError('required')) {
+                    <p class="text-warning">Inserisci un email</p>
+                    }
+                    @if(email?.hasError('email')) {
+                    <p class="text-warning">Email non valida</p>
+                    }
+                    }
+                    <input type="text" class="form-control rounded-3" formControlName="email" />
+                </div>
+                }
                 <div class="col-md-6">
                     <label class="form-label">Nome</label>
                     @if(nome?.invalid && (nome?.dirty || nome?.touched)) {
@@ -23,7 +37,7 @@
                     <p class="text-warning">Inserisci un nome</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="nome" required />
+                    <input type="text" class="form-control rounded-3" formControlName="nome" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Cognome</label>
@@ -32,7 +46,7 @@
                     <p class="text-warning">Inserisci un cognome</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="cognome" required />
+                    <input type="text" class="form-control rounded-3" formControlName="cognome" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Codice Fiscale</label>
@@ -44,7 +58,7 @@
                     <p class="text-warning">Codice fiscale non valido</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="codiceFiscale" required />
+                    <input type="text" class="form-control rounded-3" formControlName="codiceFiscale" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Città</label>
@@ -53,7 +67,7 @@
                     <p class="text-warning">Inserisci un citta</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="citta" required />
+                    <input type="text" class="form-control rounded-3" formControlName="citta" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Indirizzo</label>
@@ -62,7 +76,7 @@
                     <p class="text-warning">Inserisci un indirizzo</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="indirizzo" required />
+                    <input type="text" class="form-control rounded-3" formControlName="indirizzo" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Ruolo</label>
