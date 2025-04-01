@@ -7,12 +7,14 @@ import { auth } from '../../../environment/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { UtenteService } from '../../services/utente.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   imports: [
     NgIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   providers: [
     provideIcons({
