@@ -57,6 +57,9 @@ export class AdminAccountComponent {
   /** Servizio modale di ng-bootstrap */
   private modalService = inject(NgbModal);
 
+  /** Caricamento in corso*/
+  public loading:boolean = false;
+
   // PAGINAZIONE
   /** Pagina corrente */
   public paginaCorrente = 1;
@@ -125,6 +128,8 @@ export class AdminAccountComponent {
    * Gestisce l'invio del form per creazione/modifica utente
    */
   public async gestisciInvio(): Promise<void> {
+    this.loading = true;
+
     if (this.formUtente.invalid) {
       this.inviaMessaggio('Form non valido', 'danger');
       return;
@@ -135,9 +140,11 @@ export class AdminAccountComponent {
     try {
       if (this.utenteSelezionato) {
         await this.utenteService.updateUtente(this.utenteSelezionato.id!, datiUtente);
+        this.loading = false;
         this.inviaMessaggio('Utente aggiornato con successo', 'success');
       } else {
         await this.utenteService.createUtente(datiUtente);
+        this.loading = false;
         this.inviaMessaggio('Utente creato con successo', 'success');
       }
 

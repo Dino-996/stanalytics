@@ -52,7 +52,7 @@
                     <label class="form-label">Codice Fiscale</label>
                     @if(codiceFiscale?.invalid && (codiceFiscale?.dirty || codiceFiscale?.touched)) {
                     @if(codiceFiscale?.hasError('required')) {
-                    <p class="text-warning">Inserisci un codiceFiscale</p>
+                    <p class="text-warning">Inserisci un codice fiscale</p>
                     }
                     @if(codiceFiscale?.hasError('pattern')) {
                     <p class="text-warning">Codice fiscale non valido</p>
@@ -64,7 +64,7 @@
                     <label class="form-label">Città</label>
                     @if(citta?.invalid && (citta?.dirty || citta?.touched)) {
                     @if(citta?.hasError('required')) {
-                    <p class="text-warning">Inserisci un citta</p>
+                    <p class="text-warning">Inserisci una citt&agrave;</p>
                     }
                     }
                     <input type="text" class="form-control rounded-3" formControlName="citta" />
@@ -94,8 +94,16 @@
                 <div class="col-12 text-end">
                     <button type="button" class="btn btn-outline-secondary rounded-3"
                         (click)="resetForm()">Annulla</button>
-                    <button type="submit" class="btn btn-primary ms-2 rounded-3">
-                        {{ isEditMode ? 'Salva Modifiche' : 'Crea Utente'}}</button>
+                    @if(loading) {
+                        <button class="btn btn-primary rounded-3 ms-2" type="button" disabled>
+                            <span class="spinner-grow spinner-grow-sm me-1" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">{{ isEditMode ? 'Salvataggio in corso...' : 'Creazione utente in corso...'}}</span>
+                          </button>
+                    } @else {
+                        <button type="submit" class="btn btn-primary ms-2 rounded-3">
+                            {{ isEditMode ? 'Salva Modifiche' : 'Crea Utente'}}
+                        </button>
+                    }
                 </div>
             </div>
         </form>

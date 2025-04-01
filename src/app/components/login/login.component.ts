@@ -83,7 +83,7 @@ export class LoginComponent {
           this.error = "Troppe richieste. Riprova più tardi";
           break;
         default:
-          this.error = 'Si e\' veerificato un errore. Riprova piu tradi'
+          this.error = 'Si è verificato un errore. Riprova più tradi'
       }
     }
   }
