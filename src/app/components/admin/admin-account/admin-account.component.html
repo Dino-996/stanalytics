@@ -103,7 +103,7 @@
 
     @if(isVisibile) {
     <ngb-alert [type]="tipo" [dismissible]="false" [animation]="true" class="mt-3 rounded-3 d-flex align-items-center">
-        <ng-icon class="me-3" [name]="tipo === 'info' ? 'bootstrapInfoCircleFill' : 'bootstrapExclamationOctagonFill' "
+        <ng-icon class="me-3" [name]="tipo === 'info' ? 'bootstrapInfoCircleFill' : tipo === 'success' ? 'bootstrapCheckCircleFill' : 'bootstrapExclamationOctagonFill' "
             size="18"></ng-icon>{{messaggio}}
     </ngb-alert>
     }

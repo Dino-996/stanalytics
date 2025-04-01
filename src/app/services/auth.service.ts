@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   // Aggiorna l'Email dell'utente loggato
-  public async updateEmail(nuovaEmail: string): Promise<void> {
+  public async updateEmail(nuovaEmail: string, password?: string): Promise<void> {
     const utenteCorrente = auth.currentUser;
 
     if (!utenteCorrente) {
@@ -65,10 +65,14 @@ export class AuthService {
     }
 
     try {
+      if (password) {
+        const credential = EmailAuthProvider.credential(utenteCorrente.email!, password);
+        await reauthenticateWithCredential(utenteCorrente, credential);
+      }
 
       await verifyBeforeUpdateEmail(utenteCorrente, nuovaEmail);
       const utente = await this.utenteService.getUtenteById(utenteCorrente.uid);
-      
+
       if (!utente) {
         throw new Error('Utente non trovato nel database');
       }
@@ -76,7 +80,6 @@ export class AuthService {
       utente.email = nuovaEmail;
       const utenteDocRef = doc(firestore, 'utenti', utenteCorrente.uid);
       await updateDoc(utenteDocRef, { email: nuovaEmail });
-
     } catch (error) {
       throw error;
     }
@@ -85,7 +88,7 @@ export class AuthService {
   // Aggiorna la password dell'utente loggato
   public async updatePassword(passwordCorrente: string, nuovaPassword: string): Promise<void> {
     const utenteCorrente = auth.currentUser;
-    
+
     if (utenteCorrente) {
       try {
         const credenziali = EmailAuthProvider.credential(utenteCorrente.email!, passwordCorrente);

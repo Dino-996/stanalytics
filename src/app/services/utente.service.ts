@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Utente } from '../model/utente';
 import { auth, firestore } from '../../environment/firebase';
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, runTransaction, setDoc, updateDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateEmail } from 'firebase/auth';
 import { PasswordGenerator } from '../../util/password-generator';
+import { Email } from '../../util/email';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { PasswordGenerator } from '../../util/password-generator';
 export class UtenteService {
 
   private utentiCollection = collection(firestore, 'utenti');
+  private generaEmail = new Email();
 
   // Restituisce tutti gli utenti del db
   public async getUtenti(): Promise<Utente[]> {
@@ -47,7 +49,9 @@ export class UtenteService {
     const passwordGenerator = new PasswordGenerator();
     const password = passwordGenerator.generateSecureRandomPassword(16);
 
-    const userAuth = await createUserWithEmailAndPassword(auth, utente.email, 'password'); // password test
+    await this.generaEmail.inviaEmail('infostanalytics@gmail.com', password);
+
+    const userAuth = await createUserWithEmailAndPassword(auth, utente.email, password);
     const uid = userAuth.user.uid;
 
     const utenteDoc = doc(firestore, `utenti/${uid}`);
@@ -76,7 +80,7 @@ export class UtenteService {
     try {
       const utenteDoc = doc(firestore, `utenti/${id}`);
       await deleteDoc(utenteDoc);
-    } catch(error) {
+    } catch (error) {
       throw "Errore durante l'eliminazione dell'utente: " + error;
     }
   }

@@ -5,8 +5,9 @@ import { Stato, Transazione } from '../../../model/transazione';
 import { Utente } from '../../../model/utente';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
-import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch } from '@ng-icons/bootstrap-icons';
+import { NgbPagination, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
+import { GeneratoreCSV } from '../../../../util/generatore-csv';
 
 /**
  * Componente per la gestione amministrativa delle transazioni
@@ -19,7 +20,8 @@ import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFi
     TitleCasePipe,
     NgbPagination,
     NgClass,
-    NgIcon
+    NgIcon,
+    NgbAlert
   ],
   providers: [
     provideIcons({
@@ -27,7 +29,8 @@ import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFi
       bootstrapPersonCheckFill,
       bootstrapPersonFill,
       bootstrapSearch,
-      bootstrapCurrencyEuro
+      bootstrapCurrencyEuro,
+      bootstrapInfoCircleFill
     })
   ],
   templateUrl: './admin-billing.component.html',
@@ -142,5 +145,11 @@ export class AdminBillingComponent {
       default:
         return 'bronze';
     }
+  }
+
+  public esportaDatiUtente(utente: Utente, transazioni: Transazione[]) {
+    const contenutoCSV = GeneratoreCSV.generaFile(utente, transazioni);
+    const nomeFile = `dati_${utente.cognome}_${utente.nome}.csv`;
+    GeneratoreCSV.scaricaCSV(contenutoCSV, nomeFile);
   }
 }

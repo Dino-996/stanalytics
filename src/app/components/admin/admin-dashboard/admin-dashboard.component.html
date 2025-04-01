@@ -22,9 +22,9 @@
         </div>
         }
         @if(loading) {
-            <div class="spinner-grow" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+        <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
         }
     </div>
 
@@ -35,19 +35,19 @@
                 <div class="btn-group-vertical w-100" role="group" aria-label="navigazione admin">
 
                     <button type="button"
-                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-3"
+                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-3 text-nowrap overflow-hidden"
                         (click)="cambiaVistaCorrente(visteUtente.ACCOUNT)"
                         [class.active]="isVistaCorrente(visteUtente.ACCOUNT)">
                         <ng-icon class="me-2" name="bootstrapPeopleFill" size="18"></ng-icon>
-                        Account
+                        <span class="text-truncate">Account</span>
                     </button>
 
                     <button type="button"
-                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-3"
+                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-3 text-nowrap overflow-hidden"
                         (click)="cambiaVistaCorrente(visteUtente.BILLING)"
                         [class.active]="isVistaCorrente(visteUtente.BILLING)">
-                        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
-                        Fatturazione
+                        <ng-icon class="me-2 flex-shrink-0" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
+                        <span class="text-truncate">Fatturazione</span>
                     </button>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { Utente, Ruolo } from '../../../model/utente';
 import { UtenteService } from '../../../services/utente.service';
 import { TitleCasePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear } from '@ng-icons/bootstrap-icons';
+import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill } from '@ng-icons/bootstrap-icons';
 import { TransazioneService } from '../../../services/transazione.service';
 
 // Tipo per i messaggi di notifica
@@ -29,7 +29,8 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
     bootstrapExclamationOctagonFill,
     bootstrapPeopleFill,
     bootstrapPersonFillAdd,
-    bootstrapPersonFillGear
+    bootstrapPersonFillGear,
+    bootstrapCheckCircleFill
   })],
   templateUrl: './admin-account.component.html',
   styleUrl: './admin-account.component.css'

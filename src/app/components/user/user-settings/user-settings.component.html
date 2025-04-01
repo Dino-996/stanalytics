@@ -15,23 +15,44 @@
             <!-- Aggiorna email utente corrente -->
             <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()" class="mb-4">
                 <div class="mb-3">
-                    <label for="aggiornaEmail" class="form-label fw-semibold">Modifica Email</label>
-                    <div class="input-group">
+                    <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
+                    <!---->
+                    <div class="input-group mb-2">
+                        <input class="form-control rounded-right-3" [type]="isPasswordEmailCorrente ? 'text' : 'password'"
+                            formControlName="passwordEmailCorrente" placeholder="Password attuale">
+
+                        <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
+                            (click)="visualizzaPasswordEmailCorrente()">
+                            <ng-icon [name]="isPasswordEmailCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'"
+                                size="18"></ng-icon>
+                        </button>
+                    </div>
+                    @if(passwordEmailCorrente?.invalid && (passwordEmailCorrente?.dirty || passwordEmailCorrente?.touched)) {
+                        <div class="text-warning small">
+                            @if(passwordEmailCorrente?.hasError('required')) {
+                            <span>La password attuale &egrave; richiesta</span>
+                            }
+                        </div>
+                        }
+                    <!---->
+                    <div class="input-group mt-2">
                         <input id="aggiornaEmail" class="form-control rounded-right-3" type="text"
                             formControlName="aggiornaEmail" placeholder="Nuova email">
+
                         @if(!loadingEmail) {
                         <button type="submit" class="btn btn-primary rounded-left-3"
-                            [disabled]="!formAggiornaAccount.valid">
-                            Aggiorna
+                            [disabled]="!formAggiornaAccount.valid">Aggiorna
                         </button>
-                        }@else {
+
+                        } @else {
                         <button type="text" class="btn btn-primary rounded-left-3" disabled>
                             <span class="spinner-grow spinner-grow-sm"></span>
                         </button>
                         }
+
                     </div>
                     @if(aggiornaEmail?.invalid && (aggiornaEmail?.dirty || aggiornaEmail?.touched)) {
-                    <div class="text-warning small mt-1">
+                    <div class="text-warning small mt-2">
                         @if(aggiornaEmail?.hasError('email')) {
                         <span>Inserisci un'email valida</span>
                         }
@@ -46,7 +67,7 @@
             <!-- Aggiorna password utente corrente -->
             <form [formGroup]="formAggiornaPassword" (ngSubmit)="onAggiornaPassword()">
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Modifica Password</label>
+                    <label class="form-label fw-semibold">Modifica password (richiede un nuovo accesso)</label>
                     <div class="input-group mb-2">
                         <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'"
                             formControlName="passwordCorrente" placeholder="Password attuale">
@@ -124,7 +145,7 @@
                 (click)="modal.dismiss()"></button>
         </div>
         <div class="modal-body">
-            <p>Sei sicuro di voler eliminare definitivamente il tuo account? Questa azione non può essere annullata.</p>
+            <p>Sei sicuro di voler eliminare definitivamente il tuo account? Verranno eliminati tutti i tuoi dati, comprese eventuali transazioni. Questa azione non può essere annullata.</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annulla</button>

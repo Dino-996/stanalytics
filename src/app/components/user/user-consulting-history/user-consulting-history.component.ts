@@ -4,7 +4,7 @@ import { TransazioneService } from '../../../services/transazione.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
-import { bootstrapClockHistory, bootstrapArrowClockwise } from '@ng-icons/bootstrap-icons';
+import { bootstrapClockHistory, bootstrapArrowClockwise, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -19,6 +19,7 @@ import { AuthService } from '../../../services/auth.service';
   providers: [provideIcons({
     bootstrapClockHistory,
     bootstrapArrowClockwise,
+    bootstrapInfoCircleFill
   })],
   templateUrl: './user-consulting-history.component.html',
   styleUrl: './user-consulting-history.component.css'

@@ -3,18 +3,27 @@ import { AuthService } from '../../../services/auth.service';
 import { TransazioneService } from '../../../services/transazione.service';
 import { Categoria, Transazione } from '../../../model/transazione';
 import { UtenteService } from '../../../services/utente.service';
-import { Utente } from '../../../model/utente';
 import { Router } from '@angular/router';
 import { NgxPayPalModule, IPayPalConfig } from 'ngx-paypal';
 import { CurrencyPipe, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapBoxes } from '@ng-icons/bootstrap-icons';
+import { bootstrapBoxes, bootstrapCheckCircleFill, bootstrapExclamationTriangleFill } from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-user-consulting-package',
-  imports: [NgxPayPalModule, NgStyle, CurrencyPipe,FormsModule, NgIcon],
-  providers:[provideIcons({bootstrapBoxes})],
+  imports: [
+    NgxPayPalModule, 
+    NgStyle, 
+    CurrencyPipe,
+    FormsModule, 
+    NgIcon
+  ],
+  providers:[provideIcons({
+    bootstrapBoxes,
+    bootstrapCheckCircleFill,
+    bootstrapExclamationTriangleFill
+  })],
   templateUrl: './user-consulting-package.component.html',
   styleUrl: './user-consulting-package.component.css'
 })
@@ -99,50 +108,50 @@ export class UserConsultingPackageComponent {
         label: 'paypal',
         layout: 'horizontal',
         color: 'blue',
-        shape: 'pill',
+        shape: 'rect',
         tagline: false,
       },
       onApprove: (data, actions) => {
         return actions.order.capture().then((details: any) => {
           this.transactionStatus = 'success';
-          this.transactionMessage = 'Pagamento andato a buon fine!';
+          this.transactionMessage = 'Pagamento andato a buon fine';
         });
       },
       onClientAuthorization: (data) => {
         if (!this.idUtente) {
           this.transactionStatus = 'error';
-          this.transactionMessage = 'Errore: utente non trovato.';
+          this.transactionMessage = 'Errore: utente non trovato';
           return;
         }
         const transazione = new Transazione(`Pacchetto ${this.getPackageLevel(this.selectedPackage).toLowerCase()}`, new Date(), this.getPackagePrice(this.selectedPackage).toString(), this.getPackageLevel(this.selectedPackage).toLowerCase() as Categoria, 'completato', this.idUtente);
         try {
           this.transazioneService.creaTransazione(transazione);
           this.transactionStatus = 'success';
-          this.transactionMessage = 'Transazione creata con successo!';
+          this.transactionMessage = 'Transazione creata con successo';
         } catch (error) {
           this.transactionStatus = 'error';
-          this.transactionMessage = 'Errore durante la creazione della transazione.';
+          this.transactionMessage = 'Errore durante la creazione della transazione';
         }
       },
       onCancel: (data, actions) => {
         if (!this.idUtente) {
           this.transactionStatus = 'error';
-          this.transactionMessage = 'Errore: utente non trovato.';
+          this.transactionMessage = 'Errore: utente non trovato';
           return;
         }
         const transazione = new Transazione(`Pacchetto ${this.getPackageLevel(this.selectedPackage).toLowerCase()}`, new Date(), this.getPackagePrice(this.selectedPackage).toString(), this.getPackageLevel(this.selectedPackage).toLowerCase() as Categoria, 'annullato', this.idUtente);
         try {
           this.transazioneService.creaTransazione(transazione);
           this.transactionStatus = 'error';
-          this.transactionMessage = 'Pagamento annullato.';
+          this.transactionMessage = 'Pagamento annullato';
         } catch (error) {
           this.transactionStatus = 'error';
-          this.transactionMessage = 'Errore durante la creazione della transazione.';
+          this.transactionMessage = 'Errore durante la creazione della transazione';
         }
       },
       onError: (err) => {
         this.transactionStatus = 'error';
-        this.transactionMessage = 'Errore durante il pagamento.';
+        this.transactionMessage = 'Errore durante il pagamento';
       }
     };
   }

@@ -41,19 +41,19 @@ export class LoginComponent {
     });
   }
 
-  get email() {
+  public get email() {
     return this.loginForm.get('email');
   }
 
-  get password() {
+  public get password() {
     return this.loginForm.get('password');
   }
 
-  get isChecked() {
+  public get isChecked() {
     return this.loginForm.get('isChecked');
   }
 
-  async onSubmit(): Promise<void> {
+  public async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) return;
 
     this.loading = true;

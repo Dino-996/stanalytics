@@ -2,7 +2,7 @@ export class PasswordGenerator {
 
     private chars: string;
     
-    constructor() {
+    public constructor() {
         this.chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+';
     }
 

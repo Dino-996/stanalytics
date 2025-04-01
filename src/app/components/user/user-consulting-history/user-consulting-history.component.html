@@ -4,24 +4,24 @@
 </div>
 
 @if(loading) {
-<div class="text-center my-5">
-    <ng-icon class="animate-spin" name="bootstrapArrowClockwise" size="18"></ng-icon>
-    <p class="mt-2">Caricamento in corso...</p>
-</div>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 } @else {
 <div>
     @if(transactions.length > 0) {
     <div class="d-flex flex-wrap justify-content-start align-items-center text-center">
-        <div class="mb-3 me-3 text-truncate">
-            <strong>Filtri:</strong>
-        </div>
 
         <div class="mb-3 w-100">
             <div class="d-flex flex-column flex-md-row gap-2">
-                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3" (click)="changeFilterStatus('all')">
+                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3"
+                    (click)="changeFilterStatus('all')">
                     Tutti
                 </button>
-                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3" (click)="changeSortDirection()">
+                <button class="btn btn-outline-secondary text-light btn-sm w-100 w-md-auto rounded-3"
+                    (click)="changeSortDirection()">
                     Ordina per data {{ sortDirection === 'asc' ? 'crescente' : 'decrescente' }}
                 </button>
                 <button class="btn btn-outline-secondary text-success btn-sm w-100 w-md-auto rounded-3"
@@ -52,13 +52,12 @@
                         @for(t of paginatedTransaction(); track $index) {
                         <tr>
                             <td>
-                                <span class="badge text-truncate"
-                                    [ngClass]="getProductNameColor(t.categoria)">
+                                <span class="badge text-truncate" [ngClass]="getProductNameColor(t.categoria)">
                                     {{ t.nomeProdotto }}
                                 </span>
                             </td>
                             <td>{{ t.data | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                            <td>{{ t.prezzo | currency:'EUR' }}</td>
+                            <td>{{ t.prezzo | currency:'EUR':'symbol':'1.0-0' }}</td>
                             <td>
                                 <span [ngClass]="getStatusClass(t.stato)">{{ t.stato }}</span>
                             </td>
@@ -67,20 +66,21 @@
                     </tbody>
                 </table>
             </div>
-            
+
         </div>
     </div>
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        <ngb-pagination class="w-100 w-md-auto" [collectionSize]="filteredTransactions.length" [(page)]="page"
+            [pageSize]="pageSize" [maxSize]="maxSize" [rotate]="true" [ellipses]="false"
+            [boundaryLinks]="true">
+        </ngb-pagination>
+    </div>
     } @else {
-    <div class="alert alert-info rounded-3 text-center">
+    <div class="d-flex align-items-center alert alert-info rounded-3 text-center">
+        <ng-icon class="me-3" name="bootstrapInfoCircleFill" size="20"></ng-icon>
         <p class="mb-0">Nessuna transazione effettuata</p>
     </div>
     }
-</div>
-
-<div class="d-flex justify-content-center align-items-center mt-3">
-    <ngb-pagination class="w-100 w-md-auto" [collectionSize]="filteredTransactions.length" [(page)]="page"
-        [pageSize]="pageSize" [maxSize]="maxSize" [rotate]="true" [ellipses]="false"
-        [boundaryLinks]="true"></ngb-pagination>
 </div>
 
 @if(error) {

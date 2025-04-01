@@ -38,6 +38,7 @@ export class UserSettingsComponent {
   public isVisibile = false;
   public messaggio = '';
 
+  public isPasswordEmailCorrente: boolean = false;
   public isPasswordCorrente: boolean = false;
 
   public loadingEmail: boolean = false;
@@ -45,13 +46,17 @@ export class UserSettingsComponent {
 
   private modalService = inject(NgbModal);
 
-  public constructor(private router:Router, private authService: AuthService, private transazioneService: TransazioneService, private utenteService: UtenteService) { }
+  public constructor(private router: Router, private authService: AuthService, private transazioneService: TransazioneService, private utenteService: UtenteService) { }
 
   public formAggiornaAccount = new FormGroup({
-    aggiornaEmail: new FormControl('', [Validators.required, Validators.email])
+    aggiornaEmail: new FormControl('', [Validators.required, Validators.email]),
+    passwordEmailCorrente: new FormControl('', Validators.required),
   });
   public get aggiornaEmail() {
     return this.formAggiornaAccount.get('aggiornaEmail');
+  }
+  public get passwordEmailCorrente() {
+    return this.formAggiornaAccount.get('passwordEmailCorrente');
   }
 
   public formAggiornaPassword = new FormGroup({
@@ -68,28 +73,32 @@ export class UserSettingsComponent {
   public async onAggiornaEmail(): Promise<void> {
     this.loadingEmail = true;
     try {
-      if (this.aggiornaEmail?.value) {
-        await this.authService.updateEmail(this.aggiornaEmail.value);
+      if (this.aggiornaEmail?.value && this.passwordEmailCorrente?.value) {
+        await this.authService.updateEmail(this.aggiornaEmail.value, this.passwordEmailCorrente.value);
         this.loadingEmail = false;
         this.inviaMessaggio('Controlla la tua casella di posta per verificare l\'email.\nControlla anche nello spam!', 'success');
         this.resetForm(this.formAggiornaAccount);
       }
 
-    } catch (error) {
+    } catch (error: any) {
       this.loadingEmail = false;
-      this.inviaMessaggio(error + '', 'danger', false);
-      this.resetForm(this.formAggiornaPassword);
+      if (error.code === 'auth/invalid-credential' || typeof error === 'string' && error.includes('auth/invalid-credential')) {
+        this.inviaMessaggio('La password attuale non è corretta', 'warning', false);
+        this.resetForm(this.formAggiornaAccount);
+      } else { this.inviaMessaggio(error + '', 'danger', false); }
     }
   }
 
   public async onAggiornaPassword(): Promise<void> {
     this.loadingPassword = true;
     try {
+      
       if (this.passwordCorrente?.value && this.nuovaPassword?.value) {
         await this.authService.updatePassword(this.passwordCorrente.value, this.nuovaPassword.value);
         this.loadingPassword = false;
         this.inviaMessaggio('Password aggiornata correttamente', 'success');
-        this.resetForm(this.formAggiornaPassword);
+        await this.resetForm(this.formAggiornaPassword);
+        this.authService.logout();
       }
 
     } catch (error: any) {
@@ -118,6 +127,10 @@ export class UserSettingsComponent {
     this.isPasswordCorrente = !this.isPasswordCorrente;
   }
 
+  public visualizzaPasswordEmailCorrente() {
+    this.isPasswordEmailCorrente = !this.isPasswordEmailCorrente;
+  }
+
   private async eliminaAccount(idUtente: string): Promise<void> {
     try {
       this.router.navigate(['/login']);
@@ -140,7 +153,7 @@ export class UserSettingsComponent {
     }
   }
 
-  private resetForm(formDaResettare: FormGroup) {
+  private async resetForm(formDaResettare: FormGroup) {
     setTimeout(() => {
       formDaResettare.reset();
     }, 5000);

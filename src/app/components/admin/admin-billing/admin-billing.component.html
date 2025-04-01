@@ -7,9 +7,9 @@
     <!-- SEZIONE SELEZIONE UTENTE -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex align-items-start">
-                <ng-icon class="me-2" name="bootstrapPersonCheckFill" size="24"></ng-icon>
-                <h3 class="m-0 text-truncate border-bottom">Seleziona utente</h3>
+            <div class="d-flex align-items-center mb-4">
+                <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="20"></ng-icon>
+                <h4 class="m-0 text-truncate">Seleziona utente</h4>
             </div>
 
             <!-- Lista utenti paginati -->
@@ -31,6 +31,8 @@
                     [pageSize]="dimensionePaginaUtenti" [maxSize]="dimensioneMassimaUtenti" [boundaryLinks]="false">
                 </ngb-pagination>
             </div>
+
+
         </div>
     </div>
 
@@ -39,9 +41,9 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="d-flex align-items-start">
-                <ng-icon class="me-2" name="bootstrapSearch" size="24"></ng-icon>
-                <h3>Dettagli Utente</h3>
+            <div class="d-flex align-items-center mb-4">
+                <ng-icon class="me-3" name="bootstrapSearch" size="20"></ng-icon>
+                <h4 class="m-0">Dettagli Utente</h4>
             </div>
 
             <!-- Card dettagli utente -->
@@ -50,8 +52,8 @@
                     <div class="row">
                         <!-- Immagine profilo -->
                         <div class="col-md-3">
-                            <img [src]="utenteSelezionato.fotoURL ? utenteSelezionato.fotoURL : 'assets/logo.png'" alt="Foto Profilo"
-                            class="rounded-circle" width="100" height="100">
+                            <img [src]="utenteSelezionato.fotoURL ? utenteSelezionato.fotoURL : 'assets/logo.png'"
+                                alt="Foto Profilo" class="rounded-circle" width="100" height="100">
                         </div>
 
                         <!-- Dettagli testuali -->
@@ -69,15 +71,16 @@
             </div>
 
             <!-- SEZIONE TRANSAZIONI -->
-            <div class="d-flex align-items-start">
+            <div class="d-flex align-items-center mb-4">
                 <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="24"></ng-icon>
-                <h3>Transazioni</h3>
+                <h4 class="m-0">Transazioni</h4>
             </div>
 
             <!-- Messaggio nessuna transazione -->
             @if(transazioniUtente.length === 0) {
-            <div class="alert alert-info rounded-3">
-                L'utente non ha effettuato nessuna transazione
+            <div class="d-flex align-items-center alert alert-info rounded-3">
+                <ng-icon class="me-3" name="bootstrapInfoCircleFill" size="20"></ng-icon>
+                <span>L'utente non ha effettuato nessuna transazione</span>
             </div>
             }
 
@@ -115,9 +118,10 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Paginazione transazioni -->
-            <div class="d-flex justify-content-end mt-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+                <!-- Download CSV -->
+                <button class="btn btn-primary rounded-3" (click)="esportaDatiUtente(utenteSelezionato, transazioniUtente)">Scarica CSV</button>
+                <!-- Paginazione transazioni -->
                 <ngb-pagination [collectionSize]="transazioniUtente.length" [(page)]="paginaTransazioneCorrente"
                     [pageSize]="dimensionePaginaTransazioni" [maxSize]="dimensioneMassimaTransazioni"
                     [boundaryLinks]="false">
