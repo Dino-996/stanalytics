@@ -15,7 +15,7 @@ export class UtenteService {
   private utentiCollection = collection(firestore, 'utenti');
   private generaEmail = new Email();
 
-  // Restituisce tutti gli utenti del db
+  /** Restituisce tutti gli utenti del db */
   public async getUtenti(): Promise<Utente[]> {
     const snapshot = await getDocs(this.utentiCollection);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Utente);

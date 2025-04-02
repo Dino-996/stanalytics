@@ -1,11 +1,11 @@
 import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { Stato, Transazione } from '../../../model/transazione';
 import { Utente } from '../../../model/utente';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
-import { NgbPagination, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
 import { GeneratoreCSV } from '../../../../util/generatore-csv';
 
@@ -21,11 +21,10 @@ import { GeneratoreCSV } from '../../../../util/generatore-csv';
     NgbPagination,
     NgClass,
     NgIcon,
-    NgbAlert
   ],
   providers: [
     provideIcons({
-      bootstrapFileEarmarkFill, 
+      bootstrapFileEarmarkFill,
       bootstrapPersonCheckFill,
       bootstrapPersonFill,
       bootstrapSearch,
@@ -53,23 +52,18 @@ export class AdminBillingComponent {
   dimensioneMassimaTransazioni = 5;
 
   /** Lista completa degli utenti */
-  utenti: Utente[] = [];
+  private utenti: Utente[] = [];
   /** Utenti filtrati per visualizzazione */
-  utentiFiltrati: Utente[] = [];
+  public utentiFiltrati: Utente[] = [];
   /** Utente attualmente selezionato */
-  utenteSelezionato: Utente | null = null;
+  public utenteSelezionato: Utente | null = null;
   /** Transazioni dell'utente selezionato */
-  transazioniUtente: Transazione[] = [];
-
-  /**
-   * Costruttore del componente
-   * @param utenteService Servizio per la gestione degli utenti
-   * @param transazioneService Servizio per la gestione delle transazioni
-   */
-  public constructor(
-    private utenteService: UtenteService,
-    private transazioneService: TransazioneService
-  ) { }
+  public transazioniUtente: Transazione[] = [];
+  
+  /** Servizio per la gestione degli utenti */
+  public utenteService: UtenteService = inject(UtenteService);
+  /**Servizio per la gestione delle transazioni */
+  public transazioneService: TransazioneService = inject(TransazioneService);
 
   /**
    * Hook di inizializzazione del componente
@@ -147,6 +141,10 @@ export class AdminBillingComponent {
     }
   }
 
+  /** 
+   * @param utente Utente attualmente selezionato
+   * @param transazioni Transazioni dell'utente selezionato
+   */
   public esportaDatiUtente(utente: Utente, transazioni: Transazione[]) {
     const contenutoCSV = GeneratoreCSV.generaFile(utente, transazioni);
     const nomeFile = `dati_${utente.cognome}_${utente.nome}.csv`;

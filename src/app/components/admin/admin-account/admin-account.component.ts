@@ -8,7 +8,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill } from '@ng-icons/bootstrap-icons';
 import { TransazioneService } from '../../../services/transazione.service';
 
-// Tipo per i messaggi di notifica
+/** Tipo per i messaggi di notifica */
 type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark';
 
 /**
@@ -24,7 +24,7 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
     TitleCasePipe,
     NgIcon
   ],
-  providers:[provideIcons({
+  providers: [provideIcons({
     bootstrapInfoCircleFill,
     bootstrapExclamationOctagonFill,
     bootstrapPeopleFill,
@@ -57,8 +57,8 @@ export class AdminAccountComponent {
   /** Servizio modale di ng-bootstrap */
   private modalService = inject(NgbModal);
 
-  /** Caricamento in corso*/
-  public loading:boolean = false;
+  /** Caricamento in corso */
+  public loading: boolean = false;
 
   // PAGINAZIONE
   /** Pagina corrente */
@@ -76,12 +76,16 @@ export class AdminAccountComponent {
   /** Tipo di messaggio (stile) */
   public tipo: tipoDiMessaggio = 'primary';
 
+  /** Servizio di gestione per gli utenti (CRUD) */
+  public utenteService: UtenteService = inject(UtenteService);
+  /** Servizio di gestione delle transazioni */
+  public transazioneService: TransazioneService = inject(TransazioneService);
+
   /**
    * Costruttore - Inizializza il form con validatori
    * @param fb Servizio per la creazione di form reattivi
-   * @param utenteService Servizio per le operazioni CRUD sugli utenti
    */
-  public constructor(private fb: FormBuilder, private utenteService: UtenteService, private transazioneService: TransazioneService) {
+  public constructor(private fb: FormBuilder) {
     this.formUtente = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       nome: ['', Validators.required],
@@ -116,7 +120,7 @@ export class AdminAccountComponent {
     try {
       this.utenti = await this.utenteService.getUtenti();
       this.utentiFiltrati = this.utenti.filter(utente => utente.ruolo === 'user');
-      if(this.utentiFiltrati.length === 0) {
+      if (this.utentiFiltrati.length === 0) {
         this.inviaMessaggio('Nessun utente trovato', 'info', false);
       }
     } catch (error) {
@@ -151,7 +155,7 @@ export class AdminAccountComponent {
       this.resetForm();
       await this.caricaUtenti();
     } catch (error) {
-      this.inviaMessaggio(error+'', 'danger');
+      this.inviaMessaggio(error + '', 'danger');
     }
   }
 
@@ -169,7 +173,7 @@ export class AdminAccountComponent {
    * @param contenuto - Template della modale
    * @param utente - Utente da eliminare
    */
-  public apriModaleEliminazione(contenuto: any, utente: Utente):void {
+  public apriModaleEliminazione(contenuto: any, utente: Utente): void {
     this.utenteSelezionato = utente;
     this.modalService.open(contenuto, { ariaLabelledBy: 'modal-title', centered: true }).result.then(async (risultato) => {
       if (risultato === 'confirm') {
@@ -223,11 +227,11 @@ export class AdminAccountComponent {
    * @param messaggio - Testo da visualizzare
    * @param tipo - Stile del messaggio
    */
-  private inviaMessaggio(messaggio: string, tipo: tipoDiMessaggio, timer:boolean = true): void {
+  private inviaMessaggio(messaggio: string, tipo: tipoDiMessaggio, timer: boolean = true): void {
     this.tipo = tipo;
     this.isVisibile = true;
     this.messaggio = messaggio;
-    if(timer) {
+    if (timer) {
       setTimeout(() => {
         this.isVisibile = false;
         this.messaggio = '';
