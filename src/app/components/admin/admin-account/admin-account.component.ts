@@ -131,7 +131,8 @@ export class AdminAccountComponent {
     this.loading = true;
 
     if (this.formUtente.invalid) {
-      this.inviaMessaggio('Form non valido', 'danger');
+      this.loading = false;
+      this.inviaMessaggio('Campi non validi', 'danger');
       return;
     }
 
@@ -151,6 +152,7 @@ export class AdminAccountComponent {
       this.resetForm();
       await this.caricaUtenti();
     } catch (error) {
+      this.loading = false;
       this.inviaMessaggio(error+'', 'danger');
     }
   }

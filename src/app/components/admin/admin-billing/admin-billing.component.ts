@@ -5,7 +5,7 @@ import { Stato, Transazione } from '../../../model/transazione';
 import { Utente } from '../../../model/utente';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
-import { NgbPagination, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
 import { GeneratoreCSV } from '../../../../util/generatore-csv';
 
@@ -21,7 +21,6 @@ import { GeneratoreCSV } from '../../../../util/generatore-csv';
     NgbPagination,
     NgClass,
     NgIcon,
-    NgbAlert
   ],
   providers: [
     provideIcons({
