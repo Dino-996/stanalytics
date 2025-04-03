@@ -76,7 +76,7 @@ export class AdminAccountComponent {
   /** Tipo di messaggio (stile) */
   public tipo: tipoDiMessaggio = 'primary';
 
-  /** Servizio di gestione per gli utenti (CRUD) */
+  /** Servizio di gestione degli utenti (CRUD) */
   public utenteService: UtenteService = inject(UtenteService);
   /** Servizio di gestione delle transazioni */
   public transazioneService: TransazioneService = inject(TransazioneService);
@@ -97,6 +97,16 @@ export class AdminAccountComponent {
       fotoURL: ['']
     });
   }
+
+  /**
+   * Funzione per convertire il codice fiscale in maiuscolo durante l'input
+   * @param event - Evento di input
+   */
+    public toUpperCase(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      input.value = input.value.toUpperCase();
+      this.formUtente.get('codiceFiscale')?.setValue(input.value);
+    }
 
   // GETTER PER ACCESSO AI CONTROLLI DEL FORM
   public get email() { return this.formUtente.get('email'); }

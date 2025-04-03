@@ -58,7 +58,7 @@
                     <p class="text-warning">Codice fiscale non valido</p>
                     }
                     }
-                    <input type="text" class="form-control rounded-3" formControlName="codiceFiscale" />
+                    <input type="text" class="form-control rounded-3" formControlName="codiceFiscale" (input)="toUpperCase($event)" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Città</label>
