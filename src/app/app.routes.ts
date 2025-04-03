@@ -3,7 +3,7 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { UserDashboardComponent } from './components/user/user-dashboard/user-dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { TerminiECondizioniComponent } from './pages/termini-econdizioni/termini-econdizioni.component';
-import { PaginaNonTrovataComponent } from './components/pagina-non-trovata/pagina-non-trovata.component';
+import { PaginaNonTrovataComponent } from './pages/pagina-non-trovata/pagina-non-trovata.component';
 
 export const routes: Routes = [
     

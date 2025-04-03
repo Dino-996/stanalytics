@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, ValueChangeEvent } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapEyeSlash, bootstrapEye, bootstrapBoxArrowInLeft } from '@ng-icons/bootstrap-icons';
@@ -8,6 +8,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { UtenteService } from '../../services/utente.service';
 import { RouterLink } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -27,13 +28,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login.component.css'
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   loading = false;
   error: string | null = null;
   info: string | null = null;
-  isPassword:boolean = false;
+  isPassword: boolean = false;
+
+  private isChechedSubscription?: Subscription;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private utenteService: UtenteService) {
     this.loginForm = this.fb.group({
@@ -41,6 +44,14 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       isChecked: [false, [Validators.requiredTrue]],
     });
+  }
+
+  public ngOnInit(): void {
+    this.aggiornaCondizioni();
+  }
+
+  public ngOnDestroy(): void {
+    this.isChechedSubscription?.unsubscribe();
   }
 
   public get email() {
@@ -130,4 +141,17 @@ export class LoginComponent {
     }
   }
 
+  private aggiornaCondizioni(): void {
+    const valoreSalvato = localStorage.getItem('isChecked');
+
+    if (valoreSalvato !== null) {
+      this.isChecked?.setValue(JSON.parse(valoreSalvato));
+    }
+
+    this.isChechedSubscription = this.isChecked?.valueChanges.subscribe(
+      (valore) => {
+        localStorage.setItem('isChecked', JSON.stringify(valore));
+      }
+    );
+  }
 }
