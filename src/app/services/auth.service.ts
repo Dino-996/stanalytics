@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   // Ottiene l'utente corrente
-  public getUtenteCorrente() {
+  public getUtenteCorrente():User | null {
     return auth.currentUser;
   }
 
