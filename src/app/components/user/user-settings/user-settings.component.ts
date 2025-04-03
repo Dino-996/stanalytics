@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AuthService } from '../../../services/auth.service';
@@ -9,6 +9,7 @@ import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
 import { Router } from '@angular/router';
 import { auth } from '../../../../environment/firebase';
+import { Observable, Subscription } from 'rxjs';
 
 // Tipo per i messaggi di notifica
 type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark';
@@ -32,7 +33,7 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
   styleUrl: './user-settings.component.css'
 })
 
-export class UserSettingsComponent {
+export class UserSettingsComponent implements OnDestroy{
 
   public tipo = 'info';
   public isVisibile = false;
@@ -44,9 +45,19 @@ export class UserSettingsComponent {
   public loadingEmail: boolean = false;
   public loadingPassword: boolean = false;
 
+  private timer: Observable<number> = new Observable<number>();
+  private sottoscrizione?: Subscription;
+  public conta: number = 10;
+
   private modalService = inject(NgbModal);
 
   public constructor(private router: Router, private authService: AuthService, private transazioneService: TransazioneService, private utenteService: UtenteService) { }
+
+  public ngOnDestroy(): void {
+      if(this.sottoscrizione) {
+        this.sottoscrizione.unsubscribe();
+      }
+  }
 
   public formAggiornaAccount = new FormGroup({
     aggiornaEmail: new FormControl('', [Validators.required, Validators.email]),
@@ -92,13 +103,17 @@ export class UserSettingsComponent {
   public async onAggiornaPassword(): Promise<void> {
     this.loadingPassword = true;
     try {
-      
+
       if (this.passwordCorrente?.value && this.nuovaPassword?.value) {
         await this.authService.updatePassword(this.passwordCorrente.value, this.nuovaPassword.value);
         this.loadingPassword = false;
-        this.inviaMessaggio('Password aggiornata correttamente', 'success');
-        await this.resetForm(this.formAggiornaPassword);
-        this.authService.logout();
+        this.inviaMessaggio('Password aggiornata correttamente!', 'success');
+        this.resetForm(this.formAggiornaPassword);
+        this.contoAllaRovescia(10, 1000);
+        setTimeout(() => {
+          this.authService.logout();
+        }, 10000);
+
       }
 
     } catch (error: any) {
@@ -149,14 +164,38 @@ export class UserSettingsComponent {
       setTimeout(() => {
         this.isVisibile = false;
         this.messaggio = '';
-      }, 5000)
+      }, 10000)
     }
   }
 
-  private async resetForm(formDaResettare: FormGroup) {
+  private resetForm(formDaResettare: FormGroup) {
     setTimeout(() => {
       formDaResettare.reset();
-    }, 5000);
+    }, 10000);
   }
 
+  private contoAllaRovescia(conta: number, durata: number): void {
+    this.timer = new Observable<number>((os) => {
+      const contatore = setInterval(() => {
+        conta--;
+        if (conta <= 0) {
+          clearInterval(contatore);
+          os.complete();
+        }
+        os.next(conta);
+      }, durata);
+    });
+
+    this.sottoscrizione = this.timer.subscribe({
+      next: (valore) => {
+        this.conta = valore;
+      },
+      error: (errore) => {
+        console.log('Errore:', errore);
+      },
+      complete: () => {
+        console.log('Conto alla rovescia completato');
+      }
+    });
+  }
 }

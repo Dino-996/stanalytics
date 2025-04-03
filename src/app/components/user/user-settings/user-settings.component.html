@@ -18,7 +18,8 @@
                     <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
                     <!---->
                     <div class="input-group mb-2">
-                        <input class="form-control rounded-right-3" [type]="isPasswordEmailCorrente ? 'text' : 'password'"
+                        <input class="form-control rounded-right-3"
+                            [type]="isPasswordEmailCorrente ? 'text' : 'password'"
                             formControlName="passwordEmailCorrente" placeholder="Password attuale">
 
                         <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
@@ -27,13 +28,14 @@
                                 size="18"></ng-icon>
                         </button>
                     </div>
-                    @if(passwordEmailCorrente?.invalid && (passwordEmailCorrente?.dirty || passwordEmailCorrente?.touched)) {
-                        <div class="text-warning small">
-                            @if(passwordEmailCorrente?.hasError('required')) {
-                            <span>La password attuale &egrave; richiesta</span>
-                            }
-                        </div>
+                    @if(passwordEmailCorrente?.invalid && (passwordEmailCorrente?.dirty ||
+                    passwordEmailCorrente?.touched)) {
+                    <div class="text-warning small">
+                        @if(passwordEmailCorrente?.hasError('required')) {
+                        <span>La password attuale &egrave; richiesta</span>
                         }
+                    </div>
+                    }
                     <!---->
                     <div class="input-group mt-2">
                         <input id="aggiornaEmail" class="form-control rounded-right-3" type="text"
@@ -59,7 +61,7 @@
                     </div>
                     }
                     @if(formAggiornaAccount.valid && isVisibile) {
-                    <div  class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
+                    <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
                     }
                 </div>
             </form>
@@ -115,6 +117,9 @@
                     @if(formAggiornaPassword.valid && isVisibile) {
                     <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
                     }
+                    @if(conta !== 10) {
+                    <div class="small mt-1 text-warning">Verrai disconnesso tra {{ conta }} secondi</div>
+                    }
                 </div>
             </form>
         </div>
@@ -130,7 +135,8 @@
             <p class="card-text small text-muted mb-3">L'eliminazione dell'account è permanente e non può essere
                 annullata. Tutti i tuoi dati saranno rimossi definitivamente</p>
             <form class="d-flex justify-content-end">
-                <button class="btn btn-outline-danger rounded-3" type="button" data-bs-toggle="modal" (click)="apriModale(contenuto)">
+                <button class="btn btn-outline-danger rounded-3" type="button" data-bs-toggle="modal"
+                    (click)="apriModale(contenuto)">
                     Elimina account
                 </button>
             </form>
@@ -145,7 +151,8 @@
                 (click)="modal.dismiss()"></button>
         </div>
         <div class="modal-body">
-            <p>Sei sicuro di voler eliminare definitivamente il tuo account? Verranno eliminati tutti i tuoi dati, comprese eventuali transazioni. Questa azione non può essere annullata.</p>
+            <p>Sei sicuro di voler eliminare definitivamente il tuo account? Verranno eliminati tutti i tuoi dati,
+                comprese eventuali transazioni. Questa azione non può essere annullata.</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annulla</button>
