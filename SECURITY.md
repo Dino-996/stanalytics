@@ -11,7 +11,7 @@ Le seguenti versioni di STanalytics ricevono aggiornamenti di sicurezza:
 Se scopri una vulnerabilità di sicurezza in STanalytics, segui questi passaggi:
 
 1. **Non creare una issue pubblica** per evitare divulgazioni premature.
-2. Contattmi via email: **davidesabia22@gmail.com**.
+2. Contattami via email: **infostanalytics.com**.
 3. Fornisci dettagli sulla vulnerabilità, inclusi:
    - Versione dell'applicazione
    - Passaggi per riprodurre il problema
