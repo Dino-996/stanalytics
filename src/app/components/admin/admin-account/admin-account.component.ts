@@ -126,7 +126,7 @@ export class AdminAccountComponent {
   /**
    * Carica gli utenti dal servizio e applica filtro ruolo
    */
-  private async caricaUtenti(): Promise<void> {
+  public async caricaUtenti(): Promise<void> {
     try {
       this.utenti = await this.utenteService.getUtenti();
       this.utentiFiltrati = this.utenti.filter(utente => utente.ruolo === 'user');
