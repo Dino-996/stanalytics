@@ -142,6 +142,8 @@ export class AdminBillingComponent {
   }
 
   /** 
+   * Permette di scaricare i dati dell'utente
+   * e delle transazioni in un file CSV
    * @param utente Utente attualmente selezionato
    * @param transazioni Transazioni dell'utente selezionato
    */

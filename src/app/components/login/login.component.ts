@@ -8,7 +8,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { UtenteService } from '../../services/utente.service';
 import { RouterLink } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,10 +30,10 @@ import { Observable, Subscription } from 'rxjs';
 
 export class LoginComponent implements OnInit, OnDestroy {
 
-  loginForm: FormGroup;
-  loading = false;
-  error: string | null = null;
-  info: string | null = null;
+  readonly loginForm: FormGroup;
+  public loading = false;
+  public error: string | null = null;
+  public info: string | null = null;
   isPassword: boolean = false;
 
   private isChechedSubscription?: Subscription;

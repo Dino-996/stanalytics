@@ -89,10 +89,10 @@ describe('AdminAccountComponent', () => {
 
     it('dovrebbe gestire la paginazione correttamente', () => {
         component.utentiFiltrati = mockUtenti;
-        component.pageSize = 1;
+        component.dimensionePagina = 1;
 
         expect(component.getPaginazioneUtentiFiltrati().length).toBe(1);
-        component.page = 2;
+        component.paginaCorrente = 2;
         expect(component.getPaginazioneUtentiFiltrati().length).toBe(1);
     });
 
