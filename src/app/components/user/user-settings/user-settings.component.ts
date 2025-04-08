@@ -4,11 +4,9 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AuthService } from '../../../services/auth.service';
 import { bootstrapExclamationTriangleFill, bootstrapEye, bootstrapEyeSlash, bootstrapGearWideConnected, bootstrapPersonFill } from '@ng-icons/bootstrap-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Utente } from '../../../model/utente';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
 import { Router } from '@angular/router';
-import { auth } from '../../../../environment/firebase';
 import { Observable, Subscription } from 'rxjs';
 
 // Tipo per i messaggi di notifica
@@ -146,7 +144,7 @@ export class UserSettingsComponent implements OnDestroy{
     this.isPasswordEmailCorrente = !this.isPasswordEmailCorrente;
   }
 
-  private async eliminaAccount(idUtente: string): Promise<void> {
+  public async eliminaAccount(idUtente: string): Promise<void> {
     try {
       this.router.navigate(['/login']);
       await this.transazioneService.cancellaTransazioni(idUtente);
@@ -156,7 +154,7 @@ export class UserSettingsComponent implements OnDestroy{
     }
   }
 
-  private inviaMessaggio(messaggio: string, tipo: tipoDiMessaggio, timer: boolean = true): void {
+  public inviaMessaggio(messaggio: string, tipo: tipoDiMessaggio, timer: boolean = true): void {
     this.tipo = tipo;
     this.isVisibile = true;
     this.messaggio = messaggio;
@@ -168,21 +166,21 @@ export class UserSettingsComponent implements OnDestroy{
     }
   }
 
-  private resetForm(formDaResettare: FormGroup) {
+  public resetForm(formDaResettare: FormGroup) {
     setTimeout(() => {
       formDaResettare.reset();
     }, 10000);
   }
 
-  private contoAllaRovescia(conta: number, durata: number): void {
-    this.timer = new Observable<number>((os) => {
+  public contoAllaRovescia(conta: number, durata: number): void {
+    this.timer = new Observable<number>((osservabile) => {
       const contatore = setInterval(() => {
         conta--;
         if (conta <= 0) {
           clearInterval(contatore);
-          os.complete();
+          osservabile.complete();
         }
-        os.next(conta);
+        osservabile.next(conta);
       }, durata);
     });
 

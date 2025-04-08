@@ -16,7 +16,6 @@
             <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()" class="mb-4">
                 <div class="mb-3">
                     <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
-                    <!---->
                     <div class="input-group mb-2">
                         <input class="form-control rounded-right-3"
                             [type]="isPasswordEmailCorrente ? 'text' : 'password'"
@@ -36,7 +35,6 @@
                         }
                     </div>
                     }
-                    <!---->
                     <div class="input-group mt-2">
                         <input id="aggiornaEmail" class="form-control rounded-right-3" type="text"
                             formControlName="aggiornaEmail" placeholder="Nuova email">
@@ -143,7 +141,7 @@
         </div>
     </div>
 
-    <!-- Modal di conferma per eliminazione account -->
+    <!-- Modale di conferma per eliminazione account -->
     <ng-template #contenuto let-modal>
         <div class="modal-header bg-danger text-white">
             <h5 class="modal-title">Conferma Eliminazione</h5>
