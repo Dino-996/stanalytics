@@ -99,5 +99,3 @@ export class UserConsultingHistoryComponent {
     return this.filteredTransactions.slice(start, start + this.pageSize);
   }
 }
-
-

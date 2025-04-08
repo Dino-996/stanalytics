@@ -60,7 +60,7 @@ describe('AdminAccountComponent', () => {
             fotoURL: ''
         };
         component.formUtente.setValue(utente);
-        utenteServiceSpy.createUtente.and.returnValue(Promise.resolve('123')); // Simula la creazione dell'utente
+        utenteServiceSpy.createUtente.and.returnValue(Promise.resolve('123'));
 
         await component.gestisciInvio();
 
@@ -84,7 +84,7 @@ describe('AdminAccountComponent', () => {
 
     it('dovrebbe chiamare utenteService.updateUtente in modalità modifica', async () => {
         const utente: Utente = {
-            id: '1', // Imposta l'ID nell'oggetto utente
+            id: '1',
             email: 'test1@example.com',
             nome: 'Mario',
             cognome: 'Rossi',
@@ -95,7 +95,7 @@ describe('AdminAccountComponent', () => {
             fotoURL: ''
         };
         component.utenteSelezionato = utente;
-        component.formUtente.setValue({ // Imposta solo i campi del form
+        component.formUtente.setValue({
             email: utente.email,
             nome: utente.nome,
             cognome: utente.cognome,
@@ -110,7 +110,7 @@ describe('AdminAccountComponent', () => {
         await component.gestisciInvio();
 
         if (utente.id) {
-            expect(utenteServiceSpy.updateUtente).toHaveBeenCalledWith(utente.id, { // Passa l'oggetto utente completo
+            expect(utenteServiceSpy.updateUtente).toHaveBeenCalledWith(utente.id, {
                 email: utente.email,
                 nome: utente.nome,
                 cognome: utente.cognome,
@@ -163,9 +163,9 @@ describe('AdminAccountComponent', () => {
 
     it('dovrebbe impostare utenteSelezionato e compilare il form in modalità modifica', () => {
         const utente: Utente = { id: '1', email: 'test1@example.com', nome: 'Mario', cognome: 'Rossi', codiceFiscale: 'RSSMRA00A01H501X', citta: 'Roma', indirizzo: 'Via Roma 1', ruolo: 'user', fotoURL: '' };
-    
+
         component.editUtente(utente);
-    
+
         expect(component.utenteSelezionato).toEqual(utente);
         expect(component.formUtente.value).toEqual({
             email: utente.email,
@@ -194,9 +194,9 @@ describe('AdminAccountComponent', () => {
             ruolo: utente.ruolo,
             fotoURL: utente.fotoURL
         });
-    
+
         await component.gestisciInvio();
-    
+
         expect(component.messaggio).toBe(errorMessage);
         expect(component.tipo).toBe('danger');
         expect(component.isVisibile).toBe(true);
