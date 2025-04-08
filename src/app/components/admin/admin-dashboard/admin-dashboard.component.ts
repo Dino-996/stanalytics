@@ -8,10 +8,7 @@ import { AdminAccountComponent } from '../admin-account/admin-account.component'
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapBoxArrowInRight, bootstrapFileEarmarkFill, bootstrapPeopleFill } from '@ng-icons/bootstrap-icons';
 
-/** 
- * Enumerazione per le viste disponibili
- * dell'utente
- */
+/** Enumerazione per le viste disponibili dell'utente */
 enum VisteUtente {
   ACCOUNT = 'account',
   BILLING = 'billing'
