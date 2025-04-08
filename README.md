@@ -9,7 +9,7 @@ STanalytics è un'applicazione web basata su Angular, progettata per aiutare nel
 - **Integrazione Firebase**: Archiviazione sicura e scalabilità
 
 ## 🛠️ Tecnologie utilizzate
-- **Frontend**: Angular 19 + Tailwind CSS  
+- **Frontend**: Angular 19 + Bootstrap 5  
 - **Backend**: Firebase
 
 ## 🛑 Licenza e Proprietà Intellettuale
