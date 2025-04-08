@@ -6,13 +6,11 @@ import { TerminiECondizioniComponent } from './pages/termini-econdizioni/termini
 import { PaginaNonTrovataComponent } from './pages/pagina-non-trovata/pagina-non-trovata.component';
 
 export const routes: Routes = [
-    
+
+    { path: '**', component: PaginaNonTrovataComponent },
     { path: 'login', component: LoginComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
     { path: 'user-dashboard', component: UserDashboardComponent },
     { path: 'termini', component: TerminiECondizioniComponent },
-    
-    // Rotte non trovate
-    { path: '',  redirectTo: '/login', pathMatch: 'full' },
-    { path: '**', component: PaginaNonTrovataComponent }
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
