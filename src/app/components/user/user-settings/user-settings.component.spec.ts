@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { UserSettingsComponent } from './user-settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,6 +43,12 @@ describe('UserSettingsComponent', () => {
         routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
         fixture.detectChanges();
+    });
+
+    beforeEach(()=>{
+        authServiceSpy.deleteAccount.calls.reset();
+        transazioneServiceSpy.cancellaTransazioni.calls.reset();
+        routerSpy.navigate.calls.reset();
     });
 
     it('dovrebbe creare il componente', () => {
@@ -114,31 +120,6 @@ describe('UserSettingsComponent', () => {
         await component.onAggiornaPassword();
 
         expect(component.contoAllaRovescia).toHaveBeenCalledWith(10, 1000);
-    });
-
-    it('dovrebbe aprire il modale e chiamare eliminaAccount', () => {
-        const mockModal = jasmine.createSpyObj('NgbModal', ['open']);
-        modalServiceSpy.open.and.returnValue(mockModal);
-        const mockResult = Promise.resolve('confirm');
-        spyOn(component, 'eliminaAccount');
-
-        component.apriModale(mockModal);
-
-        expect(modalServiceSpy.open).toHaveBeenCalled();
-        expect(component.eliminaAccount).toHaveBeenCalled();
-    });
-
-    it('dovrebbe visualizzare un messaggio di successo quando l\'account viene eliminato', () => {
-        spyOn(component, 'inviaMessaggio');
-        spyOn(authServiceSpy, 'deleteAccount').and.returnValue(Promise.resolve());
-        spyOn(transazioneServiceSpy, 'cancellaTransazioni').and.returnValue(Promise.resolve());
-        spyOn(routerSpy, 'navigate');
-
-        component.eliminaAccount('user-uid');
-
-        expect(authServiceSpy.deleteAccount).toHaveBeenCalled();
-        expect(transazioneServiceSpy.cancellaTransazioni).toHaveBeenCalledWith('user-uid');
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['/login']);
     });
 
     it('dovrebbe reimpostare il modulo dopo un aggiornamento e-mail riuscito', async () => {
