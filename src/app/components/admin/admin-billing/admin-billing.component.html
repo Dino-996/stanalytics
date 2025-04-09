@@ -79,8 +79,12 @@
             <!-- Messaggio nessuna transazione -->
             @if(transazioniUtente.length === 0) {
             <div class="d-flex align-items-center alert alert-info rounded-3">
-                <ng-icon class="me-3" name="bootstrapInfoCircleFill" size="20"></ng-icon>
-                <span>L'utente non ha effettuato nessuna transazione</span>
+                <div class="flex-shrink-1 m-3">
+                    <ng-icon name="bootstrapInfoCircleFill" size="20"></ng-icon>
+                </div>
+                <div class="flex-grow-1">
+                    <span>L'utente non ha effettuato nessuna transazione</span>
+                </div>
             </div>
             }
 

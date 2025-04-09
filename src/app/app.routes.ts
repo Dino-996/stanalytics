@@ -7,10 +7,11 @@ import { PaginaNonTrovataComponent } from './pages/pagina-non-trovata/pagina-non
 
 export const routes: Routes = [
 
-    { path: '**', component: PaginaNonTrovataComponent },
     { path: 'login', component: LoginComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
     { path: 'user-dashboard', component: UserDashboardComponent },
     { path: 'termini', component: TerminiECondizioniComponent },
+
     { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '**', component: PaginaNonTrovataComponent }
 ];
