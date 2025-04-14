@@ -1,161 +1,163 @@
-<div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-    <ng-icon class="me-2" name="bootstrapGearWideConnected" size="24"></ng-icon>
-    <h5 class="m-0 text-truncate">Impostazioni</h5>
-</div>
-
-<div class="container-fluid p-4">
-
-    <div class="card mb-4 border-0">
-        <div class="d-flex align-items-center">
-            <ng-icon name="bootstrapPersonFill" class="me-2" size="20"></ng-icon>
-            <h5 class="mb-0">Informazioni Personali</h5>
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
+        <ng-icon class="me-2" name="bootstrapGearWideConnected" size="18"></ng-icon>
+        <h5 class="m-0 text-truncate">Impostazioni</h5>
+      </div>
+    
+    <div class="container-fluid p-4">
+    
+        <div class="card mb-4 border-0">
+            <div class="d-flex align-items-center">
+                <ng-icon name="bootstrapPersonFill" class="me-2" size="20"></ng-icon>
+                <h5 class="mb-0">Informazioni Personali</h5>
+            </div>
+    
+            <div class="card-body">
+                <!-- Aggiorna email utente corrente -->
+                <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()" class="mb-4">
+                    <div class="mb-3">
+                        <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
+                        <div class="input-group mb-2">
+                            <input class="form-control rounded-right-3"
+                                [type]="isPasswordEmailCorrente ? 'text' : 'password'"
+                                formControlName="passwordEmailCorrente" placeholder="Password attuale">
+    
+                            <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
+                                (click)="visualizzaPasswordEmailCorrente()">
+                                <ng-icon [name]="isPasswordEmailCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'"
+                                    size="18"></ng-icon>
+                            </button>
+                        </div>
+                        @if(passwordEmailCorrente?.invalid && (passwordEmailCorrente?.dirty ||
+                        passwordEmailCorrente?.touched)) {
+                        <div class="text-warning small">
+                            @if(passwordEmailCorrente?.hasError('required')) {
+                            <span>La password attuale &egrave; richiesta</span>
+                            }
+                        </div>
+                        }
+                        <div class="input-group mt-2">
+                            <input id="aggiornaEmail" class="form-control rounded-right-3" type="text"
+                                formControlName="aggiornaEmail" placeholder="Nuova email">
+    
+                            @if(!loadingEmail) {
+                            <button type="submit" class="btn btn-primary rounded-left-3"
+                                [disabled]="!formAggiornaAccount.valid">Aggiorna
+                            </button>
+    
+                            } @else {
+                            <button type="text" class="btn btn-primary rounded-left-3" disabled>
+                                <span class="spinner-grow spinner-grow-sm"></span>
+                            </button>
+                            }
+    
+                        </div>
+                        @if(aggiornaEmail?.invalid && (aggiornaEmail?.dirty || aggiornaEmail?.touched)) {
+                        <div class="text-warning small mt-2">
+                            @if(aggiornaEmail?.hasError('email')) {
+                            <span>Inserisci un'email valida</span>
+                            }
+                        </div>
+                        }
+                        @if(formAggiornaAccount.valid && isVisibile) {
+                        <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
+                        }
+                    </div>
+                </form>
+    
+                <!-- Aggiorna password utente corrente -->
+                <form [formGroup]="formAggiornaPassword" (ngSubmit)="onAggiornaPassword()">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Modifica password (richiede un nuovo accesso)</label>
+                        <div class="input-group mb-2">
+                            <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'"
+                                formControlName="passwordCorrente" placeholder="Password attuale">
+    
+                            <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
+                                (click)="visualizzaPasswordCorrente()">
+                                <ng-icon [name]="isPasswordCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'"
+                                    size="18"></ng-icon>
+                            </button>
+    
+                        </div>
+                        @if(passwordCorrente?.invalid && (passwordCorrente?.dirty || passwordCorrente?.touched)) {
+                        <div class="text-warning small mb-2">
+                            @if(passwordCorrente?.hasError('required')) {
+                            <span>La password attuale &egrave; richiesta</span>
+                            }
+                        </div>
+                        }
+    
+                        <div class="input-group">
+                            <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'"
+                                formControlName="nuovaPassword" placeholder="Nuova password">
+                            @if(!loadingPassword) {
+                            <button type="submit" class="btn btn-primary rounded-left-3"
+                                [disabled]="!formAggiornaPassword.valid">
+                                Aggiorna
+                            </button>
+                            } @else {
+                            <button type="text" class="btn btn-primary rounded-left-3" disabled>
+                                <span class="spinner-grow spinner-grow-sm"></span>
+                            </button>
+                            }
+                        </div>
+                        <div class="form-text">
+                            La password deve soddisfare i seguenti requisiti: lunghezza minima di 6 caratteri, almeno una
+                            lettera maiuscola, almeno un numero e almeno un carattere speciale
+                        </div>
+                        @if(nuovaPassword?.invalid && (nuovaPassword?.dirty || nuovaPassword?.touched)) {
+                        <div class="text-warning small mt-1">
+                            @if(nuovaPassword?.hasError('pattern')) {
+                            <span>La nuova password non è corretta</span>
+                            }
+                        </div>
+                        }
+                        @if(formAggiornaPassword.valid && isVisibile) {
+                        <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
+                        }
+                        @if(conta !== 10) {
+                        <div class="small mt-1 text-warning">Verrai disconnesso tra {{ conta }} secondi</div>
+                        }
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div class="card-body">
-            <!-- Aggiorna email utente corrente -->
-            <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()" class="mb-4">
-                <div class="mb-3">
-                    <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
-                    <div class="input-group mb-2">
-                        <input class="form-control rounded-right-3"
-                            [type]="isPasswordEmailCorrente ? 'text' : 'password'"
-                            formControlName="passwordEmailCorrente" placeholder="Password attuale">
-
-                        <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
-                            (click)="visualizzaPasswordEmailCorrente()">
-                            <ng-icon [name]="isPasswordEmailCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'"
-                                size="18"></ng-icon>
-                        </button>
-                    </div>
-                    @if(passwordEmailCorrente?.invalid && (passwordEmailCorrente?.dirty ||
-                    passwordEmailCorrente?.touched)) {
-                    <div class="text-warning small">
-                        @if(passwordEmailCorrente?.hasError('required')) {
-                        <span>La password attuale &egrave; richiesta</span>
-                        }
-                    </div>
-                    }
-                    <div class="input-group mt-2">
-                        <input id="aggiornaEmail" class="form-control rounded-right-3" type="text"
-                            formControlName="aggiornaEmail" placeholder="Nuova email">
-
-                        @if(!loadingEmail) {
-                        <button type="submit" class="btn btn-primary rounded-left-3"
-                            [disabled]="!formAggiornaAccount.valid">Aggiorna
-                        </button>
-
-                        } @else {
-                        <button type="text" class="btn btn-primary rounded-left-3" disabled>
-                            <span class="spinner-grow spinner-grow-sm"></span>
-                        </button>
-                        }
-
-                    </div>
-                    @if(aggiornaEmail?.invalid && (aggiornaEmail?.dirty || aggiornaEmail?.touched)) {
-                    <div class="text-warning small mt-2">
-                        @if(aggiornaEmail?.hasError('email')) {
-                        <span>Inserisci un'email valida</span>
-                        }
-                    </div>
-                    }
-                    @if(formAggiornaAccount.valid && isVisibile) {
-                    <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
-                    }
-                </div>
-            </form>
-
-            <!-- Aggiorna password utente corrente -->
-            <form [formGroup]="formAggiornaPassword" (ngSubmit)="onAggiornaPassword()">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Modifica password (richiede un nuovo accesso)</label>
-                    <div class="input-group mb-2">
-                        <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'"
-                            formControlName="passwordCorrente" placeholder="Password attuale">
-
-                        <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button"
-                            (click)="visualizzaPasswordCorrente()">
-                            <ng-icon [name]="isPasswordCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'"
-                                size="18"></ng-icon>
-                        </button>
-
-                    </div>
-                    @if(passwordCorrente?.invalid && (passwordCorrente?.dirty || passwordCorrente?.touched)) {
-                    <div class="text-warning small mb-2">
-                        @if(passwordCorrente?.hasError('required')) {
-                        <span>La password attuale &egrave; richiesta</span>
-                        }
-                    </div>
-                    }
-
-                    <div class="input-group">
-                        <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'"
-                            formControlName="nuovaPassword" placeholder="Nuova password">
-                        @if(!loadingPassword) {
-                        <button type="submit" class="btn btn-primary rounded-left-3"
-                            [disabled]="!formAggiornaPassword.valid">
-                            Aggiorna
-                        </button>
-                        } @else {
-                        <button type="text" class="btn btn-primary rounded-left-3" disabled>
-                            <span class="spinner-grow spinner-grow-sm"></span>
-                        </button>
-                        }
-                    </div>
-                    <div class="form-text">
-                        La password deve soddisfare i seguenti requisiti: lunghezza minima di 6 caratteri, almeno una
-                        lettera maiuscola, almeno un numero e almeno un carattere speciale
-                    </div>
-                    @if(nuovaPassword?.invalid && (nuovaPassword?.dirty || nuovaPassword?.touched)) {
-                    <div class="text-warning small mt-1">
-                        @if(nuovaPassword?.hasError('pattern')) {
-                        <span>La nuova password non è corretta</span>
-                        }
-                    </div>
-                    }
-                    @if(formAggiornaPassword.valid && isVisibile) {
-                    <div class="small mt-1 text-{{tipo}}">{{ messaggio }}</div>
-                    }
-                    @if(conta !== 10) {
-                    <div class="small mt-1 text-warning">Verrai disconnesso tra {{ conta }} secondi</div>
-                    }
-                </div>
-            </form>
+    
+        <!-- Elimina account utente corrente -->
+        <div class="card border-0">
+            <div class="d-flex align-items-center text-danger">
+                <ng-icon name="bootstrapExclamationTriangleFill" class="me-2" size="20"></ng-icon>
+                <h5 class="mb-0">Elimina account</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text small text-muted mb-3">L'eliminazione dell'account è permanente e non può essere
+                    annullata. Tutti i tuoi dati saranno rimossi definitivamente</p>
+                <form class="d-flex justify-content-end">
+                    <button class="btn btn-outline-danger rounded-3" type="button" data-bs-toggle="modal"
+                        (click)="apriModale(contenuto)">
+                        Elimina account
+                    </button>
+                </form>
+            </div>
         </div>
+    
+        <!-- Modale di conferma per eliminazione account -->
+        <ng-template #contenuto let-modal>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Conferma Eliminazione</h5>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                    (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Sei sicuro di voler eliminare definitivamente il tuo account? Verranno eliminati tutti i tuoi dati,
+                    comprese eventuali transazioni. Questa azione non può essere annullata.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annulla</button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('confirm')">Elimina
+                    definitivamente</button>
+            </div>
+        </ng-template>
     </div>
-
-    <!-- Elimina account utente corrente -->
-    <div class="card border-0">
-        <div class="d-flex align-items-center text-danger">
-            <ng-icon name="bootstrapExclamationTriangleFill" class="me-2" size="20"></ng-icon>
-            <h5 class="mb-0">Elimina account</h5>
-        </div>
-        <div class="card-body">
-            <p class="card-text small text-muted mb-3">L'eliminazione dell'account è permanente e non può essere
-                annullata. Tutti i tuoi dati saranno rimossi definitivamente</p>
-            <form class="d-flex justify-content-end">
-                <button class="btn btn-outline-danger rounded-3" type="button" data-bs-toggle="modal"
-                    (click)="apriModale(contenuto)">
-                    Elimina account
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modale di conferma per eliminazione account -->
-    <ng-template #contenuto let-modal>
-        <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title">Conferma Eliminazione</h5>
-            <button type="button" class="btn-close btn-close-white" aria-label="Close"
-                (click)="modal.dismiss()"></button>
-        </div>
-        <div class="modal-body">
-            <p>Sei sicuro di voler eliminare definitivamente il tuo account? Verranno eliminati tutti i tuoi dati,
-                comprese eventuali transazioni. Questa azione non può essere annullata.</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annulla</button>
-            <button type="button" class="btn btn-danger" (click)="modal.close('confirm')">Elimina
-                definitivamente</button>
-        </div>
-    </ng-template>
 </div>

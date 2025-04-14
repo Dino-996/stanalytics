@@ -1,30 +1,40 @@
-<footer class="bg-dark text-light py-4 mt-5">
+<footer class="bg-dark text-light py-5 mt-5">
     <div class="container">
         <!-- Logo e Contatti -->
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center flex-column flex-md-row">
             <!-- Logo Aziendale -->
-            <div>
-                <img src="../../../assets/logo.png" alt="logo" class="img-fluid bw" style="max-height: 200px">
+            <div class="mb-3 mb-md-0 me-md-4">
+                <img src="../../../assets/logo.png" alt="logo" class="img-fluid bw" style="max-height: 100px; transition: transform 0.3s ease;">
             </div>
             <!-- Blocco Contatti -->
-            <div>
-                <h5>Contatti</h5>
-                <a href="mailto:infostanalytics@gmail.com" class="text-light">infostanalytics&#64;gmail.com</a>
+            <div class="text-center text-md-start">
+                <h5 class="d-inline-block border-bottom border-light mb-3 mb-md-0">Contatti</h5><br>
+                <a href="mailto:infostanalytics@gmail.com" class="text-light text-decoration-none">infostanalytics&#64;gmail.com</a>
             </div>
         </div>
+        
         <!-- Divisore -->
-        <hr class="bg-light">
+        <hr class="bg-light my-4">
 
         <!-- Informazioni Legali -->
         <div class="text-center">
-            <p class="mb-0">Tutti i diritti riservati. P.IVA 02206740769</p>
-            <a href="https://www.iubenda.com/privacy-policy/34602579"
-                target="_blank" class="text-light" title="Privacy Policy ">
-                Privacy Policy</a>
-                •
-            <a href="https://www.iubenda.com/privacy-policy/34602579/cookie-policy"
-                target="_blank" class="text-light" title="Cookie Policy ">
-                Cookie Policy</a>
+            <p class="mb-2 text-muted">Tutti i diritti riservati. P.IVA 02206740769</p>
+            <a href="https://www.iubenda.com/privacy-policy/34602579" target="_blank" class="text-light text-decoration-none" title="Privacy Policy">
+                Privacy Policy
+            </a>
+            •
+            <a href="https://www.iubenda.com/privacy-policy/34602579/cookie-policy" target="_blank" class="text-light text-decoration-none" title="Cookie Policy">
+                Cookie Policy
+            </a>
         </div>
     </div>
 </footer>
+
+<style>
+    footer img:hover {
+        transform: scale(1.05); /* Effetto hover per il logo */
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+</style>

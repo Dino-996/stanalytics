@@ -1,10 +1,10 @@
-<div class="d-flex justify-content-center align-items-center m-3">
-    <div class="card rounded-3 p-4 border-0">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card rounded-4 p-4 border-0" style="max-width: 400px; width: 100%;">
         <div class="card-body">
-            <h4 class="card-title text-start fw-bold">
+            <h2 class="fw-bold mb-1">
                 STanalytics
-            </h4>
-            <h6 class="card-subtitle mb-4 text-muted text-start border-bottom pb-3">Accedi alla tua area privata</h6>
+            </h2>
+            <p class="text-muted border-bottom pb-3 mb-4">Accedi alla tua area privata</p>
             <!-- Form di login -->
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
                 <!-- Campo email -->
@@ -26,10 +26,9 @@
                     <label for="password" class="form-label fw-semibold">Password</label>
                     <div class="input-group">
                         <input formControlName="password" [type]="isPassword ? 'text' : 'password'"
-                            class="form-control rounded-start-3" id="password" placeholder="Inserisci la tua password"
+                            class="form-control border-end-0" id="password" placeholder="Inserisci la tua password"
                             required>
-                        <span class="input-group-text cursor-pointer rounded-end-3 cursor-pointer"
-                            (click)="onPasswordVisible()">
+                        <span class="input-group-text border-start-0" (click)="onPasswordVisible()">
                             <ng-icon [name]="isPassword ? 'bootstrapEyeSlash' : 'bootstrapEye'" size="18" />
                         </span>
                     </div>
@@ -42,13 +41,13 @@
 
                 <!-- Termini e condizioni -->
                 <div class="form-check mb-3">
-                    <input formControlName="isChecked" class="form-check-input rounded cursor-pointer" type="checkbox" id="check-terms">
-                    <label
-                        class="form-check-label text-muted link-underline link-underline-opacity-0 link-opacity-100-hover"
-                        for="check-terms">
-                        Ho letto e accettato <a routerLink="/termini"  >termini&amp;condizioni</a>
+                    <input formControlName="isChecked" class="form-check-input rounded-sm" type="checkbox"
+                        id="check-terms">
+                    <label class="form-check-label small text-muted" for="check-terms">
+                        Ho letto e accettato <a routerLink="/termini">termini & condizioni</a>
                     </label>
                 </div>
+
 
                 <!-- Messaggio di errore -->
                 @if(error) {

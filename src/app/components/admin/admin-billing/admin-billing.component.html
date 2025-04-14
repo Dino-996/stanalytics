@@ -1,138 +1,145 @@
-<div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-    <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="24"></ng-icon>
-    <h5 class="m-0 text-truncate">Fatturazione</h5>
-</div>
-
 <div class="container">
-    <!-- SEZIONE SELEZIONE UTENTE -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="20"></ng-icon>
-                <h4 class="m-0 text-truncate">Seleziona utente</h4>
+    <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
+        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="24"></ng-icon>
+        <h5 class="m-0 text-truncate">Fatturazione</h5>
+    </div>
+    
+    <div class="container">
+        <!-- SEZIONE SELEZIONE UTENTE -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex align-items-center mb-4">
+                    <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="20"></ng-icon>
+                    <h4 class="m-0 text-truncate">Seleziona utente</h4>
+                </div>
+    
+                <!-- Lista utenti paginati -->
+                <div class="list-group">
+                    @for(utente of getPaginazioneUtente(); track $index){
+                    <button (click)="getUtenteSelezionato(utente.id!)" [class.active]="utenteSelezionato?.id === utente.id"
+                        class="list-group-item list-group-item-action border-0">
+                        <div class="d-flex align-items-start">
+                            <ng-icon class="me-2" name="bootstrapPersonFill" size="18"></ng-icon>
+                            <span>{{ utente.nome }} {{ utente.cognome }}</span>
+                        </div>
+                    </button>
+                    }
+                </div>
+    
+                <!-- Paginazione utenti -->
+                <div class="d-flex justify-content-end mt-3">
+                    <ngb-pagination [collectionSize]="utentiFiltrati.length" [(page)]="paginaUtenteCorrente"
+                        [pageSize]="dimensionePaginaUtenti" [maxSize]="dimensioneMassimaUtenti" [boundaryLinks]="false">
+                    </ngb-pagination>
+                </div>
+    
+    
             </div>
-
-            <!-- Lista utenti paginati -->
-            <div class="list-group">
-                @for(utente of getPaginazioneUtente(); track $index){
-                <button (click)="getUtenteSelezionato(utente.id!)" [class.active]="utenteSelezionato?.id === utente.id"
-                    class="list-group-item list-group-item-action border-0">
-                    <div class="d-flex align-items-start">
-                        <ng-icon class="me-2" name="bootstrapPersonFill" size="18"></ng-icon>
-                        <span>{{ utente.nome }} {{ utente.cognome }}</span>
+        </div>
+    
+        <!-- SEZIONE DETTAGLI UTENTE -->
+        @if(utenteSelezionato) {
+        <div class="row">
+            <div class="col-12">
+    
+                <div class="d-flex align-items-center mb-4">
+                    <ng-icon class="me-3" name="bootstrapSearch" size="20"></ng-icon>
+                    <h4 class="m-0">Dettagli Utente</h4>
+                </div>
+    
+                <!-- Card dettagli utente -->
+                <div class="card mb-4 border-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Immagine profilo -->
+                            <div class="col-md-3 mb-3">
+                                <img [src]="utenteSelezionato.fotoURL ? utenteSelezionato.fotoURL : 'assets/logo.png'"
+                                    alt="Foto Profilo" class="rounded-circle" width="100" height="100">
+                            </div>
+    
+                            <!-- Dettagli testuali -->
+                            <div class="col-md-9">
+                                <h5 class="card-title">{{ utenteSelezionato.nome }} {{ utenteSelezionato.cognome }}</h5>
+                                <p class="card-text">
+                                    <strong>Email:</strong> {{ utenteSelezionato.email || 'N/A'}}<br>
+                                    <strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A' }}<br>
+                                    <strong>Città:</strong> {{ utenteSelezionato.citta || 'N/A'}}<br>
+                                    <strong>Indirizzo:</strong> {{ utenteSelezionato.indirizzo || 'N/A'}}<br>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </button>
+                </div>
+    
+                <!-- SEZIONE TRANSAZIONI -->
+                <div class="d-flex align-items-center mb-4">
+                    <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="24"></ng-icon>
+                    <h4 class="m-0">Transazioni</h4>
+                </div>
+    
+                <!-- Messaggio nessuna transazione -->
+                @if(transazioniUtente.length === 0) {
+                <div class="d-flex align-items-center alert alert-info rounded-3">
+                    <div class="flex-shrink-1 m-3">
+                        <ng-icon name="bootstrapInfoCircleFill" size="20"></ng-icon>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span>L'utente non ha effettuato nessuna transazione</span>
+                    </div>
+                </div>
+                }
+    
+                <!-- Tabella transazioni -->
+                @if(transazioniUtente.length > 0){
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Consulenza</th>
+                                <th>Data e ora</th>
+                                <th>Prezzo</th>
+                                <th>Categoria</th>
+                                <th>Stato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(transazione of getPaginazioneTransazione(); track $index) {
+                            <tr>
+                                <td>{{ transazione.nomeProdotto }}</td>
+                                <td>{{ transazione.data | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                                <td>{{ transazione.prezzo }} €</td>
+                                <td>
+                                    <span class="badge text-truncate" [ngClass]="getCategoria(transazione.categoria)">
+                                        {{ transazione.categoria | titlecase }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge" [ngClass]="getStato(transazione.stato)">
+                                        {{ transazione.stato | titlecase }}
+                                    </span>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+                    <!-- Download CSV -->
+                    <div>
+                        <button class="d-flex align-items-center btn btn-primary rounded-3" (click)="esportaDatiUtente(utenteSelezionato, transazioniUtente)">
+                            <span>Download</span>
+                            <ng-icon name="bootstrapFiletypeCsv" class="ms-3" size="18"></ng-icon>
+                        </button>
+                    </div>
+                    <!-- Paginazione transazioni -->
+                    <ngb-pagination [collectionSize]="transazioniUtente.length" [(page)]="paginaTransazioneCorrente"
+                        [pageSize]="dimensionePaginaTransazioni" [maxSize]="dimensioneMassimaTransazioni"
+                        [boundaryLinks]="false">
+                    </ngb-pagination>
+                </div>
                 }
             </div>
-
-            <!-- Paginazione utenti -->
-            <div class="d-flex justify-content-end mt-3">
-                <ngb-pagination [collectionSize]="utentiFiltrati.length" [(page)]="paginaUtenteCorrente"
-                    [pageSize]="dimensionePaginaUtenti" [maxSize]="dimensioneMassimaUtenti" [boundaryLinks]="false">
-                </ngb-pagination>
-            </div>
-
-
         </div>
+        }
     </div>
-
-    <!-- SEZIONE DETTAGLI UTENTE -->
-    @if(utenteSelezionato) {
-    <div class="row">
-        <div class="col-12">
-
-            <div class="d-flex align-items-center mb-4">
-                <ng-icon class="me-3" name="bootstrapSearch" size="20"></ng-icon>
-                <h4 class="m-0">Dettagli Utente</h4>
-            </div>
-
-            <!-- Card dettagli utente -->
-            <div class="card mb-4 border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Immagine profilo -->
-                        <div class="col-md-3 mb-3">
-                            <img [src]="utenteSelezionato.fotoURL ? utenteSelezionato.fotoURL : 'assets/logo.png'"
-                                alt="Foto Profilo" class="rounded-circle" width="100" height="100">
-                        </div>
-
-                        <!-- Dettagli testuali -->
-                        <div class="col-md-9">
-                            <h5 class="card-title">{{ utenteSelezionato.nome }} {{ utenteSelezionato.cognome }}</h5>
-                            <p class="card-text">
-                                <strong>Email:</strong> {{ utenteSelezionato.email || 'N/A'}}<br>
-                                <strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A' }}<br>
-                                <strong>Città:</strong> {{ utenteSelezionato.citta || 'N/A'}}<br>
-                                <strong>Indirizzo:</strong> {{ utenteSelezionato.indirizzo || 'N/A'}}<br>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SEZIONE TRANSAZIONI -->
-            <div class="d-flex align-items-center mb-4">
-                <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="24"></ng-icon>
-                <h4 class="m-0">Transazioni</h4>
-            </div>
-
-            <!-- Messaggio nessuna transazione -->
-            @if(transazioniUtente.length === 0) {
-            <div class="d-flex align-items-center alert alert-info rounded-3">
-                <div class="flex-shrink-1 m-3">
-                    <ng-icon name="bootstrapInfoCircleFill" size="20"></ng-icon>
-                </div>
-                <div class="flex-grow-1">
-                    <span>L'utente non ha effettuato nessuna transazione</span>
-                </div>
-            </div>
-            }
-
-            <!-- Tabella transazioni -->
-            @if(transazioniUtente.length > 0){
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Consulenza</th>
-                            <th>Data e ora</th>
-                            <th>Prezzo</th>
-                            <th>Categoria</th>
-                            <th>Stato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for(transazione of getPaginazioneTransazione(); track $index) {
-                        <tr>
-                            <td>{{ transazione.nomeProdotto }}</td>
-                            <td>{{ transazione.data | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                            <td>{{ transazione.prezzo }} €</td>
-                            <td>
-                                <span class="badge text-truncate" [ngClass]="getCategoria(transazione.categoria)">
-                                    {{ transazione.categoria | titlecase }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="badge" [ngClass]="getStato(transazione.stato)">
-                                    {{ transazione.stato | titlecase }}
-                                </span>
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
-                <!-- Download CSV -->
-                <button class="btn btn-primary rounded-3" (click)="esportaDatiUtente(utenteSelezionato, transazioniUtente)">Scarica CSV</button>
-                <!-- Paginazione transazioni -->
-                <ngb-pagination [collectionSize]="transazioniUtente.length" [(page)]="paginaTransazioneCorrente"
-                    [pageSize]="dimensionePaginaTransazioni" [maxSize]="dimensioneMassimaTransazioni"
-                    [boundaryLinks]="false">
-                </ngb-pagination>
-            </div>
-            }
-        </div>
-    </div>
-    }
 </div>

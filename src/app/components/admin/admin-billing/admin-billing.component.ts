@@ -6,7 +6,7 @@ import { Utente } from '../../../model/utente';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
+import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill, bootstrapFiletypeCsv } from '@ng-icons/bootstrap-icons';
 import { GeneratoreCSV } from '../../../../util/generatore-csv';
 
 /**
@@ -29,7 +29,8 @@ import { GeneratoreCSV } from '../../../../util/generatore-csv';
       bootstrapPersonFill,
       bootstrapSearch,
       bootstrapCurrencyEuro,
-      bootstrapInfoCircleFill
+      bootstrapInfoCircleFill,
+      bootstrapFiletypeCsv
     })
   ],
   templateUrl: './admin-billing.component.html',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { bootstrapBoxArrowInLeft } from '@ng-icons/bootstrap-icons';
+import { bootstrapArrowDownLeftSquare } from '@ng-icons/bootstrap-icons';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
   ],
   providers:[
     provideIcons({
-      bootstrapBoxArrowInLeft
+      bootstrapArrowDownLeftSquare
     })
   ],
   templateUrl: './termini-econdizioni.component.html',
