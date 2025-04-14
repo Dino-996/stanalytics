@@ -20,37 +20,43 @@
         </p>
 
         @if (selectedPackage) {
-        <div class="mt-4">
-            <p class="mt-3 text-muted">{{ getDescription(selectedPackage) }}</p>
+            <div class="mt-4 p-4 rounded">
 
-            <img src="../../../../assets/logo.png" class="img-fluid" alt="logo">
-
-            <div class="d-flex justify-content-between align-items-center border p-3 rounded border-0">
-                <h5 class="text-capitalize m-0" [ngStyle]="{'color': getPackageColor(selectedPackage)}">
+                <p class="mt-3 text-muted fst-italic text-center">
+                  {{ getDescription(selectedPackage) }}
+                </p>
+              
+                <div class="text-center my-3">
+                  <img src="../../../../assets/logo.png" class="img-fluid mx-auto d-block" alt="logo"  style="width: 50%; max-width: 120px;" >
+                </div>
+              
+                <div class="d-flex justify-content-center align-items-center p-3">
+                  <h5 class="text-capitalize m-0" [ngStyle]="{'color': getPackageColor(selectedPackage)}">
                     Pacchetto {{ getPackageLevel(selectedPackage).toLocaleLowerCase() }}
-                </h5>
-                <span class="fw-bold fs-5 text-success">
+                  </h5>
+                  <span class="fw-bold fs-5 text-success ms-3">
                     {{ getPackagePrice(selectedPackage) | currency:'EUR':'symbol':'1.0-0' }}
-                </span>
-            </div>
-
-
-            <div class="text-center mt-3">
-                @if(isPayPalLoading) {
-                <div class="d-flex justify-content-start align-items-center">
-                    <div class="w-50 h-25">
+                  </span>
+                </div>
+              
+                <div class="text-center mt-4">
+                  @if(isPayPalLoading) {
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div class="w-100" style="max-width: 400px;">
                         <ngx-paypal [config]="getPayPalConfig(selectedPackage)"></ngx-paypal>
+                      </div>
                     </div>
-                </div>
-                } @else {
-                <div class="d-flex justify-content-start align-items-center">
-                    <div class="spinner-grow" role="status">
+                  } @else {
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div class="spinner-grow text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
+                      </div>
                     </div>
+                  }
                 </div>
-                }
-            </div>
-        </div>
+              
+              </div>
+              
         }
 
         @if (transactionStatus === 'success') {
