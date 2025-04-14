@@ -1,4 +1,4 @@
-<div class="card border-0 m-3">
+<div class="card border-0 m-3 ">
 
     <div class="card-body p-4">
         @if(utenteCorrente) {
@@ -54,31 +54,33 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 p-3">
-                <div class="btn-group-vertical w-100" role="group" aria-label="navigazione admin">
+                <div class="position-sticky top-0 pt-3" style="z-index: 1020;">
+                    <div class="btn-group-vertical w-100" role="group" aria-label="navigazione admin">
 
-                    <button type="button"
-                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-3 text-nowrap overflow-hidden"
-                        (click)="cambiaVistaCorrente(visteUtente.CONSULTING_PACKAGE)"
-                        [class.active]="isVistaCorrente(visteUtente.CONSULTING_PACKAGE)">
-                        <ng-icon class="me-2 flex-shrink-0" name="bootstrapBoxes" size="18"></ng-icon>
-                        <span class="text-truncate">Pacchetti</span>
-                    </button>
-
-                    <button type="button" class="d-flex justify-content-start align-items-center btn btn-primary text-nowrap overflow-hidden"
-                        (click)="cambiaVistaCorrente(visteUtente.CONSULTING_HISTORY)"
-                        [class.active]="isVistaCorrente(visteUtente.CONSULTING_HISTORY)">
-                        <ng-icon class="me-2 flex-shrink-0" name="bootstrapClockHistory" size="18"></ng-icon>
-                        <span class="text-truncate">Storico</span>
-                    </button>
-
-                    <button type="button"
-                        class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-3 text-nowrap overflow-hidden"
-                        (click)="cambiaVistaCorrente(visteUtente.SETTINGS)"
-                        [class.active]="isVistaCorrente(visteUtente.SETTINGS)">
-                        <ng-icon class="me-2 flex-shrink-0" name="bootstrapGearWideConnected" size="18"></ng-icon>
-                        <span class="text-truncate">Impostazioni</span>
-                    </button>
-
+                        <button type="button"
+                            class="d-flex justify-content-start align-items-center btn btn-primary rounded-top-3 text-nowrap overflow-hidden"
+                            (click)="cambiaVistaCorrente(visteUtente.CONSULTING_PACKAGE)"
+                            [class.active]="isVistaCorrente(visteUtente.CONSULTING_PACKAGE)">
+                            <ng-icon class="me-2 flex-shrink-0" name="bootstrapBoxes" size="18"></ng-icon>
+                            <span class="text-truncate">Pacchetti</span>
+                        </button>
+    
+                        <button type="button" class="d-flex justify-content-start align-items-center btn btn-primary text-nowrap overflow-hidden"
+                            (click)="cambiaVistaCorrente(visteUtente.CONSULTING_HISTORY)"
+                            [class.active]="isVistaCorrente(visteUtente.CONSULTING_HISTORY)">
+                            <ng-icon class="me-2 flex-shrink-0" name="bootstrapClockHistory" size="18"></ng-icon>
+                            <span class="text-truncate">Storico</span>
+                        </button>
+    
+                        <button type="button"
+                            class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-3 text-nowrap overflow-hidden"
+                            (click)="cambiaVistaCorrente(visteUtente.SETTINGS)"
+                            [class.active]="isVistaCorrente(visteUtente.SETTINGS)">
+                            <ng-icon class="me-2 flex-shrink-0" name="bootstrapGearWideConnected" size="18"></ng-icon>
+                            <span class="text-truncate">Impostazioni</span>
+                        </button>
+    
+                    </div>
                 </div>
             </div>
             <!-- body -->
