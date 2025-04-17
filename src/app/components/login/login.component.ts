@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, ValueChangeEvent } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapEyeSlash, bootstrapEye, bootstrapBoxArrowInLeft } from '@ng-icons/bootstrap-icons';
@@ -50,18 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.aggiornaCondizioni();
-    if (this.authService.isAuthenticated()) {
-      const utenteCorrente = this.authService.getUtenteCorrente();
-      if (utenteCorrente) {
-        this.utenteService.getUtenteById(utenteCorrente.uid).then(utente => {
-          if (utente?.ruolo === 'admin') {
-            this.router.navigate(['/admin-dashboard']);
-          } else {
-            this.router.navigate(['/user-dashboard']);
-          }
-        }).catch((error)=>console.log('Errore nel recupero dell\'utente:', error))
-      }
-    }
+    this.verificaAutenticazione();
   }
 
   public ngOnDestroy(): void {
@@ -132,6 +121,22 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.info = 'Email di reset inviata. Controlla la tua casella di posta';
     } catch (error) {
       this.erroriAuth(error);
+    }
+  }
+
+  private verificaAutenticazione() {
+    if (this.authService.isAuthenticated()) {
+      const utenteCorrente = this.authService.getUtenteCorrente();
+      if (utenteCorrente) {
+        this.utenteService.getUtenteById(utenteCorrente.uid).then(utente => {
+          if (utente?.ruolo === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          }
+          if(utente?.ruolo === 'user') {
+            this.router.navigate(['/user-dashboard']);
+          }
+        }).catch((error) => console.log('Errore nel recupero dell\'utente:', error));
+      }
     }
   }
 

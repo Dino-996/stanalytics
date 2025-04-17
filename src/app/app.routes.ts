@@ -6,6 +6,7 @@ import { TerminiECondizioniComponent } from './pages/termini-econdizioni/termini
 import { PaginaNonTrovataComponent } from './pages/pagina-non-trovata/pagina-non-trovata.component';
 import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { UserGuard } from './guards/user.guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -17,7 +18,7 @@ export const routes: Routes = [
     { 
       path: 'user-dashboard', 
       component: UserDashboardComponent,
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard, UserGuard]
     },
     { path: 'termini', component: TerminiECondizioniComponent },
 

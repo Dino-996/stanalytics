@@ -6,7 +6,7 @@ import { UtenteService } from '../services/utente.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class UserGuard implements CanActivate {
 
   private authService = inject(AuthService);
   private utenteService = inject(UtenteService);
@@ -23,15 +23,18 @@ export class AdminGuard implements CanActivate {
     try {
       const utente = await this.utenteService.getUtenteById(currentUser.uid);
       
-      if (utente && utente.ruolo === 'admin') {
+      if (utente && utente.ruolo === 'user') {
         return true;
+      } else if (utente && utente.ruolo === 'admin') {
+        this.router.navigate(['/admin-dashboard']);
+        return false;
       } else {
-        this.router.navigate(['/user-dashboard']);
+        this.router.navigate(['/login']);
         return false;
       }
 
     } catch (error) {
-      console.error('Errore verifica ruolo admin:', error);
+      console.error('Errore verifica ruolo utente:', error);
       this.router.navigate(['/login']);
       return false;
     }

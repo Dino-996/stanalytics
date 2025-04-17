@@ -1,5 +1,5 @@
 import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { Stato, Transazione } from '../../../model/transazione';
 import { Utente } from '../../../model/utente';
@@ -8,6 +8,7 @@ import { UtenteService } from '../../../services/utente.service';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill, bootstrapFiletypeCsv } from '@ng-icons/bootstrap-icons';
 import { GeneratoreCSV } from '../../../../util/generatore-csv';
+import { saliSopra } from '../../../../util/utilita';
 
 /**
  * Componente per la gestione amministrativa delle transazioni
@@ -38,6 +39,9 @@ import { GeneratoreCSV } from '../../../../util/generatore-csv';
 })
 export class AdminBillingComponent {
 
+  /** Evento emesso per gestire lo scorrimento verso il punto più alto nella pagina */
+  @Output() public clickEvento = new EventEmitter<boolean>();
+
   /** Pagina corrente per la lista utenti */
   paginaUtenteCorrente = 1;
   /** Numero di utenti per pagina */
@@ -60,7 +64,7 @@ export class AdminBillingComponent {
   public utenteSelezionato: Utente | null = null;
   /** Transazioni dell'utente selezionato */
   public transazioniUtente: Transazione[] = [];
-  
+
   /** Servizio per la gestione degli utenti */
   public utenteService: UtenteService = inject(UtenteService);
   /**Servizio per la gestione delle transazioni */
@@ -72,6 +76,7 @@ export class AdminBillingComponent {
    */
   public async ngOnInit(): Promise<void> {
     await this.caricaUtenti();
+    this.clickEvento.emit(true);
   }
 
   /**
@@ -153,4 +158,10 @@ export class AdminBillingComponent {
     const nomeFile = `dati_${utente.cognome}_${utente.nome}.csv`;
     GeneratoreCSV.scaricaCSV(contenutoCSV, nomeFile);
   }
+
+  /** Scorre verso il punto più in alto della pagina */
+  public saliSopra(): void {
+    saliSopra();
+  }
+
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { deleteUser, reauthenticateWithCredential, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, User, UserCredential, verifyBeforeUpdateEmail } from 'firebase/auth';
+import { deleteUser, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updatePassword, User, verifyBeforeUpdateEmail } from 'firebase/auth';
 import { auth, firestore } from '../../environment/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { EmailAuthProvider } from 'firebase/auth/web-extension';
 import { UtenteService } from './utente.service';
 import { BehaviorSubject } from 'rxjs';
@@ -65,13 +65,6 @@ export class AuthService {
   public async getIdUtente() {
     const utente = this.getUtenteCorrente();
     return utente ? utente.uid : 'null';
-  }
-
-  // Restituisce il ruolo dell'utente che ha effettuato il login
-  private async getRuoloUtente(idUtente: string): Promise<string> {
-    const documentoUtente = doc(firestore, `utenti/${idUtente}`);
-    const snapShot = await getDoc(documentoUtente);
-    return snapShot.exists() ? (snapShot.data()?.['ruolo'] || 'Utente') : 'Utente';
   }
 
   // Aggiorna l'Email dell'utente loggato
@@ -154,7 +147,8 @@ export class AuthService {
   private reindirizzaInBaseAlRuolo(ruolo: string): void {
     if (ruolo === 'admin') {
       this.router.navigate(['/admin-dashboard']);
-    } else {
+    }
+    if(ruolo === 'user') {
       this.router.navigate(['/user-dashboard']);
     }
   }

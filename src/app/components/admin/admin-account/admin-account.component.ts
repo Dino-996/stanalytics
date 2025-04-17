@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbAlertModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Utente, Ruolo } from '../../../model/utente';
@@ -7,6 +7,7 @@ import { TitleCasePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill } from '@ng-icons/bootstrap-icons';
 import { TransazioneService } from '../../../services/transazione.service';
+import { saliSopra } from '../../../../util/utilita';
 
 /** Tipo per i messaggi di notifica */
 type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark';
@@ -36,7 +37,10 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
   styleUrl: './admin-account.component.css'
 })
 
-export class AdminAccountComponent {
+export class AdminAccountComponent implements OnInit {
+
+  /** Evento emesso per gestire lo scorrimento verso il punto più alto nella pagina */
+  @Output() public clickEvento = new EventEmitter<boolean>();
 
   // PROPRIETÀ
   /** Lista completa degli utenti */
@@ -102,11 +106,11 @@ export class AdminAccountComponent {
    * Funzione per convertire il codice fiscale in maiuscolo durante l'input
    * @param event - Evento di input
    */
-    public toUpperCase(event: Event): void {
-      const input = event.target as HTMLInputElement;
-      input.value = input.value.toUpperCase();
-      this.formUtente.get('codiceFiscale')?.setValue(input.value);
-    }
+  public toUpperCase(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.toUpperCase();
+    this.formUtente.get('codiceFiscale')?.setValue(input.value);
+  }
 
   // GETTER PER ACCESSO AI CONTROLLI DEL FORM
   public get email() { return this.formUtente.get('email'); }
@@ -121,6 +125,7 @@ export class AdminAccountComponent {
    */
   public async ngOnInit(): Promise<void> {
     await this.caricaUtenti();
+    this.clickEvento.emit(true);
   }
 
   /**
@@ -167,7 +172,7 @@ export class AdminAccountComponent {
       await this.caricaUtenti();
     } catch (error) {
       this.loading = false;
-      this.inviaMessaggio(error+'', 'danger');
+      this.inviaMessaggio(error + '', 'danger');
     }
   }
 
@@ -250,4 +255,10 @@ export class AdminAccountComponent {
       }, 5000)
     }
   }
+
+  /** Scorre verso il punto più in alto della pagina */
+  public saliSopra(): void {
+    saliSopra();
+  }
+
 }

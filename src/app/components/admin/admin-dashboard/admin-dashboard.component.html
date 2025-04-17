@@ -42,7 +42,7 @@
                             <ng-icon class="me-2" name="bootstrapPeopleFill" size="18"></ng-icon>
                             <span class="text-truncate">Account</span>
                         </button>
-    
+
                         <button type="button"
                             class="d-flex justify-content-start align-items-center btn btn-primary rounded-bottom-3 text-nowrap overflow-hidden"
                             (click)="cambiaVistaCorrente(visteUtente.BILLING)"
@@ -59,10 +59,10 @@
                     <div class="card-body">
                         @switch(vistaCorrente) {
                         @case (visteUtente.ACCOUNT) {
-                        <app-admin-account></app-admin-account>
+                        <app-admin-account (clickEvento)="onSaliSopraAdminAccount()"></app-admin-account>
                         }
                         @case (visteUtente.BILLING) {
-                        <app-admin-billing></app-admin-billing>
+                        <app-admin-billing (clickEvento)="onSaliSopraBillingAccount()"></app-admin-billing>
                         }
                         }
                     </div>

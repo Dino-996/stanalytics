@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Utente } from '../../../model/utente';
 import { Router } from '@angular/router';
@@ -17,11 +17,16 @@ enum VisteUtente {
 @Component({
   selector: 'app-admin-dashboard',
   imports: [NgIcon, AdminAccountComponent, AdminBillingComponent],
-  providers:[provideIcons({bootstrapPeopleFill, bootstrapFileEarmarkFill, bootstrapBoxArrowInRight})],
+  providers: [provideIcons({ bootstrapPeopleFill, bootstrapFileEarmarkFill, bootstrapBoxArrowInRight })],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css',
 })
 export class AdminDashboardComponent {
+
+  /** Riferimento al componente `AdminAccountComponent` figlio, ottenuto tramite `@ViewChild` */
+  @ViewChild(AdminAccountComponent) adminAccount!: AdminAccountComponent;
+  /** Riferimento al componente `AdminBillingComponent` figlio, ottenuto tramite `@ViewChild` */
+  @ViewChild(AdminBillingComponent) adminBilling!: AdminBillingComponent;
 
   readonly visteUtente = VisteUtente;
   readonly visteDisponibili = Object.values(VisteUtente);
@@ -71,6 +76,22 @@ export class AdminDashboardComponent {
       this.authService.logout();
       this.router.navigate(['/login']);
     }
+  }
+
+  /**
+   * Richiama il metodo `saliSopra()` del componente `AdminAccountComponent`
+   * tramite `@ViewChild`, per effettuare lo scroll della pagina verso l'alto
+   */
+  public onSaliSopraAdminAccount() {
+    this.adminAccount.saliSopra();
+  }
+
+  /**
+ * Richiama il metodo `saliSopra()` del componente `AdminAccountComponent`
+ * tramite `@ViewChild`, per effettuare lo scroll della pagina verso l'alto
+ */
+  public onSaliSopraBillingAccount() {
+    this.adminBilling.saliSopra();
   }
 
 }

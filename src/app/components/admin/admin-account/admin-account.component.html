@@ -164,18 +164,14 @@
 <ng-template #deleteModal let-modal>
     <div class="modal-header">
         <h5 class="modal-title">Conferma eliminazione</h5>
-        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+        <button type="button" class="btn-close" aria-label="Chiudi" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
-        <p>Sei sicuro di voler eliminare l'utente <strong>{{ utenteSelezionato?.nome }} {{
-                utenteSelezionato?.cognome}}</strong>?
-            L'azione &egrave; irreversibile e comporter&agrave; anche l'eliminazione di tutte le transazioni collegate
-            ad esso. Ricordati che andrebbe eliminato anche da <a href="https://firebase.google.com/"
-                target="_blank">firebase</a>.
-        </p>
+        <p>Sei sicuro di voler <span class="text-danger">eliminare</span> l'utente <strong class="text-danger">{{ utenteSelezionato?.nome }} {{ utenteSelezionato?.cognome }}</strong>?
+            L'azione &egrave; irreversibile e comporter&agrave; anche l'eliminazione di tutte le transazioni collegate ad esso. </p>
+            <p>Ricordati che andrebbe eliminato anche da <a href="https://firebase.google.com/" target="_blank">firebase</a>.</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Annulla</button>
         <button type="button" class="btn btn-danger" (click)="modal.close('confirm')">Elimina</button>
     </div>
 </ng-template>
