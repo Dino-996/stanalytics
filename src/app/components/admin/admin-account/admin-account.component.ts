@@ -5,7 +5,7 @@ import { Utente, Ruolo } from '../../../model/utente';
 import { UtenteService } from '../../../services/utente.service';
 import { TitleCasePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill } from '@ng-icons/bootstrap-icons';
+import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill, bootstrapPersonLinesFill } from '@ng-icons/bootstrap-icons';
 import { TransazioneService } from '../../../services/transazione.service';
 import { saliSopra } from '../../../../util/utilita';
 
@@ -31,7 +31,8 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
     bootstrapPeopleFill,
     bootstrapPersonFillAdd,
     bootstrapPersonFillGear,
-    bootstrapCheckCircleFill
+    bootstrapCheckCircleFill,
+    bootstrapPersonLinesFill
   })],
   templateUrl: './admin-account.component.html',
   styleUrl: './admin-account.component.css'

@@ -1,20 +1,20 @@
 <div class="container">
     <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="24"></ng-icon>
+        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
         <h5 class="m-0 text-truncate">Fatturazione</h5>
     </div>
     
-    <div class="container">
+    <div class="container border rounded-3">
         <!-- SEZIONE SELEZIONE UTENTE -->
         <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex align-items-center mb-4">
-                    <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="20"></ng-icon>
-                    <h4 class="m-0 text-truncate">Seleziona utente</h4>
+                    <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="18"></ng-icon>
+                    <h5 class="m-0 text-truncate">Seleziona utente</h5>
                 </div>
     
                 <!-- Lista utenti paginati -->
-                <div class="list-group">
+                <div class="list-group border rounded-3">
                     @for(utente of getPaginazioneUtente(); track $index){
                     <button (click)="getUtenteSelezionato(utente.id!)" [class.active]="utenteSelezionato?.id === utente.id"
                         class="list-group-item list-group-item-action border-0">
@@ -43,8 +43,8 @@
             <div class="col-12">
     
                 <div class="d-flex align-items-center mb-4">
-                    <ng-icon class="me-3" name="bootstrapSearch" size="20"></ng-icon>
-                    <h4 class="m-0">Dettagli Utente</h4>
+                    <ng-icon class="me-3" name="bootstrapSearch" size="18"></ng-icon>
+                    <h5 class="m-0">Dettagli Utente</h5>
                 </div>
     
                 <!-- Card dettagli utente -->
@@ -73,8 +73,8 @@
     
                 <!-- SEZIONE TRANSAZIONI -->
                 <div class="d-flex align-items-center mb-4">
-                    <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="24"></ng-icon>
-                    <h4 class="m-0">Transazioni</h4>
+                    <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="18"></ng-icon>
+                    <h5 class="m-0">Transazioni</h5>
                 </div>
     
                 <!-- Messaggio nessuna transazione -->

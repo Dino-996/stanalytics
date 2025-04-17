@@ -1,17 +1,16 @@
 <div class="container">
 
     <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-        <ng-icon class="me-2" name="bootstrapPeopleFill" size="24"></ng-icon>
+        <ng-icon class="me-2" name="bootstrapPeopleFill" size="18"></ng-icon>
         <h5 class="m-0 text-truncate">Gestione account</h5>
     </div>
 
-    <div class="card p-3 rounded-3 border-0">
+    <div class="card p-3 border rounded-3">
 
-        <!-- icone in base alla modalita -->
         <div class="d-flex align-items-start">
             <ng-icon class="me-2" [name]=" isEditMode ? 'bootstrapPersonFillGear' : 'bootstrapPersonFillAdd'"
-                size="24"></ng-icon>
-            <h3>{{ isEditMode ? 'Modifica utente' : 'Nuovo utente' }}</h3>
+                size="18"></ng-icon>
+            <h5 class="mb-2">{{ isEditMode ? 'Modifica utente' : 'Nuovo utente' }}</h5>
         </div>
 
         <form [formGroup]="formUtente" (ngSubmit)="gestisciInvio()">
@@ -124,7 +123,13 @@
     }
 
     @if(utentiFiltrati.length > 0) {
-    <div class="mt-4">
+    <div class="mt-4 border rounded-3">
+        
+        <div class="d-flex align-items-center mb-3 p-3">
+            <ng-icon name="bootstrapPersonLinesFill" class="me-2" size="20"></ng-icon>
+            <h5 class="mb-0">Utente</h5>
+          </div>
+          
         @for(utente of getPaginazioneUtentiFiltrati(); track $index) {
         <div class="card mb-3 rounded-3 border-0">
             <div class="card-body">
@@ -153,10 +158,13 @@
             </div>
         </div>
         }
+        <div class="d-flex justify-content-end align-items-center pe-4">
+            <ngb-pagination [collectionSize]="utentiFiltrati.length" [(page)]="paginaCorrente"
+            [pageSize]="dimensionePagina" [maxSize]="dimensioneMassima" [rotate]="true" [ellipses]="false"
+            [boundaryLinks]="false">
+        </ngb-pagination>
+        </div>
     </div>
-    <ngb-pagination class="w-100 w-md-auto" [collectionSize]="utentiFiltrati.length" [(page)]="paginaCorrente"
-        [pageSize]="dimensionePagina" [maxSize]="dimensioneMassima" [rotate]="true" [ellipses]="false"
-        [boundaryLinks]="false"></ngb-pagination>
     }
 </div>
 
