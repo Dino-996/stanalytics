@@ -5,6 +5,7 @@ import { auth, firestore } from '../../environment/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { EmailAuthProvider } from 'firebase/auth/web-extension';
 import { UtenteService } from './utente.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +13,32 @@ import { UtenteService } from './utente.service';
 
 export class AuthService {
 
-  public constructor(private router: Router, private utenteService: UtenteService) { }
+  private utenteAutenticato = new BehaviorSubject<User | null>(null);
+  public utente$ = this.utenteAutenticato.asObservable();
+
+  public constructor(private router: Router, private utenteService: UtenteService) {
+
+    auth.onAuthStateChanged(user => {
+      this.utenteAutenticato.next(user);
+
+      if (user) {
+        // Salva l'ID utente in localStorage per il recupero alla ricarica
+        localStorage.setItem('idUtente', user.uid);
+      } else {
+        localStorage.removeItem('idUtente');
+      }
+    });
+    this.verificaInizializzazione();
+  }
 
   // Effettua login
   public async login(email: string, password: string): Promise<void> {
     try {
-      const credenzialiUtente: UserCredential = await signInWithEmailAndPassword(auth, email, password);
-      const idUtente = credenzialiUtente.user?.uid;
-      if (idUtente) {
-        const ruolo = await this.getRuoloUtente(idUtente);
-        if (ruolo === 'admin') {
-          this.router.navigate(['/admin-dashboard']);
-        } else {
-          this.router.navigate(['/user-dashboard']);
-        }
+      const credenzialiUtente = await signInWithEmailAndPassword(auth, email, password);
+      const utente = await this.utenteService.getUtenteById(credenzialiUtente.user.uid);
+
+      if (utente) {
+        this.reindirizzaInBaseAlRuolo(utente.ruolo);
       }
     } catch (error) {
       throw error;
@@ -34,12 +47,17 @@ export class AuthService {
 
   // Effettua logout
   public async logout(): Promise<void> {
-    await signOut(auth);
-    this.router.navigate(['/login']);
+    try {
+      await signOut(auth);
+      localStorage.removeItem('idUtente');
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Errore durante il logout:', error);
+    }
   }
 
   // Ottiene l'utente corrente
-  public getUtenteCorrente():User | null {
+  public getUtenteCorrente(): User | null {
     return auth.currentUser;
   }
 
@@ -111,6 +129,33 @@ export class AuthService {
       } catch (error) { throw error; }
     } else {
       throw 'Nessun utente autenticato';
+    }
+  }
+
+  public isAuthenticated(): boolean {
+    return !!localStorage.getItem('idUtente');
+  }
+
+  private async verificaInizializzazione(): Promise<void> {
+    const idUtente = localStorage.getItem('idUtente');
+    if (idUtente) {
+      try {
+        const utente = await this.utenteService.getUtenteById(idUtente);
+        if (utente) {
+          this.reindirizzaInBaseAlRuolo(utente.ruolo);
+        }
+      } catch (error) {
+        console.error('Errore durante il recupero dell\'utente:', error);
+        this.logout();
+      }
+    }
+  }
+
+  private reindirizzaInBaseAlRuolo(ruolo: string): void {
+    if (ruolo === 'admin') {
+      this.router.navigate(['/admin-dashboard']);
+    } else {
+      this.router.navigate(['/user-dashboard']);
     }
   }
 

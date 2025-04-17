@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, ValueChangeEvent } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -7,7 +7,7 @@ import { auth } from '../../../environment/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { UtenteService } from '../../services/utente.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   imports: [
     NgIcon,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
   ],
   providers: [
     provideIcons({
@@ -38,7 +38,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private isChechedSubscription?: Subscription;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private utenteService: UtenteService) {
+  public authService = inject(AuthService);
+
+  constructor(private fb: FormBuilder, private utenteService: UtenteService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -48,6 +50,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.aggiornaCondizioni();
+    if (this.authService.isAuthenticated()) {
+      const utenteCorrente = this.authService.getUtenteCorrente();
+      if (utenteCorrente) {
+        this.utenteService.getUtenteById(utenteCorrente.uid).then(utente => {
+          if (utente?.ruolo === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else {
+            this.router.navigate(['/user-dashboard']);
+          }
+        }).catch((error)=>console.log('Errore nel recupero dell\'utente:', error))
+      }
+    }
   }
 
   public ngOnDestroy(): void {

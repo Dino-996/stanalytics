@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 
@@ -12,6 +12,4 @@ import { FooterComponent } from './components/footer/footer.component';
   styleUrl: './app.component.css'
 })
 
-export class AppComponent {
-  
-}
+export class AppComponent { }
