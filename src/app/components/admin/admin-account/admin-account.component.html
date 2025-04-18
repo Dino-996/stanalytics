@@ -1,8 +1,8 @@
 <div class="container">
 
     <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-        <ng-icon class="me-2" name="bootstrapPeopleFill" size="18"></ng-icon>
-        <h5 class="m-0 text-truncate">Gestione account</h5>
+        <ng-icon class="me-2" name="bootstrapPeopleFill" size="22"></ng-icon>
+        <h4 class="text-truncate m-0">Gestione account</h4>
     </div>
 
     <div class="card p-3 border rounded-3">
@@ -10,7 +10,7 @@
         <div class="d-flex align-items-start">
             <ng-icon class="me-2" [name]=" isEditMode ? 'bootstrapPersonFillGear' : 'bootstrapPersonFillAdd'"
                 size="18"></ng-icon>
-            <h5 class="mb-2">{{ isEditMode ? 'Modifica utente' : 'Nuovo utente' }}</h5>
+            <h5 class="border-bottom pb-1 text-truncate mb-2">{{ isEditMode ? 'Modifica utente' : 'Nuovo utente' }}</h5>
         </div>
 
         <form [formGroup]="formUtente" (ngSubmit)="gestisciInvio()">
@@ -127,7 +127,7 @@
         
         <div class="d-flex align-items-center mb-3 p-3">
             <ng-icon name="bootstrapPersonLinesFill" class="me-2" size="20"></ng-icon>
-            <h5 class="mb-0">Utente</h5>
+            <h5 class="border-bottom pb-1 text-truncate m-0">Utente</h5>
           </div>
           
         @for(utente of getPaginazioneUtentiFiltrati(); track $index) {

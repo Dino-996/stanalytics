@@ -1,23 +1,25 @@
 <div class="container">
-    <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
-        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="18"></ng-icon>
-        <h5 class="m-0 text-truncate">Fatturazione</h5>
-    </div>
     
-    <div class="container border rounded-3">
+    <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
+        <ng-icon class="me-2" name="bootstrapFileEarmarkFill" size="22"></ng-icon>
+        <h4 class="text-truncate m-0">Fatturazione</h4>
+    </div>
+
+    <div class="row">
         <!-- SEZIONE SELEZIONE UTENTE -->
-        <div class="row mb-4">
-            <div class="col-12">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="p-3 border rounded-3 h-100">
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="18"></ng-icon>
-                    <h5 class="m-0 text-truncate">Seleziona utente</h5>
+                    <h5 class="border-bottom pb-1 text-truncate m-0">Seleziona utente</h5>
                 </div>
-    
+
                 <!-- Lista utenti paginati -->
-                <div class="list-group border rounded-3">
+                <div class="list-group rounded-3">
                     @for(utente of getPaginazioneUtente(); track $index){
-                    <button (click)="getUtenteSelezionato(utente.id!)" [class.active]="utenteSelezionato?.id === utente.id"
-                        class="list-group-item list-group-item-action border-0">
+                    <button (click)="getUtenteSelezionato(utente.id!)"
+                        [class.active]="utenteSelezionato?.id === utente.id"
+                        class="list-group-item list-group-item-action">
                         <div class="d-flex align-items-start">
                             <ng-icon class="me-2" name="bootstrapPersonFill" size="18"></ng-icon>
                             <span>{{ utente.nome }} {{ utente.cognome }}</span>
@@ -25,44 +27,43 @@
                     </button>
                     }
                 </div>
-    
+
                 <!-- Paginazione utenti -->
                 <div class="d-flex justify-content-end mt-3">
                     <ngb-pagination [collectionSize]="utentiFiltrati.length" [(page)]="paginaUtenteCorrente"
                         [pageSize]="dimensionePaginaUtenti" [maxSize]="dimensioneMassimaUtenti" [boundaryLinks]="false">
                     </ngb-pagination>
                 </div>
-    
-    
             </div>
         </div>
-    
+
         <!-- SEZIONE DETTAGLI UTENTE -->
-        @if(utenteSelezionato) {
-        <div class="row">
-            <div class="col-12">
-    
+        <div class="col-md-6">
+            @if(utenteSelezionato) {
+            <div class="p-3 border rounded-3 h-100">
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-3" name="bootstrapSearch" size="18"></ng-icon>
-                    <h5 class="m-0">Dettagli Utente</h5>
+                    <h5 class="border-bottom pb-1 text-truncate m-0">Dettagli Utente</h5>
                 </div>
-    
+
                 <!-- Card dettagli utente -->
                 <div class="card mb-4 border-0">
                     <div class="card-body">
                         <div class="row">
                             <!-- Immagine profilo -->
-                            <div class="col-md-3 mb-3">
+                            <div class="col-12 col-xl-3 mb-3 text-center text-lg-start">
                                 <img [src]="utenteSelezionato.fotoURL ? utenteSelezionato.fotoURL : 'assets/logo.png'"
                                     alt="Foto Profilo" class="rounded-circle" width="100" height="100">
                             </div>
-    
+
                             <!-- Dettagli testuali -->
-                            <div class="col-md-9">
-                                <h5 class="card-title">{{ utenteSelezionato.nome }} {{ utenteSelezionato.cognome }}</h5>
+                            <div class="col-12 col-xl-9">
+                                <h5 class="card-title">{{ utenteSelezionato.nome }} {{ utenteSelezionato.cognome }}
+                                </h5>
                                 <p class="card-text">
                                     <strong>Email:</strong> {{ utenteSelezionato.email || 'N/A'}}<br>
-                                    <strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A' }}<br>
+                                    <strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A'
+                                    }}<br>
                                     <strong>Città:</strong> {{ utenteSelezionato.citta || 'N/A'}}<br>
                                     <strong>Indirizzo:</strong> {{ utenteSelezionato.indirizzo || 'N/A'}}<br>
                                 </p>
@@ -70,25 +71,21 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- SEZIONE TRANSAZIONI -->
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="18"></ng-icon>
-                    <h5 class="m-0">Transazioni</h5>
+                    <h5 class="border-bottom pb-1 text-truncate m-0">Transazioni</h5>
                 </div>
-    
+
                 <!-- Messaggio nessuna transazione -->
                 @if(transazioniUtente.length === 0) {
                 <div class="d-flex align-items-center alert alert-info rounded-3">
-                    <div class="flex-shrink-1 m-3">
-                        <ng-icon name="bootstrapInfoCircleFill" size="20"></ng-icon>
-                    </div>
-                    <div class="flex-grow-1">
-                        <span>L'utente non ha effettuato nessuna transazione</span>
-                    </div>
+                    <ng-icon name="bootstrapInfoCircleFill" class="me-3 flex-shrink-0" size="20"></ng-icon>
+                    <span>L'utente non ha effettuato nessuna transazione</span>
                 </div>
                 }
-    
+
                 <!-- Tabella transazioni -->
                 @if(transazioniUtente.length > 0){
                 <div class="table-responsive">
@@ -106,8 +103,8 @@
                             @for(transazione of getPaginazioneTransazione(); track $index) {
                             <tr>
                                 <td>{{ transazione.nomeProdotto }}</td>
-                                <td>{{ transazione.data | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                                <td>{{ transazione.prezzo }} €</td>
+                                <td>{{ transazione.data | date:'dd/MM/yyyy HH:mm' }}</td>
+                                <td>&euro; {{ transazione.prezzo }}</td>
                                 <td>
                                     <span class="badge text-truncate" [ngClass]="getCategoria(transazione.categoria)">
                                         {{ transazione.categoria | titlecase }}
@@ -126,7 +123,8 @@
                 <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
                     <!-- Download CSV -->
                     <div>
-                        <button class="d-flex align-items-center btn btn-primary rounded-3" (click)="esportaDatiUtente(utenteSelezionato, transazioniUtente)">
+                        <button class="d-flex align-items-center btn btn-primary rounded-3"
+                            (click)="esportaDatiUtente(utenteSelezionato, transazioniUtente)">
                             <span>Download</span>
                             <ng-icon name="bootstrapFiletypeCsv" class="ms-3" size="18"></ng-icon>
                         </button>
@@ -139,7 +137,16 @@
                 </div>
                 }
             </div>
+            }
+            @if(!utenteSelezionato) {
+            <div class="p-3 border rounded-3 d-flex justify-content-center align-items-center h-100"
+                style="min-height: 200px;">
+                <div class="text-center">
+                    <ng-icon name="bootstrapPersonBadge" size="32" class="text-muted mb-3"></ng-icon>
+                    <p class="text-muted m-0">Seleziona un utente per visualizzare i dettagli</p>
+                </div>
+            </div>
+            }
         </div>
-        }
     </div>
 </div>
