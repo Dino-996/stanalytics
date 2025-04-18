@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { TransazioneService } from '../../../services/transazione.service';
 import { Categoria, Transazione } from '../../../model/transazione';
@@ -9,6 +9,7 @@ import { CurrencyPipe, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapBoxes, bootstrapCheckCircleFill, bootstrapExclamationTriangleFill } from '@ng-icons/bootstrap-icons';
+import { saliSopra } from '../../../util/utilita';
 
 @Component({
   selector: 'app-user-consulting-package',
@@ -40,11 +41,13 @@ export class UserConsultingPackageComponent {
 
   public idUtente: string = '';
 
-  public constructor(private transazioneService: TransazioneService, private authService: AuthService, private utenteService: UtenteService, private router: Router) { }
+  private authService = inject(AuthService);
+  private transazioneService = inject(TransazioneService);
 
   public async ngOnInit(): Promise<void> {
     this.initConfigs();
     this.caricaIdUtenteCorrente();
+    saliSopra();
   }
 
   private async caricaIdUtenteCorrente():Promise<void> {

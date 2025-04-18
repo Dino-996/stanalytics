@@ -7,7 +7,7 @@ import { TitleCasePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapInfoCircleFill, bootstrapExclamationOctagonFill, bootstrapPeopleFill, bootstrapPersonFillAdd, bootstrapPersonFillGear, bootstrapCheckCircleFill, bootstrapPersonLinesFill } from '@ng-icons/bootstrap-icons';
 import { TransazioneService } from '../../../services/transazione.service';
-import { saliSopra } from '../../../../util/utilita';
+import { saliSopra } from '../../../util/utilita';
 
 /** Tipo per i messaggi di notifica */
 type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark';
@@ -39,9 +39,6 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
 })
 
 export class AdminAccountComponent implements OnInit {
-
-  /** Evento emesso per gestire lo scorrimento verso il punto più alto nella pagina */
-  @Output() public clickEvento = new EventEmitter<boolean>();
 
   // PROPRIETÀ
   /** Lista completa degli utenti */
@@ -126,7 +123,7 @@ export class AdminAccountComponent implements OnInit {
    */
   public async ngOnInit(): Promise<void> {
     await this.caricaUtenti();
-    this.clickEvento.emit(true);
+    saliSopra();
   }
 
   /**
@@ -255,11 +252,6 @@ export class AdminAccountComponent implements OnInit {
         this.messaggio = '';
       }, 5000)
     }
-  }
-
-  /** Scorre verso il punto più in alto della pagina */
-  public saliSopra(): void {
-    saliSopra();
   }
 
 }

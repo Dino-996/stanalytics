@@ -1,5 +1,5 @@
-import { Transazione } from "../app/model/transazione";
-import { Utente } from "../app/model/utente";
+import { Transazione } from "../model/transazione";
+import { Utente } from '../model/utente';
 
 export class GeneratoreCSV {
     /**

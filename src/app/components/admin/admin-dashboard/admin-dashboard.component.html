@@ -59,10 +59,10 @@
                     <div class="card-body">
                         @switch(vistaCorrente) {
                         @case (visteUtente.ACCOUNT) {
-                        <app-admin-account (clickEvento)="onSaliSopraAdminAccount()"></app-admin-account>
+                        <app-admin-account></app-admin-account>
                         }
                         @case (visteUtente.BILLING) {
-                        <app-admin-billing (clickEvento)="onSaliSopraBillingAccount()"></app-admin-billing>
+                        <app-admin-billing></app-admin-billing>
                         }
                         }
                     </div>

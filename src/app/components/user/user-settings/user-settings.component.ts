@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AuthService } from '../../../services/auth.service';
@@ -8,6 +8,7 @@ import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { saliSopra } from '../../../util/utilita';
 
 // Tipo per i messaggi di notifica
 type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark';
@@ -31,7 +32,7 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
   styleUrl: './user-settings.component.css'
 })
 
-export class UserSettingsComponent implements OnDestroy{
+export class UserSettingsComponent implements OnInit, OnDestroy {
 
   public tipo = 'info';
   public isVisibile = false;
@@ -47,23 +48,32 @@ export class UserSettingsComponent implements OnDestroy{
   private sottoscrizione?: Subscription;
   public conta: number = 10;
 
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private transazioneService = inject(TransazioneService);
+  private utenteService = inject(UtenteService);
   private modalService = inject(NgbModal);
 
-  public constructor(private router: Router, private authService: AuthService, private transazioneService: TransazioneService, private utenteService: UtenteService) { }
+  public ngOnInit(): void {
+    saliSopra();
+  }
+
 
   public ngOnDestroy(): void {
-      if(this.sottoscrizione) {
-        this.sottoscrizione.unsubscribe();
-      }
+    if (this.sottoscrizione) {
+      this.sottoscrizione.unsubscribe();
+    }
   }
 
   public formAggiornaAccount = new FormGroup({
     aggiornaEmail: new FormControl('', [Validators.required, Validators.email]),
     passwordEmailCorrente: new FormControl('', Validators.required),
   });
+
   public get aggiornaEmail() {
     return this.formAggiornaAccount.get('aggiornaEmail');
   }
+
   public get passwordEmailCorrente() {
     return this.formAggiornaAccount.get('passwordEmailCorrente');
   }
@@ -72,9 +82,11 @@ export class UserSettingsComponent implements OnDestroy{
     passwordCorrente: new FormControl('', Validators.required),
     nuovaPassword: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?=.{6,}).+$/)])
   });
+
   public get passwordCorrente() {
     return this.formAggiornaPassword.get('passwordCorrente');
   }
+
   public get nuovaPassword() {
     return this.formAggiornaPassword.get('nuovaPassword');
   }

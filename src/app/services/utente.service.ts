@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Utente } from '../model/utente';
 import { auth, firestore } from '../../environment/firebase';
-import { collection, deleteDoc, doc, getDoc, getDocs, runTransaction, setDoc, updateDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, updateEmail } from 'firebase/auth';
-import { PasswordGenerator } from '../../util/password-generator';
-import { Email } from '../../util/email';
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { PasswordGenerator } from '../util/password-generator';
+import { Email } from '../util/email';
 
 @Injectable({
   providedIn: 'root'

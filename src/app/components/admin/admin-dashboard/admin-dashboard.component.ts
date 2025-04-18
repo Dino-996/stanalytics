@@ -22,12 +22,7 @@ enum VisteUtente {
   styleUrl: './admin-dashboard.component.css',
 })
 export class AdminDashboardComponent {
-
-  /** Riferimento al componente `AdminAccountComponent` figlio, ottenuto tramite `@ViewChild` */
-  @ViewChild(AdminAccountComponent) adminAccount!: AdminAccountComponent;
-  /** Riferimento al componente `AdminBillingComponent` figlio, ottenuto tramite `@ViewChild` */
-  @ViewChild(AdminBillingComponent) adminBilling!: AdminBillingComponent;
-
+  
   readonly visteUtente = VisteUtente;
   readonly visteDisponibili = Object.values(VisteUtente);
 
@@ -77,21 +72,4 @@ export class AdminDashboardComponent {
       this.router.navigate(['/login']);
     }
   }
-
-  /**
-   * Richiama il metodo `saliSopra()` del componente `AdminAccountComponent`
-   * tramite `@ViewChild`, per effettuare lo scroll della pagina verso l'alto
-   */
-  public onSaliSopraAdminAccount() {
-    this.adminAccount.saliSopra();
-  }
-
-  /**
- * Richiama il metodo `saliSopra()` del componente `AdminAccountComponent`
- * tramite `@ViewChild`, per effettuare lo scroll della pagina verso l'alto
- */
-  public onSaliSopraBillingAccount() {
-    this.adminBilling.saliSopra();
-  }
-
 }

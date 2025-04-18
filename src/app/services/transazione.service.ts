@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, writeBatch } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where, writeBatch } from 'firebase/firestore';
 import { firestore } from '../../environment/firebase';
 import { Categoria, Stato, Transazione } from '../model/transazione';
 

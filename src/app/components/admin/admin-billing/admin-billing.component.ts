@@ -7,8 +7,8 @@ import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { bootstrapCurrencyEuro, bootstrapFileEarmarkFill, bootstrapPersonCheckFill, bootstrapPersonFill, bootstrapSearch, bootstrapInfoCircleFill, bootstrapFiletypeCsv } from '@ng-icons/bootstrap-icons';
-import { GeneratoreCSV } from '../../../../util/generatore-csv';
-import { saliSopra } from '../../../../util/utilita';
+import { GeneratoreCSV } from '../../../util/generatore-csv';
+import { saliSopra } from '../../../util/utilita';
 
 /**
  * Componente per la gestione amministrativa delle transazioni
@@ -38,9 +38,6 @@ import { saliSopra } from '../../../../util/utilita';
   styleUrls: ['./admin-billing.component.css']
 })
 export class AdminBillingComponent {
-
-  /** Evento emesso per gestire lo scorrimento verso il punto più alto nella pagina */
-  @Output() public clickEvento = new EventEmitter<boolean>();
 
   /** Pagina corrente per la lista utenti */
   paginaUtenteCorrente = 1;
@@ -76,7 +73,7 @@ export class AdminBillingComponent {
    */
   public async ngOnInit(): Promise<void> {
     await this.caricaUtenti();
-    this.clickEvento.emit(true);
+    saliSopra();
   }
 
   /**
@@ -157,11 +154,6 @@ export class AdminBillingComponent {
     const contenutoCSV = GeneratoreCSV.generaFile(utente, transazioni);
     const nomeFile = `dati_${utente.cognome}_${utente.nome}.csv`;
     GeneratoreCSV.scaricaCSV(contenutoCSV, nomeFile);
-  }
-
-  /** Scorre verso il punto più in alto della pagina */
-  public saliSopra(): void {
-    saliSopra();
   }
 
 }

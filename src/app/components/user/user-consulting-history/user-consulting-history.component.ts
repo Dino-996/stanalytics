@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Transazione, Stato } from '../../../model/transazione';
 import { TransazioneService } from '../../../services/transazione.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -6,6 +6,7 @@ import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { bootstrapClockHistory, bootstrapArrowClockwise, bootstrapInfoCircleFill } from '@ng-icons/bootstrap-icons';
 import { AuthService } from '../../../services/auth.service';
+import { saliSopra } from '../../../util/utilita';
 
 @Component({
   selector: 'app-user-consulting-history',
@@ -24,7 +25,9 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './user-consulting-history.component.html',
   styleUrl: './user-consulting-history.component.css'
 })
-export class UserConsultingHistoryComponent {
+
+export class UserConsultingHistoryComponent implements OnInit {
+
   transactions: Transazione[] = [];
   filteredTransactions: Transazione[] = [];
 
@@ -40,14 +43,15 @@ export class UserConsultingHistoryComponent {
 
   constructor(private transazioneService: TransazioneService, private authService: AuthService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.fetchTransactions();
+    saliSopra();
   }
 
   async fetchTransactions() {
     try {
       const userId = await this.authService.getIdUtente();
-        this.transactions = await this.transazioneService.getTransazioniByUserId(userId);
+      this.transactions = await this.transazioneService.getTransazioniByUserId(userId);
       this.applyFilters();
     } catch (err) {
       this.error = 'Errore nel recupero delle transazioni';
@@ -98,4 +102,5 @@ export class UserConsultingHistoryComponent {
     const start = (this.page - 1) * this.pageSize;
     return this.filteredTransactions.slice(start, start + this.pageSize);
   }
+
 }
