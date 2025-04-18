@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AuthService } from '../../../services/auth.service';
-import { bootstrapExclamationTriangleFill, bootstrapEye, bootstrapEyeSlash, bootstrapGearWideConnected, bootstrapPersonFill } from '@ng-icons/bootstrap-icons';
+import { bootstrapExclamationTriangleFill, bootstrapEye, bootstrapEyeSlash, bootstrapGearWideConnected, bootstrapPersonFillUp } from '@ng-icons/bootstrap-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransazioneService } from '../../../services/transazione.service';
 import { UtenteService } from '../../../services/utente.service';
@@ -25,7 +25,7 @@ type tipoDiMessaggio = 'success' | 'info' | 'warning' | 'danger' | 'primary' | '
       bootstrapEyeSlash,
       bootstrapEye,
       bootstrapExclamationTriangleFill,
-      bootstrapPersonFill
+      bootstrapPersonFillUp
     })
   ],
   templateUrl: './user-settings.component.html',

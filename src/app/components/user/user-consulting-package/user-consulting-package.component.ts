@@ -2,8 +2,6 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { TransazioneService } from '../../../services/transazione.service';
 import { Categoria, Transazione } from '../../../model/transazione';
-import { UtenteService } from '../../../services/utente.service';
-import { Router } from '@angular/router';
 import { NgxPayPalModule, IPayPalConfig } from 'ngx-paypal';
 import { CurrencyPipe, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';

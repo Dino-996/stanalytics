@@ -10,7 +10,7 @@
                 <div>
                     <h5 class="card-title mb-1">Benvenuto</h5>
                     <h6 class="fw-normal text-muted">{{ utenteCorrente.nome }}</h6>
-                    <span class="badge rounded-pill bg-info text-dark">{{ utenteCorrente.ruolo }}</span>
+                    <span class="badge rounded-pill bg-info text-dark">{{ utenteCorrente.ruolo === 'admin' ? 'Amministratore' : 'Utente' }}</span>
                 </div>
             </div>
             <div>
@@ -31,8 +31,8 @@
     <!-- sidebar -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 p-3">
-                <div class="position-sticky top-0 pt-3" style="z-index: 1020;">
+            <div class="col-md-2 p-5 p-md-0">
+                <div class="position-sticky top-0 pt-0 pt-md-5" style="z-index: 1020;">
                     <div class="btn-group-vertical w-100" role="group" aria-label="navigazione admin">
 
                         <button type="button"

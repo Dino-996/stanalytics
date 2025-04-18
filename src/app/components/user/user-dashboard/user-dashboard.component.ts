@@ -7,9 +7,11 @@ import { UserConsultingHistoryComponent } from '../user-consulting-history/user-
 import { UserConsultingPackageComponent } from '../user-consulting-package/user-consulting-package.component';
 import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapBoxArrowInRight, bootstrapBoxes, bootstrapClockHistory, bootstrapGearWideConnected } from '@ng-icons/bootstrap-icons';
+import { bootstrapBoxArrowInRight, bootstrapBoxes, bootstrapClockHistory, bootstrapGearWideConnected, bootstrapPersonFill } from '@ng-icons/bootstrap-icons';
+import { UserInfoComponent } from '../user-info/user-info.component';
 
 enum VisteUtente {
+  INFO = 'info',
   CONSULTING_PACKAGE = 'package',
   CONSULTING_HISTORY = 'history',
   SETTINGS = 'settings'
@@ -17,8 +19,8 @@ enum VisteUtente {
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [NgIcon, UserConsultingHistoryComponent, UserConsultingHistoryComponent, UserConsultingPackageComponent, UserSettingsComponent],
-  providers: [provideIcons({ bootstrapBoxes, bootstrapClockHistory, bootstrapBoxArrowInRight, bootstrapGearWideConnected })],
+  imports: [NgIcon, UserConsultingHistoryComponent, UserConsultingHistoryComponent, UserConsultingPackageComponent, UserSettingsComponent, UserInfoComponent],
+  providers: [provideIcons({ bootstrapBoxes, bootstrapClockHistory, bootstrapBoxArrowInRight, bootstrapGearWideConnected, bootstrapPersonFill })],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
 })

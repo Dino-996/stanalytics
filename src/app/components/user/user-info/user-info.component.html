@@ -1,0 +1,64 @@
+<div class="container">
+
+    <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-4">
+        <ng-icon class="me-2" name="bootstrapPersonFill" size="18"></ng-icon>
+        <h5 class="m-0 text-truncate">Informazioni personali</h5>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="card">
+
+            <div class="card-body">
+                @if(utenteCorrente !== null && loading === false) {
+
+                <div class="row">
+                    <ul class="list-group list-group-flush col-md-6">
+                        <li class="list-group-item border-0"><strong>Email: </strong><span class="text-muted">{{
+                                utenteCorrente.email === undefined ? 'N/A' : utenteCorrente.email }}</span></li>
+                        <li class="list-group-item border-0"><strong>Nome: </strong><span class="text-muted">{{
+                                utenteCorrente.nome === undefined ? 'N/A' : utenteCorrente.nome }}</span></li>
+                        <li class="list-group-item border-0"><strong>Cognome: </strong><span class="text-muted">{{
+                                utenteCorrente.cognome === undefined ? 'N/A' : utenteCorrente.cognome }}</span></li>
+                    </ul>
+                    <ul class="list-group list-group-flush col-md-6">
+                        <ul class="list-group list-group-flush col-md-6">
+                            <li class="list-group-item border-0"><strong>Codice fiscale: </strong><span
+                                    class="text-muted">{{
+                                    utenteCorrente.codiceFiscale === undefined ? 'N/A' : utenteCorrente.codiceFiscale
+                                    }}</span>
+                            </li>
+                            <li class="list-group-item border-0"><strong>Citt&agrave;: </strong><span
+                                    class="text-muted">{{
+                                    utenteCorrente.citta === undefined ? 'N/A' : utenteCorrente.citta }}</span></li>
+                            <li class="list-group-item border-0"><strong>Indirizzo: </strong><span class="text-muted">{{
+                                    utenteCorrente.indirizzo === undefined ? 'N/A' : utenteCorrente.indirizzo }}</span>
+                            </li>
+                        </ul>
+                    </ul>
+                </div>
+
+                } @else {
+                <div class="d-flex justify-content-center p-3">
+                    <div class="spinner-grow" role="status">
+                        <span class="visually-hidden">Caricamento...</span>
+                    </div>
+                </div>
+                }
+            </div>
+
+            
+
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center p-2">
+                        
+            <button class="btn btn-danger d-flex align-items-center rounded-3 mt-3" (click)="logout()">
+                Disconnetti
+                <ng-icon class="ms-2" name="bootstrapBoxArrowInRight" size="18"></ng-icon>
+            </button>
+    </div>
+
+    </div>
+
+</div>
