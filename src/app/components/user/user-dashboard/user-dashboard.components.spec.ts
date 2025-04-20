@@ -73,7 +73,7 @@ describe('UserDashboardComponent', () => {
 
     it('non dovrebbe cambiare vista se la vista non è valida', () => {
         component.cambiaVistaCorrente('non_valida' as any);
-        expect(component.vistaCorrente).toBe(component.visteUtente.CONSULTING_HISTORY);
+        expect(component.vistaCorrente).toBe(component.visteUtente.INFO);
     });
 
     it('isVistaValida dovrebbe restituire true per vista valida', () => {

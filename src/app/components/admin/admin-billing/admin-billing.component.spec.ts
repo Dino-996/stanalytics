@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AdminBillingComponent } from './admin-billing.component';
 import { UtenteService } from '../../../services/utente.service';
 import { TransazioneService } from '../../../services/transazione.service';
-import { GeneratoreCSV } from '../../../../util/generatore-csv';
+import { GeneratoreCSV } from '../../../util/generatore-csv';
 import { Utente } from '../../../model/utente';
 import { Transazione } from '../../../model/transazione';
 
