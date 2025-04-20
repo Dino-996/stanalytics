@@ -7,8 +7,8 @@
 
     <div class="row">
         <!-- SEZIONE SELEZIONE UTENTE -->
-        <div class="col-md-6 mb-4 mb-md-0">
-            <div class="p-3 border rounded-3 h-100">
+        <div class="col-12 mb-4">
+            <div class="p-3 border rounded-3">
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-3" name="bootstrapPersonCheckFill" size="18"></ng-icon>
                     <h5 class="border-bottom pb-1 text-truncate m-0">Seleziona utente</h5>
@@ -38,9 +38,9 @@
         </div>
 
         <!-- SEZIONE DETTAGLI UTENTE -->
-        <div class="col-md-6">
+        <div class="col-12 mb-4">
             @if(utenteSelezionato) {
-            <div class="p-3 border rounded-3 h-100">
+            <div class="p-3 border rounded-3">
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-3" name="bootstrapSearch" size="18"></ng-icon>
                     <h5 class="border-bottom pb-1 text-truncate m-0">Dettagli Utente</h5>
@@ -60,19 +60,33 @@
                             <div class="col-12 col-xl-9">
                                 <h5 class="card-title">{{ utenteSelezionato.nome }} {{ utenteSelezionato.cognome }}
                                 </h5>
-                                <p class="card-text">
-                                    <strong>Email:</strong> {{ utenteSelezionato.email || 'N/A'}}<br>
-                                    <strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A'
-                                    }}<br>
-                                    <strong>Città:</strong> {{ utenteSelezionato.citta || 'N/A'}}<br>
-                                    <strong>Indirizzo:</strong> {{ utenteSelezionato.indirizzo || 'N/A'}}<br>
-                                </p>
+                                <span class="card-text">
+                                    <p><strong>Email:</strong> {{ utenteSelezionato.email || 'N/A'}}</p>
+                                    <p><strong>Codice Fiscale:</strong> {{ utenteSelezionato.codiceFiscale || 'N/A' }}</p>
+                                    <p><strong>Città:</strong> {{ utenteSelezionato.citta || 'N/A'}}</p>
+                                    <p><strong>Indirizzo:</strong> {{ utenteSelezionato.indirizzo || 'N/A'}}</p>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            }
+            @if(!utenteSelezionato) {
+            <div class="p-3 border rounded-3 d-flex justify-content-center align-items-center"
+                style="min-height: 200px;">
+                <div class="text-center">
+                    <ng-icon name="bootstrapPersonBadge" size="32" class="text-muted mb-3"></ng-icon>
+                    <p class="text-muted m-0">Seleziona un utente per visualizzare i dettagli</p>
+                </div>
+            </div>
+            }
+        </div>
 
-                <!-- SEZIONE TRANSAZIONI -->
+        <!-- SEZIONE TRANSAZIONI -->
+        <div class="col-12 mb-4">
+            @if(utenteSelezionato) {
+            <div class="p-3 border rounded-3">
                 <div class="d-flex align-items-center mb-4">
                     <ng-icon class="me-2" name="bootstrapCurrencyEuro" size="18"></ng-icon>
                     <h5 class="border-bottom pb-1 text-truncate m-0">Transazioni</h5>
@@ -136,15 +150,6 @@
                     </ngb-pagination>
                 </div>
                 }
-            </div>
-            }
-            @if(!utenteSelezionato) {
-            <div class="p-3 border rounded-3 d-flex justify-content-center align-items-center h-100"
-                style="min-height: 200px;">
-                <div class="text-center">
-                    <ng-icon name="bootstrapPersonBadge" size="32" class="text-muted mb-3"></ng-icon>
-                    <p class="text-muted m-0">Seleziona un utente per visualizzare i dettagli</p>
-                </div>
             </div>
             }
         </div>
