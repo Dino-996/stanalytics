@@ -1,13 +1,18 @@
 <div class="container">
   <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-2">
-    <ng-icon class="me-2" name="bootstrapBoxes" size="18"></ng-icon>
-    <h5 class="m-0 text-truncate">Pacchetti consulenze</h5>
+    <ng-icon class="me-2" name="bootstrapBoxes" size="22"></ng-icon>
+    <h4 class="text-truncate m-0">Pacchetti consulenze</h4>
   </div>
 
   <div class="card rounded-3 border-0">
     <div class="card-body">
       <div class="mb-3">
-        <label for="packageSelect" class="form-label fs-6 fw-bold">Seleziona un pacchetto:</label>
+        
+        <div class="d-flex align-items-center mb-3">
+          <ng-icon name="bootstrapBox" class="me-2" size="18"></ng-icon>
+          <h5 class="border-bottom pb-1 text-truncate mb-0">Seleziona pacchetto</h5>
+        </div>
+        
         <select class="form-select rounded-3" id="packageSelect" [(ngModel)]="selectedPackage">
           <option value="">Seleziona...</option>
           <option value="bronze">Pacchetto Bronze</option>

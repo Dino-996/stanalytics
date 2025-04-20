@@ -1,7 +1,7 @@
 <div class="container">
     <div class="d-flex flex-wrap justify-content-start align-items-center p-2 pb-3">
-      <ng-icon class="me-2" name="bootstrapGearWideConnected" size="18"></ng-icon>
-      <h5 class="m-0 text-truncate">Impostazioni</h5>
+      <ng-icon class="me-2" name="bootstrapGearWideConnected" size="22"></ng-icon>
+      <h4 class="text-truncate m-0">Impostazioni</h4>
     </div>
   
     <div class="container-fluid">
@@ -9,16 +9,16 @@
         <!-- Titolo: Informazioni Personali -->
         <div class="d-flex align-items-center mb-3">
           <ng-icon name="bootstrapPersonFillUp" class="me-2" size="20"></ng-icon>
-          <h5 class="mb-0">Modifica informazioni</h5>
+          <h5 class="border-bottom pb-1 text-truncate mb-0">Modifica informazioni</h5>
         </div>
   
         <!-- Corpo: Modifica Email -->
         <div class="p-3 border rounded-3 mb-4">
-          <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()">
+          <form [formGroup]="formAggiornaAccount" (ngSubmit)="onAggiornaEmail()" name="formAggiornaAccount">
             <div class="mb-3">
-              <label for="aggiornaEmail" class="form-label fw-semibold">Modifica email</label>
-              <div class="input-group mb-2">
-                <input class="form-control rounded-right-3" [type]="isPasswordEmailCorrente ? 'text' : 'password'" formControlName="passwordEmailCorrente" placeholder="Password attuale">
+              <span class="fw-semibold">Modifica email</span>
+              <div class="input-group mb-2">  
+                <input id="passwordEmailCorrente" class="form-control rounded-right-3" [type]="isPasswordEmailCorrente ? 'text' : 'password'" formControlName="passwordEmailCorrente" placeholder="Password attuale">
                 <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button" (click)="visualizzaPasswordEmailCorrente()">
                   <ng-icon [name]="isPasswordEmailCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'" size="18"></ng-icon>
                 </button>
@@ -57,11 +57,11 @@
   
         <!-- Corpo: Modifica Password -->
         <div class="p-3 border rounded-3 mb-4">
-          <form [formGroup]="formAggiornaPassword" (ngSubmit)="onAggiornaPassword()">
+          <form [formGroup]="formAggiornaPassword" (ngSubmit)="onAggiornaPassword()" name="formAggiornaPassword">
             <div class="mb-3">
-              <label class="form-label fw-semibold">Modifica password (richiede un nuovo accesso)</label>
+              <span class="fw-semibold">Modifica password (richiede un nuovo accesso)</span>
               <div class="input-group mb-2">
-                <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'" formControlName="passwordCorrente" placeholder="Password attuale">
+                <input id="passwordCorrente" class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'" formControlName="passwordCorrente" placeholder="Password attuale">
                 <button class="btn btn-outline-secondary rounded-left-3 d-flex align-items-center" type="button" (click)="visualizzaPasswordCorrente()">
                   <ng-icon [name]="isPasswordCorrente ? 'bootstrapEyeSlash' : 'bootstrapEye'" size="18"></ng-icon>
                 </button>
@@ -75,7 +75,7 @@
               }
   
               <div class="input-group">
-                <input class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'" formControlName="nuovaPassword" placeholder="Nuova password">
+                <input id="nuovaPassword" class="form-control rounded-right-3" [type]="isPasswordCorrente ? 'text' : 'password'" formControlName="nuovaPassword" placeholder="Nuova password">
                 @if(!loadingPassword) {
                 <button type="submit" class="btn btn-primary rounded-left-3" [disabled]="!formAggiornaPassword.valid">Aggiorna</button>
                 } @else {
@@ -110,12 +110,12 @@
         <!-- Titolo: Area Pericolosa -->
         <div class="d-flex align-items-center text-danger mb-3">
           <ng-icon name="bootstrapExclamationTriangleFill" class="me-2" size="20"></ng-icon>
-          <h5 class="mb-0">Area pericolosa</h5>
+          <h5 class="border-bottom border-danger pb-1 text-truncate mb-0">Area pericolosa</h5>
         </div>
   
         <!-- Corpo: Elimina Account -->
         <div class="p-3 border rounded-3">
-          <label for="eliminaAccount" class="form-label fw-semibold text-danger">Elimina account</label>
+          <span class="fw-semibold text-danger">Elimina account</span>
           <p class="card-text small text-muted mb-3">
             L'eliminazione dell'account è permanente e non può essere annullata. Tutti i tuoi dati saranno rimossi definitivamente
           </p>

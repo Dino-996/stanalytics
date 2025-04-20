@@ -6,7 +6,7 @@ import { NgxPayPalModule, IPayPalConfig } from 'ngx-paypal';
 import { CurrencyPipe, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapBoxes, bootstrapCheckCircleFill, bootstrapExclamationTriangleFill } from '@ng-icons/bootstrap-icons';
+import { bootstrapBox, bootstrapBoxes, bootstrapCheckCircleFill, bootstrapExclamationTriangleFill } from '@ng-icons/bootstrap-icons';
 import { saliSopra } from '../../../util/utilita';
 
 @Component({
@@ -21,7 +21,8 @@ import { saliSopra } from '../../../util/utilita';
   providers:[provideIcons({
     bootstrapBoxes,
     bootstrapCheckCircleFill,
-    bootstrapExclamationTriangleFill
+    bootstrapExclamationTriangleFill,
+    bootstrapBox
   })],
   templateUrl: './user-consulting-package.component.html',
   styleUrl: './user-consulting-package.component.css'

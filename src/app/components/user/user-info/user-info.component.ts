@@ -1,15 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { bootstrapPersonFill } from '@ng-icons/bootstrap-icons';
+import { bootstrapPersonFill, bootstrapPersonLinesFill } from '@ng-icons/bootstrap-icons';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AuthService } from '../../../services/auth.service';
 import { UtenteService } from '../../../services/utente.service';
 import { Utente } from '../../../model/utente';
 import { Router } from '@angular/router';
+import { saliSopra } from '../../../util/utilita';
 
 @Component({
   selector: 'app-user-info',
   imports: [NgIcon],
-  providers: [provideIcons({ bootstrapPersonFill })],
+  providers: [provideIcons({ bootstrapPersonFill, bootstrapPersonLinesFill })],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css'
 })
@@ -26,6 +27,7 @@ export class UserInfoComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     await this.caricaUtenti();
+    saliSopra();
   }
 
   private async caricaUtenti(): Promise<void> {

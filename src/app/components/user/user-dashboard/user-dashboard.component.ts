@@ -30,7 +30,7 @@ export class UserDashboardComponent implements OnInit {
   readonly visteUtente = VisteUtente;
   readonly visteDisponibili = Object.values(VisteUtente);
 
-  public vistaCorrente: VisteUtente = VisteUtente.CONSULTING_HISTORY;
+  public vistaCorrente: VisteUtente = VisteUtente.INFO;
   public utenteCorrente: Utente | null = null;
 
   public loading: boolean = true;
