@@ -9,6 +9,8 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapBox, bootstrapBoxes, bootstrapCheckCircleFill, bootstrapExclamationTriangleFill } from '@ng-icons/bootstrap-icons';
 import { saliSopra } from '../../../util/utilita';
 
+const CLIENT_ID:string = 'AYq8AzATj4Hah5OTqdjJk07JzMF7hAXfKut4bRNVsK3RLwFsZMeLFmFrcLLupS-2DOdlDVxab6FwLBrH'; 
+
 @Component({
   selector: 'app-user-consulting-package',
   imports: [
@@ -78,7 +80,7 @@ export class UserConsultingPackageComponent {
     const dataOggi = new Date();
     return {
       currency: 'EUR',
-      clientId: 'AS690Yj-oYGF3qVvdd8rJPmEJfzHM3ymppE1PrLAXmxQGnZ7esyqv2xj9g927Swpeo0a54gH4Xhak3oP',
+      clientId: CLIENT_ID,
       createOrderOnClient: () => ({
         intent: 'CAPTURE',
         purchase_units: [{
